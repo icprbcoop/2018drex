@@ -24,8 +24,8 @@ inflows.df <- flows.daily.mgd.df %>%
 # Later want to read this from /input/parameters/*.R
 sen_cap <- 4000
 sen_stor0 <- 3000
-sen_flowby <- 3
-sen_withdr_req0 <- 10
+sen_flowby <- 10
+sen_withdr_req0 <- 5
 sen_ws_rel_req0 <- 3
 sen.inflows.df <- inflows.df %>%
   select(date_time, inflows = lsen_in)

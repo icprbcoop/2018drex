@@ -24,7 +24,8 @@
 #    date_time
 #    storage
 #    inflow
-#    outflow
+#    withdr - actual withdrawal (from intake)
+#    outflow - downstream discharge (over dam)
 #    withdr_req - water supply withdrawal request (from intake)
 #    rel_req - water supply release request (downstream discharge)
 #    available
@@ -58,11 +59,12 @@ reservoir_ops_init_func <- function(res,
                     cap - available <= -rel_min ~ available - cap, # spill
                     cap - available > rel_min & available > rel_min ~ rel_min,
                     cap - available > rel_min & available <= rel_min ~ available),
-                  withdr_req = case_when(stor + inflow >= w ~ w,
+                  withdr_req = w,
+                  withdr = case_when(stor + inflow >= w ~ w,
                                 stor + inflow < w ~ stor + inflow),
                   storage = stor
     ) %>%
-    dplyr::select(date_time, storage, inflow = inflows,
+    dplyr::select(date_time, storage, inflow = inflows, withdr,
                   outflow, withdr_req, rel_req, available)
   return(res0.df)
 }

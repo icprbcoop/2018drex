@@ -20,6 +20,11 @@ shinyServer(function(input, output, session) {
   observeEvent(input$run_add, {
     ts <- sim_add_days_func(input$chunkofdays, ts)
   })
+  #
+  # Allow the user to write simulation output time series to file
+  observeEvent(input$write_ts, {
+    write.csv(ts$sen, paste(ts_output, "output.csv"))
+  })
   #------------------------------------------------------------------
   # Create the graphs etc to be displayed by the Shiny app
   #------------------------------------------------------------------
@@ -64,24 +69,44 @@ shinyServer(function(input, output, session) {
     por_flow <- round(last(potomac.ts.df$por_nat)*mgd_to_cfs)
     valueBox(
       value = por_flow,
-      subtitle = "Flow at Point of Rocks, cfs (Trigger for coop daily monitoring is 2000 cfs)",
+      subtitle = "Flow at Point of Rocks, cfs",
       color = if (por_flow >= por_threshold) "green" else "yellow"
     )
   })
+  
   #------------------------------------------------------------------
-  # The LFAA Alert stage is triggered when Pot withdr >= 0.5*flow (adj)
-  # or equivalently, when flow_adj <= 2*withdr
+  # Let total WMA Potomac River withdrawals = W
+  # and adjusted flow at Little Falls = Little Falls obs + W = Qadj
+  # The LFAA Alert stage is triggered when 
+  #     W >= 0.5*Qadj
+  # or equivalently, W/0.8 < Qadj <= W/0.5
+  # Restrictions stage: (W + 110)??? < Qadj <= (W + 100)/0.8
+  # Emergency stage???: Qadj < W + 110???
+  # The problem is the definition of Emergency stage is probabalistic
+  #   - will do some modeling to get a better surrogate definition
     output$lfaa_alert <- renderInfoBox({
     potomac.ts.df <- ts$flows
-    pot_withdr <- last(potomac.ts.df$demand)
-    flow_adj <- round(last(potomac.ts.df$lfalls_adj))
+    W <- last(potomac.ts.df$demand*1.0)
+    Qadj <- round(last(potomac.ts.df$lfalls_adj*1.0))
+    if(Qadj > W/0.5) {
+      text_stage <- "NORMAL"
+      color_stage <- "green"}
+    if(Qadj <= W/0.5 & Qadj > (W + 100)/0.8){
+      text_stage <- "ALERT"
+      color_stage <- "yellow"}
+    if(Qadj <= (W + 100)/0.8 & Qadj > W + 110){
+      text_stage <- "RESTRICTION"
+      color_stage <- "orange"}
+    if(Qadj <= (W + 110)){
+      text_stage <- "EMERGENCY"
+      color_stage <- "red"}
+#
     infoBox(
-      title = "LFAA Alert Stage",
-      value = paste(flow_adj, ' MGD'),
-      subtitle = "Little Falls adjusted flow",
+      title = "LFAA Stage",
+      value = paste(Qadj, text_stage),
+      subtitle = "Little Falls adj. flow, MGD",
       icon = shiny::icon("arrow"),
-      color = if (flow_adj <= 2.0*pot_withdr)
-        "yellow" else "green"
+      color = color_stage
     )
   })
   #

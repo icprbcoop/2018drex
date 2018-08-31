@@ -37,13 +37,23 @@ numericInput("chunkofdays",
 actionButton("run_add",
              "Add days to simulation",
              icon = NULL,
-             width = "150px")
+             width = "150px"),
+br(),
+br(),
+br(),
+br(),
+br(),
+br(),
+actionButton("write_ts",
+             "Write output time series",
+             icon = NULL,
+             width = "180px")
       ),
   dashboardBody(
 
     fluidRow(
       column(
-        width = 10,
+        width = 9,
         box(
           title = "Potomac River flow",
           width = NULL,
@@ -51,10 +61,11 @@ actionButton("run_add",
           )
         ),
       column(
-        width = 2,
+        width = 3,
       
         infoBoxOutput("sim_today", width = NULL),
         valueBoxOutput("por_flow", width = NULL),
+        valueBoxOutput("lfalls_flow", width = NULL),
         tags$head( 
           tags$style(HTML(".fa { font-size: 12px; }"))),  
         infoBoxOutput("lfaa_alert", width = NULL),
@@ -64,7 +75,7 @@ actionButton("run_add",
     fluidRow(
       tabBox(
 #        title = "Storage in system reservoirs",
-        width = 10,
+        width = 9,
         # the id lets us use input$tabset1 on the server to find current tab
         tabPanel("Jennings Randolph",
           plotOutput("jrrStorageReleases")

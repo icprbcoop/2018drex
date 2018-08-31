@@ -6,11 +6,16 @@
 # Inputs
 #--------------------------------------------------------------------------------
 # date_sim = current date in the simulation
-# res = reservoir name (sen or jrr)
-# res.ts.df = reservoir ts (sen.ts.df or jrr.ts.df)
+# res = reservoir name (sen, jrr, pat, or occ) 
+#       (to simulate sav: adding 20% to jrr cap and combining sav & jrr inflows)
+# res.ts.df = reservoir ts
 # withdr_req = water supply withdrawal request (= 0 for sen & jrr)
 # ws_rel_req = release request for water supply purposes
 #     (release to stream below)
+# prioritization: in logic below, 1st priority is flowby = res@flowby
+#                 2nd priority is withdr_req
+#                 3rd priority is ws_rel_req
+#                 
 #--------------------------------------------------------------------------------
 # Outputs
 #--------------------------------------------------------------------------------
@@ -18,12 +23,12 @@
 #--------------------------------------------------------------------------------
 # res.ts.df has the following columns:
 #    date_time
-#    storage
+#    storage - beginning of period (BOP) - right now is beginning of day
 #    inflow
-#    outflow
+#    outflow - downstream discharge, ie, over the dam
 #    withdr_req - water supply withdrawal request (from intake)
 #    rel_req - water supply release request (downstream discharge)
-#    available
+#    available - available for release over dam
 #
 reservoir_ops_today_func <- function(date_sim, res, res.ts.df, 
                                      withdr_req, ws_rel_req){
@@ -46,13 +51,14 @@ reservoir_ops_today_func <- function(date_sim, res, res.ts.df,
     # and read its values:
     yesterday.df <- tail(res.ts.df,1)
     yesterday_date <- yesterday.df[1,1] # yesterday's date
-    stor <- yesterday.df[1,2] # yesterday's storage
+    stor <- yesterday.df[1,2] # yesterday's BOP storage
     inflow <- yesterday.df[1,3] # yesterday's inflow
     outflow <- yesterday.df[1,4] # yesterday's release over dam
     w <- yesterday.df[1,5] # yesterday's  withdrawal from intake in reservoir
 #    rel_req <- yesterday.df[1,6] but this is yesterday's
 # calculate today's BOP storage
     stor <- stor + inflow - outflow - w # today's bop storage
+# calculate the minimum release over the dam
     rel_min <- if_else(flowby > rel_req, flowby, rel_req)
 # calculate a new row, "today", of the res.ops.df:
     newrow.df <- subset(res@inflows, 
@@ -61,17 +67,34 @@ reservoir_ops_today_func <- function(date_sim, res, res.ts.df,
              inflow = inflows,
              available = stor + inflow - w_req,
              rel_req = rel_req,
-             # rel_min = case_when(flowby > ws_rel_req ~ flowby,
-             #                     flowby <= ws_rel_req ~ ws_rel_req),
              outflow = case_when(
-               cap - available <= -rel_min ~ available - cap, # spill
-               cap - available > -rel_min & available > rel_min ~ rel_min,
-               cap - available > -rel_min & available <= rel_min ~ available),
-             withdr_req = case_when(stor + inflow >= w_req ~ w_req,
-                           stor + inflow < w_req ~ stor + inflow),
+               # if excess water (over capacity) is greater 
+               #    than that needed for release, release it all
+               available - cap >= rel_min ~ available - cap, # spill
+               # if there's enough water to meet the release request, do it
+               available - cap < rel_min & available > rel_min ~ rel_min,
+               # if there's not enough water to meet the release request, release what's there
+               available - cap < rel_min 
+                  & available <= rel_min & available + w_req >= 0 ~ available,
+               available - cap < rel_min 
+                  & available <= rel_min & available + w_req < 0 ~ 0),
+             withdr_req = w_req,
+             withdr = case_when(
+               outflow >= flowby ~ w_req,
+               outflow < flowby & available + w_req >= flowby
+               ~ available + w_req - flowby,
+               outflow < flowby & available + w_req < flowby
+               ~ 0),
+             outflow = case_when(
+               outflow >= flowby ~ outflow,
+               outflow < flowby ~ available + w_req - withdr),
+               
+#             ),
+             # withdr = case_when(stor + inflow - outflow >= w_req ~ w_req,
+             #               stor + inflow - outflow < w_req ~ stor + inflow - outflow),
              storage = stor
       ) %>%
-      select(date_time, storage, inflow, outflow, 
+      select(date_time, storage, inflow, withdr, outflow, 
              withdr_req, rel_req, available)
     # add the new row, today, to res.ops.df:
     
