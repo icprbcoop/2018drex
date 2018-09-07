@@ -43,7 +43,7 @@ br(),
 br(),
 br(),
 br(),
-br(),
+br(height = "200px"),
 actionButton("write_ts",
              "Write output time series",
              icon = NULL,
@@ -57,18 +57,17 @@ actionButton("write_ts",
         box(
           title = "Potomac River flow",
           width = NULL,
-          plotOutput("potomacFlows", height = "200px")
+          plotOutput("potomacFlows", height = "280px")
           )
         ),
       column(
-        width = 3,
-      
-        infoBoxOutput("sim_today", width = NULL),
-        valueBoxOutput("por_flow", width = NULL),
+        width = 4,
+#        infoBoxOutput("sim_today", width = NULL),
+        valueBoxOutput("sim_today", width = NULL),
         valueBoxOutput("demand", width = NULL),
-        tags$head( 
-          tags$style(HTML(".fa { font-size: 12px; }"))),  
-        infoBoxOutput("lfaa_alert", width = NULL)
+        valueBoxOutput("por_flow", width = NULL),
+#        valueBoxOutput("lfalls_adj", width = NULL),
+        valueBoxOutput("lfalls_obs", width = NULL)
       )
     ), # end fluidRow with Potomac flows
     #
@@ -79,12 +78,12 @@ actionButton("write_ts",
           title = "Jennings Randolph",
           width = NULL,
           plotOutput("jrrStorageReleases", height = "150px")
-        )#,
-        # box(
-        #   title = "Occoquan",
-        #   width = NULL,
-        #   plotOutput("jrrStorageReleases", height = "150px")
-        # )
+        ),
+        box(
+          title = "Occoquan",
+          width = NULL,
+          plotOutput("occStorageReleases", height = "150px")
+        )
       ),
       column(
         width = 4,
@@ -92,39 +91,27 @@ actionButton("write_ts",
           title = "Little Seneca",
           width = NULL,
           plotOutput("senStorageReleases", height = "150px")
-        )#,
-        # box(
-        #   title = "Patuxent",
-        #   width = NULL,
-        #   plotOutput("senStorageReleases", height = "150px")
-        #)
+        ),
+        box(
+          title = "Patuxent",
+          width = NULL,
+          plotOutput("patStorageReleases", height = "150px")
+        )
       ), 
       column(
-        width = 3,
+        width = 4,
+        tags$head( 
+          tags$style(HTML(".fa { font-size: 12px; }"))), 
+        infoBoxOutput("coop_ops", width = NULL),
+        infoBoxOutput("lfaa_alert", width = NULL),
+#        infoBoxOutput("mwcog_stage", width = NULL)
         box(
           title = "Storage triggers",
           width = NULL,
           "voluntary, mandatory")
         )
     ), # end fluidRow with reservoir storage
-
-#     fluidRow(
-#       tabBox(
-# #        title = "Storage in system reservoirs",
-#         width = 9,
-#         # the id lets us use input$tabset1 on the server to find current tab
-#         tabPanel("Jennings Randolph",
-#           plotOutput("jrrStorageReleases")
-#           ),
-#         tabPanel("Little Seneca",
-#           plotOutput("senStorageReleases")
-#           )
-#         ),
-#         box(
-#           title = "Storage triggers",
-#           width = 3,
-#           "voluntary, mandatory")
-# ), # end fluidRow with reservoir storage
+#
     fluidRow(
       box(
        title = "MD drought status map",

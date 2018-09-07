@@ -51,7 +51,7 @@ simulation_func <- function(date_sim,
                                         res = sen, 
              #                           res.ts.df = sen.ts.df,
                                         res.ts.df = ts$sen,
-                                        withdr_req = 5,
+                                        withdr_req = 0,
                                         ws_rel_req = 0) 
   jrr.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = jrr,
@@ -108,7 +108,7 @@ simulation_func <- function(date_sim,
   sen.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = sen, 
                                         res.ts.df = sen.ts.df,
-                                        withdr_req = 5,
+                                        withdr_req = 0,
                                         ws_rel_req = ws_need_0day)
   jrr.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = jrr, 
@@ -143,6 +143,8 @@ simulation_func <- function(date_sim,
   # temp <- list(sen = sen.ts.df, jrr = jrr.ts.df, flows = potomac.ts.df)
   ts$sen <- sen.ts.df
   ts$jrr <- jrr.ts.df
+  ts$pat <- pat.ts.df
+  ts$occ <- occ.ts.df
   ts$flows <- potomac.ts.df
   return(ts)  
 }

@@ -32,7 +32,7 @@ shinyServer(function(input, output, session) {
   #
   # Allow the user to write simulation output time series to file
   observeEvent(input$write_ts, {
-    write.csv(ts$sen, paste(ts_output, "output.csv"))
+    write.csv(ts$pat, paste(ts_output, "output.csv"))
   })
   #------------------------------------------------------------------
   # Create the graphs etc to be displayed by the Shiny app
@@ -57,47 +57,104 @@ shinyServer(function(input, output, session) {
              date_time <= input$plot_range[2])
     ggplot(data = potomac.graph.df, aes(x = date_time, y = flow_mgd, group = location)) +
       geom_line(aes(color = location))
-    }) 
+    }) # end output$potomacFlows
   #------------------------------------------------------------------
   # Display today's date
-  output$sim_today <- renderInfoBox({
-    potomac.ts.df <- ts$flows 
-    sim_today <- last(potomac.ts.df$date_time)
-    infoBox(
-    title = "Today's date",
-    value = sim_today,
-    icon = shiny::icon("calendar"),
-    color = "blue"
+  # output$sim_today <- renderInfoBox({
+  #   potomac.ts.df <- ts$flows 
+  #   sim_today <- last(potomac.ts.df$date_time)
+  #   infoBox(
+  #   title = "Today's date",
+  #   value = sim_today,
+  #   icon = shiny::icon("calendar"),
+  #   color = "blue"
+  #   )
+  # })
+  output$sim_today <- renderValueBox({
+    potomac.ts.df <- ts$flows
+    sim_today0 <- last(potomac.ts.df$date_time)
+    sim_today <- paste("Today's date is ", sim_today0)
+    valueBox(
+      value = tags$p(sim_today, style = "font-size: 60%;"),
+      subtitle = NULL,
+      color = "black"
     )
-  })
+  }) 
   #------------------------------------------------------------------
   # Output today's flow at Point of Rocks, and compare with 2000 cfs trigger
   output$por_flow <- renderValueBox({
     por_threshold <- 2000 # (cfs) CO-OP's trigger for daily monitoring/reporting
     potomac.ts.df <- ts$flows
-    por_flow <- paste("POR flow = ",
+    por_flow <- paste("Flow at Point of Rocks = ",
                       round(last(potomac.ts.df$por_nat)*mgd_to_cfs),
                             " cfs")
     valueBox(
-      value = tags$p(por_flow, style = "font-size: 80%;"),
-      subtitle = "Flow at Point of Rocks",
-      color = if (por_flow >= por_threshold) "green" else "yellow"
+      value = tags$p(por_flow, style = "font-size: 50%;"),
+      subtitle = NULL,
+#      color = if (por_flow >= por_threshold) "green" else "yellow"
+      color = "blue"
     )
   })
   #------------------------------------------------------------------
   # Output today's demand
   output$demand <- renderValueBox({
     potomac.ts.df <- ts$flows
-    demand <- paste("Demand = ", 
+    demand <- paste("Total WMA Demand = ", 
                     round(last(potomac.ts.df$demand)), 
                     " MGD")
     valueBox(
-      value = tags$p(demand, style = "font-size: 80%;"),
+      value = tags$p(demand, style = "font-size: 50%;"),
       subtitle = NULL,
-      color = "yellow"
+      color = "blue"
     )
   })  
   #------------------------------------------------------------------
+  # # Output today's "adjusted" flow at Little Falls
+  # output$lfalls_adj <- renderValueBox({
+  #   potomac.ts.df <- ts$flows
+  #   lfalls_adj <- paste("Flow at Little Falls (adjusted) = ",
+  #                     round(last(potomac.ts.df$lfalls_adj)),
+  #                     " MGD")
+  #   valueBox(
+  #     value = tags$p(lfalls_adj, style = "font-size: 50%;"),
+  #     subtitle = NULL,
+  #     color = "blue"
+  #   )
+  # })
+  #------------------------------------------------------------------
+  # Output today's observed flow at Little Falls
+  output$lfalls_obs <- renderValueBox({
+    potomac.ts.df <- ts$flows
+    lfalls_obs <- paste("Flow at Little Falls (observed) = ",
+                        round(last(potomac.ts.df$lfalls_obs)),
+                        " MGD")
+    valueBox(
+      value = tags$p(lfalls_obs, style = "font-size: 50%;"),
+      subtitle = NULL,
+      color = "blue"
+    )
+  })
+  #------------------------------------------------------------------
+  # Output CO-OP operational status
+    output$coop_ops <- renderInfoBox({
+    potomac.ts.df <- ts$flows
+    por_flow <- last(potomac.ts.df$por_nat*mgd_to_cfs)
+    if(por_flow > 2000) {
+      text_stage <- "NORMAL"
+      color_stage <- "green"}
+    if(por_flow <= 2000) {
+      text_stage <- "Daily monitoring & reporting"
+      color_stage <- "yellow"}
+    infoBox(
+      title = "CO-OP operations status",
+      value = paste(text_stage),
+      subtitle = NULL,
+      icon = shiny::icon("arrow"),
+      color = color_stage
+    )
+    }) # end output$coop_ops
+  #------------------------------------------------------------------
+  # Output the LFAA stage
   # Let total WMA Potomac River withdrawals = W
   # and adjusted flow at Little Falls = Little Falls obs + W = Qadj
   # The LFAA Alert stage is triggered when 
@@ -131,7 +188,7 @@ shinyServer(function(input, output, session) {
       icon = shiny::icon("arrow"),
       color = color_stage
     )
-  })
+  }) # end output$lfaa_alert
   #
   #------------------------------------------------------------------
     output$jrrStorageReleases <- renderPlot({
@@ -142,7 +199,6 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = storage, color = "Storage")) +
       geom_line(aes(y = outflow, color = "Outflow")) +
       scale_color_manual(values = c("grey", "black"))
-    #    scale_linetype_manual(values = c("solid", "dotted"))
   }) # end renderPlot
   #
   #------------------------------------------------------------------
@@ -154,9 +210,32 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = storage, color = "Storage")) +
       geom_line(aes(y = outflow, color = "Outflow")) +
       scale_color_manual(values = c("grey", "black"))
-    #    scale_linetype_manual(values = c("solid", "dotted"))
   }) # end renderPlot
+  #
   #------------------------------------------------------------------
+  output$patStorageReleases <- renderPlot({
+    pat.graph <- ts$pat %>%
+      filter(date_time >= input$plot_range[1],
+             date_time <= input$plot_range[2])
+    ggplot(data = pat.graph, aes(x = date_time)) +
+      geom_line(aes(y = storage, color = "Storage")) +
+      geom_line(aes(y = outflow, color = "Outflow")) +
+      scale_color_manual(values = c("grey", "black"))
+  }) # end renderPlot
+  #
+  #------------------------------------------------------------------
+  output$occStorageReleases <- renderPlot({
+    occ.graph <- ts$occ %>%
+      filter(date_time >= input$plot_range[1],
+             date_time <= input$plot_range[2])
+    ggplot(data = occ.graph, aes(x = date_time)) +
+      geom_line(aes(y = storage, color = "Storage")) +
+      geom_line(aes(y = outflow, color = "Outflow")) +
+      scale_color_manual(values = c("grey", "black"))
+  }) # end renderPlot
+  #
+    #------------------------------------------------------------------
+  
   mde_map = "http://mde.maryland.gov/programs/Water/droughtinformation/Currentconditions/PublishingImages/DroughtGraphsStarting2017Apr30/Drought2018-04-30.png"
   output$MDEStatus <- renderText({c('<img src="', mde_map, '">')
   })

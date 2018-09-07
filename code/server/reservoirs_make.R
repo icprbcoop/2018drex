@@ -40,8 +40,8 @@ jrr.inflows.df <- inflows.df %>%
 #
 pat_cap <- 10000
 pat_stor0 <- 10000
-pat_flowby <- 120
-pat_withdr_req0 <- 50
+pat_flowby <- 10 # still bugs in res_ops_today - NA's when this was 120
+pat_withdr_req0 <- 40
 pat_ws_rel_req0 <- 0
 pat.inflows.df <- inflows.df %>%
   select(date_time, inflows = pat_in)
