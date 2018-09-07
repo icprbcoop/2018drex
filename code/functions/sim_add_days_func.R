@@ -25,6 +25,8 @@ sim_add_days_func <- function(added_days, ts){
                                    potomac.daily.df,
                                    sen,
                                    jrr,
+                                   pat,
+                                   occ,
                                    ts)
   }
   return(ts)

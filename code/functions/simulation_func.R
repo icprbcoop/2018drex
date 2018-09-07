@@ -25,6 +25,8 @@ simulation_func <- function(date_sim,
                             potomac.daily.df,
                             sen,
                             jrr,
+                            pat,
+                            occ,
                             ts){
   #
   #-----------------------------------------------------------------------------
@@ -47,14 +49,26 @@ simulation_func <- function(date_sim,
   #
   sen.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = sen, 
-                                        #                                        res.ts.df = sen.ts.df,
+             #                           res.ts.df = sen.ts.df,
                                         res.ts.df = ts$sen,
                                         withdr_req = 5,
                                         ws_rel_req = 0) 
   jrr.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = jrr,
-                                        #                                        res.ts.df = jrr.ts.df,
+             #                           res.ts.df = jrr.ts.df,
                                         res.ts.df = ts$jrr,
+                                        withdr_req = 0,
+                                        ws_rel_req = 0)
+  pat.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
+                                        res = pat,
+            #                            res.ts.df = pat.ts.df,
+                                        res.ts.df = ts$pat,
+                                        withdr_req = 0,
+                                        ws_rel_req = 0)
+  occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
+                                        res = occ,
+            #                            res.ts.df = jrr.ts.df,
+                                        res.ts.df = ts$occ,
                                         withdr_req = 0,
                                         ws_rel_req = 0)
   #
@@ -101,6 +115,16 @@ simulation_func <- function(date_sim,
                                         res.ts.df = jrr.ts.df,
                                         withdr_req = 0,
                                         ws_rel_req = ws_need_9day)
+  pat.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
+                                        res = pat, 
+                                        res.ts.df = pat.ts.df,
+                                        withdr_req = 35,
+                                        ws_rel_req = 0)
+  occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
+                                        res = occ, 
+                                        res.ts.df = occ.ts.df,
+                                        withdr_req = 60,
+                                        ws_rel_req = 0)
   #
   #-----------------------------------------------------------------------------
   # 5. Do final update of flows in potomac.ts.df

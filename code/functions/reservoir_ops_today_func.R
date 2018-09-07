@@ -65,6 +65,7 @@ reservoir_ops_today_func <- function(date_sim, res, res.ts.df,
                         date_time == yesterday_date + 1) %>%
       mutate(stor = stor,
              inflow = inflows,
+             # available for spill
              available = stor + inflow - w_req,
              rel_req = rel_req,
              outflow = case_when(

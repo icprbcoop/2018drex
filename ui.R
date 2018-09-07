@@ -17,7 +17,7 @@ dateRangeInput("plot_range",
 
 dateInput("DREXtoday",
           "Change today's date",
-          value = "1930-06-01",
+          value = date_today, # date_today set in global.R
           min = "1929-10-02",
           max = "1931-12-31",
           format = "yyyy-mm-dd"),
@@ -53,11 +53,11 @@ actionButton("write_ts",
 
     fluidRow(
       column(
-        width = 9,
+        width = 8,
         box(
           title = "Potomac River flow",
           width = NULL,
-          plotOutput("potomacFlows")
+          plotOutput("potomacFlows", height = "200px")
           )
         ),
       column(
@@ -65,30 +65,66 @@ actionButton("write_ts",
       
         infoBoxOutput("sim_today", width = NULL),
         valueBoxOutput("por_flow", width = NULL),
-        valueBoxOutput("lfalls_flow", width = NULL),
+        valueBoxOutput("demand", width = NULL),
         tags$head( 
           tags$style(HTML(".fa { font-size: 12px; }"))),  
-        infoBoxOutput("lfaa_alert", width = NULL),
-        valueBoxOutput("demand", width = NULL)
+        infoBoxOutput("lfaa_alert", width = NULL)
       )
     ), # end fluidRow with Potomac flows
+    #
     fluidRow(
-      tabBox(
-#        title = "Storage in system reservoirs",
-        width = 9,
-        # the id lets us use input$tabset1 on the server to find current tab
-        tabPanel("Jennings Randolph",
-          plotOutput("jrrStorageReleases")
-          ),
-        tabPanel("Little Seneca",
-          plotOutput("senStorageReleases")
-          )
-        ),
+      column(
+        width = 4,
+        box(
+          title = "Jennings Randolph",
+          width = NULL,
+          plotOutput("jrrStorageReleases", height = "150px")
+        )#,
+        # box(
+        #   title = "Occoquan",
+        #   width = NULL,
+        #   plotOutput("jrrStorageReleases", height = "150px")
+        # )
+      ),
+      column(
+        width = 4,
+        box(
+          title = "Little Seneca",
+          width = NULL,
+          plotOutput("senStorageReleases", height = "150px")
+        )#,
+        # box(
+        #   title = "Patuxent",
+        #   width = NULL,
+        #   plotOutput("senStorageReleases", height = "150px")
+        #)
+      ), 
+      column(
+        width = 3,
         box(
           title = "Storage triggers",
-          width = 2,
+          width = NULL,
           "voluntary, mandatory")
-), # end fluidRow with reservoir storage
+        )
+    ), # end fluidRow with reservoir storage
+
+#     fluidRow(
+#       tabBox(
+# #        title = "Storage in system reservoirs",
+#         width = 9,
+#         # the id lets us use input$tabset1 on the server to find current tab
+#         tabPanel("Jennings Randolph",
+#           plotOutput("jrrStorageReleases")
+#           ),
+#         tabPanel("Little Seneca",
+#           plotOutput("senStorageReleases")
+#           )
+#         ),
+#         box(
+#           title = "Storage triggers",
+#           width = 3,
+#           "voluntary, mandatory")
+# ), # end fluidRow with reservoir storage
     fluidRow(
       box(
        title = "MD drought status map",

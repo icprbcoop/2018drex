@@ -54,7 +54,12 @@ source("code/server/potomac_flows_init.R", local = TRUE)
 #--------------------------------------------------------------------------------
 # Run the main script - simulation.R
 #--------------------------------------------------------------------------------
-source("code/server/simulation.R", local = TRUE)
+# source("code/server/simulation.R", local = TRUE)
+#
+# date_today is later input$DREXtoday, but need non-reactive starting point
+date_today <- as.Date("1930-06-01")
+mos_0day <- 40 # margin of safety for Seneca release
+mos_9day <- 0 # margin of safety for N Br release
 #-----------------------------------------------------------------
 #
 #------------------------------------------------------------------------------

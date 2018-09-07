@@ -13,6 +13,8 @@ flows.daily.mgd.df <- data.table::fread(paste(ts_path, "flows_daily_mgd.csv", se
   dplyr::select(sim_day, date_time,
                 jrr_in = jrr,
                 lsen_in = lsen,
+                pat_in = pat,
+                occ_in = occ,
                 por_nat, below_por, lfalls_nat)
 #
 # Import a time series of total system demands.

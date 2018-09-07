@@ -28,6 +28,8 @@ sim_main_func <- function(date_today, ts0){
                           potomac.daily.df,
                           sen,
                           jrr,
+                          pat,
+                          occ,
                           ts)
   } # end of simulation loop
   return(ts)

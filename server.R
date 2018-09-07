@@ -5,11 +5,20 @@
 shinyServer(function(input, output, session) {
   #
   # Run the main simulation to the hard-coded input, date_today
-  ts0 <- list(sen = sen.ts.df0, jrr = jrr.ts.df0, flows = potomac.ts.df0)
+  ts0 <- list(sen = sen.ts.df0, 
+              jrr = jrr.ts.df0, 
+              pat = pat.ts.df0,
+              occ = occ.ts.df0,
+              flows = potomac.ts.df0)
   ts <- sim_main_func(date_today, ts0)
+  # ts <- sim_main_func(input$DREXtoday, ts0)
   #
   # Now make ts reactive, initializing to results from above
-  ts <- reactiveValues(flows = ts$flows, sen = ts$sen, jrr = ts$jrr)
+  ts <- reactiveValues(flows = ts$flows, 
+                       sen = ts$sen, 
+                       jrr = ts$jrr,
+                       pat = ts$pat,
+                       occ = ts$occ)
   #
   # Now allow a change of the simulation end date - to input$DREXtoday
   observeEvent(input$run_main, {
@@ -66,14 +75,28 @@ shinyServer(function(input, output, session) {
   output$por_flow <- renderValueBox({
     por_threshold <- 2000 # (cfs) CO-OP's trigger for daily monitoring/reporting
     potomac.ts.df <- ts$flows
-    por_flow <- round(last(potomac.ts.df$por_nat)*mgd_to_cfs)
+    por_flow <- paste("POR flow = ",
+                      round(last(potomac.ts.df$por_nat)*mgd_to_cfs),
+                            " cfs")
     valueBox(
-      value = por_flow,
-      subtitle = "Flow at Point of Rocks, cfs",
+      value = tags$p(por_flow, style = "font-size: 80%;"),
+      subtitle = "Flow at Point of Rocks",
       color = if (por_flow >= por_threshold) "green" else "yellow"
     )
   })
-  
+  #------------------------------------------------------------------
+  # Output today's demand
+  output$demand <- renderValueBox({
+    potomac.ts.df <- ts$flows
+    demand <- paste("Demand = ", 
+                    round(last(potomac.ts.df$demand)), 
+                    " MGD")
+    valueBox(
+      value = tags$p(demand, style = "font-size: 80%;"),
+      subtitle = NULL,
+      color = "yellow"
+    )
+  })  
   #------------------------------------------------------------------
   # Let total WMA Potomac River withdrawals = W
   # and adjusted flow at Little Falls = Little Falls obs + W = Qadj
