@@ -49,25 +49,21 @@ simulation_func <- function(date_sim,
   #
   sen.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = sen, 
-             #                           res.ts.df = sen.ts.df,
                                         res.ts.df = ts$sen,
                                         withdr_req = 0,
                                         ws_rel_req = 0) 
   jrr.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = jrr,
-             #                           res.ts.df = jrr.ts.df,
                                         res.ts.df = ts$jrr,
                                         withdr_req = 0,
                                         ws_rel_req = 0)
   pat.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = pat,
-            #                            res.ts.df = pat.ts.df,
                                         res.ts.df = ts$pat,
                                         withdr_req = 0,
                                         ws_rel_req = 0)
   occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = occ,
-            #                            res.ts.df = jrr.ts.df,
                                         res.ts.df = ts$occ,
                                         withdr_req = 0,
                                         ws_rel_req = 0)
@@ -139,8 +135,7 @@ simulation_func <- function(date_sim,
                                         sen_outflow_today = last(sen.ts.df$outflow),
                                         jrr_outflow_today = last(jrr.ts.df$outflow),
                                         flows.ts.df = potomac.ts.df)
-  # Package up the time series in a list to return
-  # temp <- list(sen = sen.ts.df, jrr = jrr.ts.df, flows = potomac.ts.df)
+  # Send the results back to the set of reactive values, ts:
   ts$sen <- sen.ts.df
   ts$jrr <- jrr.ts.df
   ts$pat <- pat.ts.df

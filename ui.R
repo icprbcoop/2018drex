@@ -16,7 +16,7 @@ dateRangeInput("plot_range",
                width = NULL), #"250px"),
 
 dateInput("DREXtoday",
-          "Change today's date",
+          "Change last day of simulation",
           value = date_today, # date_today set in global.R
           min = "1929-10-02",
           max = "1931-12-31",
@@ -38,12 +38,10 @@ actionButton("run_add",
              "Add days to simulation",
              icon = NULL,
              width = "150px"),
-br(),
-br(),
-br(),
-br(),
-br(),
-br(height = "200px"),
+br(), br(), br(), br(), br(),
+br(), br(), br(), br(), br(),
+br(), br(), br(), br(), br(),
+br(), br(), br(), br(), br(),
 actionButton("write_ts",
              "Write output time series",
              icon = NULL,
@@ -64,10 +62,11 @@ actionButton("write_ts",
         width = 4,
 #        infoBoxOutput("sim_today", width = NULL),
         valueBoxOutput("sim_today", width = NULL),
-        valueBoxOutput("demand", width = NULL),
         valueBoxOutput("por_flow", width = NULL),
+        valueBoxOutput("demand", width = NULL),
 #        valueBoxOutput("lfalls_adj", width = NULL),
-        valueBoxOutput("lfalls_obs", width = NULL)
+        valueBoxOutput("lfalls_obs", width = NULL),
+        infoBoxOutput("coop_ops", width = NULL)
       )
     ), # end fluidRow with Potomac flows
     #
@@ -100,15 +99,18 @@ actionButton("write_ts",
       ), 
       column(
         width = 4,
-        tags$head( 
-          tags$style(HTML(".fa { font-size: 12px; }"))), 
-        infoBoxOutput("coop_ops", width = NULL),
+#        tags$head( 
+#          tags$style(HTML(".fa { font-size: 12px; }"))), 
         infoBoxOutput("lfaa_alert", width = NULL),
-#        infoBoxOutput("mwcog_stage", width = NULL)
+        infoBoxOutput("mwcog_stage", width = NULL),
         box(
-          title = "Storage triggers",
+          title = "MARYLAND DROUGHT STATUS",
           width = NULL,
-          "voluntary, mandatory")
+          tags$p("Drought Watch Advisory")),
+        box(
+          title = "VIRGINIA DROUGHT STATUS",
+          width = NULL,
+          "NoVa: Drought Watch")
         )
     ), # end fluidRow with reservoir storage
 #

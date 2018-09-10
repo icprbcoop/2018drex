@@ -191,6 +191,28 @@ shinyServer(function(input, output, session) {
   }) # end output$lfaa_alert
   #
   #------------------------------------------------------------------
+  # Output MWCOG drought stage
+  output$mwcog_stage <- renderInfoBox({
+    potomac.ts.df <- ts$flows
+    por_flow <- last(potomac.ts.df$por_nat)
+    if(por_flow > 2000) {
+      text_stage <- "NORMAL - Wise Water Use"
+      color_stage <- "green"}
+    if(por_flow <= 2000) {
+      # based on NOAA drought status - D1
+      # then "notifications" upon 1st release, & when jrr+sen at 75%
+      text_stage <- "WATCH - Voluntary Water Conservation"
+      color_stage <- "yellow"}
+    infoBox(
+      title = "MWCOG drought stage",
+      value = paste(text_stage),
+      subtitle = NULL,
+      icon = shiny::icon("arrow"),
+      color = color_stage
+    )
+  }) # end output$mwcog_stage
+
+  #------------------------------------------------------------------
     output$jrrStorageReleases <- renderPlot({
     jrr.graph <- ts$jrr %>%
       filter(date_time >= input$plot_range[1],
