@@ -6,6 +6,9 @@
 dashboardPage(skin = "blue",
   dashboardHeader(title = "WMA 2018 DREX"),
   dashboardSidebar(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")
+    ),
     width = 250,
 
 dateRangeInput("plot_range",
