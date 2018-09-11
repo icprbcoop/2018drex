@@ -38,24 +38,21 @@ source("code/functions/sim_add_days_func.R", local = TRUE)
 # Make the reservoir objects and reservoir time series df's
 #--------------------------------------------------------------------------------
 source("code/server/reservoirs_make.R", local = TRUE) 
+# What this does is create the reservoir "objects", jrr, sen, occ, pat
+#    and the reservor time series, res.ts.df, e.g.:
 # sen.ts.df - initialized with first day of ops time series
-# jrr.ts.df - initialized with first day of ops time series
+# ...
 #--------------------------------------------------------------------------------
 # Make the Potomac input data and flow time series dataframes
 #--------------------------------------------------------------------------------
 source("code/server/potomac_flows_init.R", local = TRUE)
+# What this does is create:
 # potomac.data.df - filled with all nat flow, trib flow data
 # potomac.ts.df - initialized with first day of flows
 #    - contains lfalls_obs, sen_outflow, jrr_outflow
 #--------------------------------------------------------------------------------
-# Make the reservoir objects & initialize reservoir ts dataframes
+# A few needed inputs which will probably be moved at some point
 #--------------------------------------------------------------------------------
-# source("code/server/reservoirs_make.R", local = TRUE)
-#--------------------------------------------------------------------------------
-# Run the main script - simulation.R
-#--------------------------------------------------------------------------------
-# source("code/server/simulation.R", local = TRUE)
-#
 # date_today is later input$DREXtoday, but need non-reactive starting point
 date_today <- as.Date("1930-06-01")
 mos_0day <- 40 # margin of safety for Seneca release

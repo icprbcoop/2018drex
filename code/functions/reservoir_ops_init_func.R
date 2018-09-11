@@ -9,6 +9,7 @@
 #     The following are currently specified in reservoir_make.R
 #          res@name is the reservoir name
 #          res@capacity is the reservoir capacity
+#          res@prod_max is the max prod capacity of the res wtp, MGD
 #          res@stor0 is the initial storage on day 1 of the simulation
 #          res@flowby is the minimum environmental flowby over the dam
 #          res@inflows is a dataframe containing the daily inflow time series

@@ -5,16 +5,14 @@
 #
 setClass("Reservoir",
          slots = c(name = "character",
-                   capacity = "numeric",
-                   stor0 = "numeric",
-                   flowby = "numeric", # minimum environmental flowby over dam
+                   capacity = "numeric", # MG
+                   prod_max = "numeric", # MGD
+                   rc = "data.frame", # the rule curves
+                   # rc specifies storage thresholds, MG, 
+                   #   and withdrawals, MGD
+                   stor0 = "numeric", # MG
+                   flowby = "numeric", # min envir. flowby over dam, MGD
 #                   withdr_req = "numeric", # withdr request from intake in reservoir
 #                   rel_req = "numeric", # requested release over dam
-                   inflows = "data.frame") #,
-         # prototype creates default values:
-         # prototype = list(name = "unknown",
-         #                  capacity = c(0.0),
-         #                  stor0 =  c(0.0),
-         #                  withdr_req = c(0.0)
-         #)
+                   inflows = "data.frame") # input file has MGD
 )

@@ -23,5 +23,6 @@ demands.daily.df <- data.table::fread(paste(ts_path, "demands_daily.csv", sep = 
                                        data.table = FALSE) %>%
   dplyr::mutate(date_time = as.Date(date),
                 demands_total_unrestricted = sys_demands)
+# Import the rule curve tables
 
                                         

@@ -1,6 +1,7 @@
-#
 #------------------------------------------------------------------
-# 
+#------------------------------------------------------------------
+# First, server defines reactive values and uses 3 observeEvent's
+#------------------------------------------------------------------
 #------------------------------------------------------------------
 shinyServer(function(input, output, session) {
   #
@@ -35,7 +36,14 @@ shinyServer(function(input, output, session) {
     write.csv(ts$pat, paste(ts_output, "output.csv"))
   })
   #------------------------------------------------------------------
-  # Create the graphs etc to be displayed by the Shiny app
+  #------------------------------------------------------------------
+  # Second, server creates graphs and values for boxes to be displayed
+  #------------------------------------------------------------------
+  #------------------------------------------------------------------
+  # All of these below probably should be done in sub-scripts:
+  #
+  #------------------------------------------------------------------
+  # Create graph of Potomac River flows
   #------------------------------------------------------------------
   output$potomacFlows <- renderPlot({
   # Grab ts and prepare for graphing:
@@ -70,7 +78,10 @@ shinyServer(function(input, output, session) {
   #   color = "blue"
   #   )
   # })
-  output$sim_today <- renderValueBox({
+  #------------------------------------------------------------------
+  # Create today's date
+  #------------------------------------------------------------------
+    output$sim_today <- renderValueBox({
     potomac.ts.df <- ts$flows
     sim_today0 <- last(potomac.ts.df$date_time)
     sim_today <- paste("Today's date is ", sim_today0)
@@ -81,7 +92,8 @@ shinyServer(function(input, output, session) {
     )
   }) 
   #------------------------------------------------------------------
-  # Output today's flow at Point of Rocks, and compare with 2000 cfs trigger
+  # Create value for yesterday's Potomac River flow at Point of Rocks
+  #------------------------------------------------------------------
   output$por_flow <- renderValueBox({
     por_threshold <- 2000 # (cfs) CO-OP's trigger for daily monitoring/reporting
     potomac.ts.df <- ts$flows
@@ -96,7 +108,8 @@ shinyServer(function(input, output, session) {
     )
   })
   #------------------------------------------------------------------
-  # Output today's demand
+  # Create value for yesterday's total WMA demand
+  #------------------------------------------------------------------
   output$demand <- renderValueBox({
     potomac.ts.df <- ts$flows
     demand <- paste("Total WMA Demand = ", 
@@ -122,8 +135,9 @@ shinyServer(function(input, output, session) {
   #   )
   # })
   #------------------------------------------------------------------
-  # Output today's observed flow at Little Falls
-  output$lfalls_obs <- renderValueBox({
+  # Create value for yesterday's Potomac River flow at Little Falls
+  #------------------------------------------------------------------
+    output$lfalls_obs <- renderValueBox({
     potomac.ts.df <- ts$flows
     lfalls_obs <- paste("Flow at Little Falls (observed) = ",
                         round(last(potomac.ts.df$lfalls_obs)),
@@ -135,7 +149,8 @@ shinyServer(function(input, output, session) {
     )
   })
   #------------------------------------------------------------------
-  # Output CO-OP operational status
+  # Create info on CO-OP operational status
+  #------------------------------------------------------------------
     output$coop_ops <- renderInfoBox({
     potomac.ts.df <- ts$flows
     por_flow <- last(potomac.ts.df$por_nat*mgd_to_cfs)
@@ -164,6 +179,9 @@ shinyServer(function(input, output, session) {
   # Emergency stage???: Qadj < W + 110???
   # The problem is the definition of Emergency stage is probabalistic
   #   - will do some modeling to get a better surrogate definition
+  #------------------------------------------------------------------
+  # Create info on LFAA stage
+  #------------------------------------------------------------------
     output$lfaa_alert <- renderInfoBox({
     potomac.ts.df <- ts$flows
     W <- last(potomac.ts.df$demand*1.0)
@@ -191,7 +209,8 @@ shinyServer(function(input, output, session) {
   }) # end output$lfaa_alert
   #
   #------------------------------------------------------------------
-  # Output MWCOG drought stage
+  # Create info on MWCOG Drought Plan stage
+  #------------------------------------------------------------------
   output$mwcog_stage <- renderInfoBox({
     potomac.ts.df <- ts$flows
     por_flow <- last(potomac.ts.df$por_nat)
@@ -211,9 +230,10 @@ shinyServer(function(input, output, session) {
       color = color_stage
     )
   }) # end output$mwcog_stage
-
   #------------------------------------------------------------------
-    output$jrrStorageReleases <- renderPlot({
+  # Create graph of storage and releases for each reservoir
+  #------------------------------------------------------------------
+  output$jrrStorageReleases <- renderPlot({
     jrr.graph <- ts$jrr %>%
       filter(date_time >= input$plot_range[1],
              date_time <= input$plot_range[2])
@@ -221,7 +241,7 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = storage, color = "Storage")) +
       geom_line(aes(y = outflow, color = "Outflow")) +
       scale_color_manual(values = c("grey", "black"))
-  }) # end renderPlot
+  }) # end jrr renderPlot
   #
   #------------------------------------------------------------------
     output$senStorageReleases <- renderPlot({
@@ -232,7 +252,7 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = storage, color = "Storage")) +
       geom_line(aes(y = outflow, color = "Outflow")) +
       scale_color_manual(values = c("grey", "black"))
-  }) # end renderPlot
+  }) # end sen renderPlot
   #
   #------------------------------------------------------------------
   output$patStorageReleases <- renderPlot({
@@ -243,7 +263,7 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = storage, color = "Storage")) +
       geom_line(aes(y = outflow, color = "Outflow")) +
       scale_color_manual(values = c("grey", "black"))
-  }) # end renderPlot
+  }) # end pat renderPlot
   #
   #------------------------------------------------------------------
   output$occStorageReleases <- renderPlot({
@@ -254,11 +274,12 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = storage, color = "Storage")) +
       geom_line(aes(y = outflow, color = "Outflow")) +
       scale_color_manual(values = c("grey", "black"))
-  }) # end renderPlot
+  }) # end occ renderPlot
   #
-    #------------------------------------------------------------------
-  
-  mde_map = "http://mde.maryland.gov/programs/Water/droughtinformation/Currentconditions/PublishingImages/DroughtGraphsStarting2017Apr30/Drought2018-04-30.png"
+  #------------------------------------------------------------------
+  # misc placeholders for state drought status info
+  #------------------------------------------------------------------
+    mde_map = "http://mde.maryland.gov/programs/Water/droughtinformation/Currentconditions/PublishingImages/DroughtGraphsStarting2017Apr30/Drought2018-04-30.png"
   output$MDEStatus <- renderText({c('<img src="', mde_map, '">')
   })
   
@@ -266,5 +287,5 @@ shinyServer(function(input, output, session) {
   output$VADEQStatus <- renderText({c('<img src="', vadeq_map, '">')
   })
   #------------------------------------------------------------------
-  })
+  }) # end shinyServer
 

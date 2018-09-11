@@ -106,11 +106,11 @@ actionButton("write_ts",
         box(
           title = "MARYLAND DROUGHT STATUS",
           width = NULL,
-          tags$p("Drought Watch Advisory")),
+          tags$p("Western region: Drought Watch; Central region: Drought Warning")),
         box(
           title = "VIRGINIA DROUGHT STATUS",
           width = NULL,
-          "NoVa: Drought Watch")
+          "NoVa: Drought Watch; Shenandoah: Drought Emergency")
         )
     ), # end fluidRow with reservoir storage
 #
