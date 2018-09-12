@@ -30,6 +30,14 @@ a{
 p{
     color: pink;
 }
+.info-box {
+  height: 15px;
+  
+} 
+.info-box-icon {height: 45px; line-height: 45px;} 
+.info-box-content {padding-top: 0px; padding-bottom: 0px;}
+    
+
 /*.box{
   float: left;
   width:50px;
