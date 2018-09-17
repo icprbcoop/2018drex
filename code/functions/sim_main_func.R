@@ -1,16 +1,18 @@
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
-# Adds more days to the simulation
+# Runs the simulation, beginning on date_start, defined in global.R
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
-# Inputs
+# Inputs - probably alot more things used should be inputs
 #--------------------------------------------------------------------------------
-# added_days = number of days to be added to the simulation
-# uptodate.ts = the list of dfs: sen.ts.df, jrr.ts.df, potomac.ts.df
+# date_today = final day of the simulation
+# ts = the list of dfs: potomac.ts.df, sen.ts.df, jrr.ts.df, ...
+#   - where the time series begin on date_start and end yesterday
 #--------------------------------------------------------------------------------
 # Output
 #--------------------------------------------------------------------------------
-# uptodate.ts
+# ts
+#   - where the time series begin on date_start and end today
 #--------------------------------------------------------------------------------
 # Define the main sim function - simulates from date_start to date_today
 

@@ -3,6 +3,8 @@
 #   Reservoir objects, which hold basic reservoir data
 #   and the inflow time series.
 #
+# Later add checks for the input info
+#
 setClass("Reservoir",
          slots = c(name = "character",
                    capacity = "numeric", # MG
@@ -12,7 +14,5 @@ setClass("Reservoir",
                    #   and withdrawals, MGD
                    stor0 = "numeric", # MG
                    flowby = "numeric", # min envir. flowby over dam, MGD
-#                   withdr_req = "numeric", # withdr request from intake in reservoir
-#                   rel_req = "numeric", # requested release over dam
                    inflows = "data.frame") # input file has MGD
 )

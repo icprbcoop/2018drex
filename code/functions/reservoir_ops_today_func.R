@@ -16,7 +16,7 @@
 # prioritization: in logic below, 1st priority is flowby = res@flowby
 #                 2nd priority is withdr_req
 #                 3rd priority is ws_rel_req
-#   all of WMA reservoirs except Savage have ws withdr or rel, not both
+#   all of WMA reservoirs except Savage have ws withdr OR rel, not both
 #   in case of Savage, I THINK Westernport withdr would have priority
 #       over a release, but I THINK min flowby would have 1st priority?
 #                 

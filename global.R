@@ -6,7 +6,7 @@
   # but it also has an additional capability: the objects 
   # generated in global.R can be used both in server.R and UI.R"
 #------------------------------------------------------------------------------
-# The script, import_data.R, load in all available time series data. 
+# The script, import_data.R, loads in all available time series data. 
 #  Right now the directory with time series data (set by paths.R)
 #  has 2 years of data, from 1929-10-01 to 1931-09-30.
 # date_tsdata_start <- as.Date("1929-10-01")
@@ -54,7 +54,7 @@ source("code/server/potomac_flows_init.R", local = TRUE)
 # A few needed inputs which will probably be moved at some point
 #--------------------------------------------------------------------------------
 # date_today is later input$DREXtoday, but need non-reactive starting point
-date_today <- as.Date("1930-06-01")
+date_today <- as.Date("1930-05-01")
 mos_0day <- 40 # margin of safety for Seneca release
 mos_9day <- 0 # margin of safety for N Br release
 #-----------------------------------------------------------------

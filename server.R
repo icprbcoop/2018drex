@@ -5,6 +5,7 @@
 #------------------------------------------------------------------
 shinyServer(function(input, output, session) {
   #
+  # There's probably an easier way to do this!
   # Run the main simulation to the hard-coded input, date_today
   ts0 <- list(sen = sen.ts.df0, 
               jrr = jrr.ts.df0, 
@@ -12,7 +13,6 @@ shinyServer(function(input, output, session) {
               occ = occ.ts.df0,
               flows = potomac.ts.df0)
   ts <- sim_main_func(date_today, ts0)
-  # ts <- sim_main_func(input$DREXtoday, ts0)
   #
   # Now make ts reactive, initializing to results from above
   ts <- reactiveValues(flows = ts$flows, 
@@ -21,12 +21,12 @@ shinyServer(function(input, output, session) {
                        pat = ts$pat,
                        occ = ts$occ)
   #
-  # Now allow a change of the simulation end date - to input$DREXtoday
+  # Allow a change of the simulation end date and a re-run
   observeEvent(input$run_main, {
     ts <- sim_main_func(input$DREXtoday, ts)
   })
   #
-  # Now allow the user to add chunks of days to the simulation
+  # Allow the user to add chunks of days to the simulation
   observeEvent(input$run_add, {
     ts <- sim_add_days_func(input$chunkofdays, ts)
   })

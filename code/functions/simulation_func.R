@@ -12,11 +12,11 @@
 # potomac.daily.df - placeholder - has flow data
 # sen - a reservior object representing Little Seneca
 # jrr - a reservoir object representing Jennings Randolph
-# ts = list(sen.ts.df, jrr.ts.df, potomac.ts.df) - all ops time series
+# ts = list(sen.ts.df, ..., potomac.ts.df) - all ops time series
 #--------------------------------------------------------------------------------
 # Outputs
 #--------------------------------------------------------------------------------
-# ts = list(sen.ts.df, jrr.ts.df, potomac.ts.df) - with today added
+# ts = list(sen.ts.df, ..., potomac.ts.df) - with today added
 #--------------------------------------------------------------------------------
 simulation_func <- function(date_sim,
                             mos_0day,

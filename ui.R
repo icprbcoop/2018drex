@@ -23,10 +23,10 @@ dateInput("DREXtoday",
           format = "yyyy-mm-dd"),
 
 actionButton("run_main",
-             "Run simulation",
+             "Re-run simulation",
              icon = NULL,
              width = "150px"),
-
+br(),br(),
 numericInput("chunkofdays",
              "Chunk of days",
              value = 7,
@@ -104,11 +104,11 @@ actionButton("write_ts",
         infoBoxOutput("lfaa_alert", width = NULL),
         infoBoxOutput("mwcog_stage", width = NULL),
         box(
-          title = "MARYLAND DROUGHT STATUS",
+          title = "PLACE-HOLDER FOR MARYLAND DROUGHT STATUS",
           width = NULL,
           tags$p("Western region: Drought Watch; Central region: Drought Warning")),
         box(
-          title = "VIRGINIA DROUGHT STATUS",
+          title = "PLACE-HOLDER FOR VIRGINIA DROUGHT STATUS",
           width = NULL,
           "NoVa: Drought Watch; Shenandoah: Drought Emergency")
         )

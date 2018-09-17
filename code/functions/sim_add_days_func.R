@@ -3,14 +3,14 @@
 # Adds more days to the simulation
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
-# Inputs
+# Inputs - probably alot more things used should be inputs
 #--------------------------------------------------------------------------------
 # added_days = number of days to be added to the simulation
-# uptodate.ts = the list of dfs: sen.ts.df, jrr.ts.df, potomac.ts.df
+# ts = the list of dfs: potomac.ts.df, sen.ts.df, jrr.ts.df, ...
 #--------------------------------------------------------------------------------
 # Output
 #--------------------------------------------------------------------------------
-# uptodate.ts
+# ts - the time series with added_days days added
 #--------------------------------------------------------------------------------
 #
 sim_add_days_func <- function(added_days, ts){
