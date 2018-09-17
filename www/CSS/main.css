@@ -1,27 +1,23 @@
-body{
-    background: green;/*rgb(226, 214, 226);*/
-    /*display: inline-block;*/
+/*body{
+    background: green;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 h1{
     color: honeydew;
-    /*text-align: center;*/
-    font-size: 20px;
+    font-size: 10px;
     font-family: Arial, Helvetica, sans-serif;
     background-color: navy;
     
 }
 ul{
-    /*list-style-type: square;*/
-    /*display: inline-block;*/
-    /*text-align: center;*/
-    font-size: 20px;
+
+    font-size: 10px;
     font-family: Comic Sans MS, cursive, sans-serif;
     background-color:navy;
     color:honeydew;
 }
 li{
-    /*padding: 7px;*/
+    
     background:lime;
 }
 a{
@@ -29,14 +25,12 @@ a{
 }
 p{
     color: pink;
-}
-.info-box {
-  height: 15px;
-  
-} 
+}*/
+
+/*
 .info-box-icon {height: 45px; line-height: 45px;} 
 .info-box-content {padding-top: 0px; padding-bottom: 0px;}
-    
+*/    
 
 /*.box{
   float: left;
@@ -46,3 +40,31 @@ p{
   border:1px solid green;
   background-color: 000000;
 }*/
+.square {
+    float:left;
+    position: relative;
+    width: 50px;
+    padding-bottom : 50px; /* = width for a 1:1 aspect ratio */
+    margin:1.66%;
+    overflow:hidden;
+    background-color:red;
+}
+
+.content {
+    position:absolute;
+    height:80%; /* = 100% - 2*10% padding */
+    width:90%; /* = 100% - 2*5% padding */
+    padding: 10% 5%;
+}
+
+.table{
+    display:table;
+    height:100%;
+    width:100%;
+}
+.table-cell{
+    display:table-cell;
+    vertical-align:middle;
+    height:100%;
+    width:100%;
+}

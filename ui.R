@@ -51,6 +51,9 @@ actionButton("write_ts",
              width = "180px")
       ),
   dashboardBody(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")
+    ),
 
     fluidRow(
       column(
@@ -106,14 +109,74 @@ actionButton("write_ts",
 #          tags$style(HTML(".fa { font-size: 12px; }"))), 
         infoBoxOutput("lfaa_alert", width = NULL),
         infoBoxOutput("mwcog_stage", width = NULL),
-        box(
-          title = "MARYLAND DROUGHT STATUS",
-          width = NULL,
-          tags$p("Drought Watch Advisory")),
-        box(
-          title = "VIRGINIA DROUGHT STATUS",
-          width = NULL,
-          "NoVa: Drought Watch")
+
+########html for generating drought warning quadrants
+        withTags(
+          html(
+            body(
+              div(class="square",
+                  div(class="content",
+                      div(class="table",
+                          div(class="table-cell",
+                              p("precipitation deficit")
+                          )))),
+              div(class="square",
+                  div(class="content",
+                      div(class="table",
+                          div(class="table-cell",
+                              p("ground water wells")
+                          )))),
+              div(class="square",
+                  div(class="content",
+                      div(class="table",
+                          div(class="table-cell",
+                              p("reservoir flow")
+                          )))),
+              div(class="square",
+                  div(class="content",
+                      div(class="table",
+                          div(class="table-cell",
+                              p("streamflow")
+                          ))))
+              
+              
+            ))
+        )),
+        
+        column(
+          width = 6,
+          div(class="square",
+              div(class="content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("precipitation deficit")
+                      )))),
+          div(class="square",
+              div(class="content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("ground water wells")
+                      )))),
+          div(class="square",
+              div(class="content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("reservoir flow")
+                      )))),
+          div(class="square",
+              div(class="content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("streamflow")
+                      ))))
+        # box(
+        #   title = "MARYLAND DROUGHT STATUS",
+        #   width = NULL,
+        #   tags$p("Drought Watch Advisory")),
+        # box(
+        #   title = "VIRGINIA DROUGHT STATUS",
+        #   width = NULL,
+        #   "NoVa: Drought Watch")
         )
     ), # end fluidRow with reservoir storage
 #
