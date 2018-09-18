@@ -2,7 +2,6 @@
 #------------------------------------------------------------------------------
 # This script imports time series inputs (ts).
 # The path to the time series is defined by /config/paths.R
-#   and is currently input/ts/daily_test - just 2 years of data.
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 #
@@ -21,8 +20,9 @@ flows.daily.mgd.df <- data.table::fread(paste(ts_path, "flows_daily_mgd.csv", se
 # (Later we could create a stochastic demand model like in PRRISM.)
 demands.daily.df <- data.table::fread(paste(ts_path, "demands_daily.csv", sep = ""),
                                        data.table = FALSE) %>%
-  dplyr::mutate(date_time = as.Date(date),
-                demands_total_unrestricted = sys_demands)
+  dplyr::mutate(date_time = as.Date(date)) %>%
+  dplyr::select(date_time, d_fw_e, d_fw_w, d_fw_c, d_lw,
+                d_wa, d_wssc, d_total)
 # Import the rule curve tables
 
                                         

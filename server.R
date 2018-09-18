@@ -21,7 +21,7 @@ shinyServer(function(input, output, session) {
                        pat = ts$pat,
                        occ = ts$occ)
   #
-  # Allow a change of the simulation end date and a re-run
+  # Allow the user to re-run the simulation - say, if end date changes
   observeEvent(input$run_main, {
     ts <- sim_main_func(input$DREXtoday, ts)
   })
@@ -31,9 +31,13 @@ shinyServer(function(input, output, session) {
     ts <- sim_add_days_func(input$chunkofdays, ts)
   })
   #
-  # Allow the user to write simulation output time series to file
+  # Allow the user to write simulation output time series to files
   observeEvent(input$write_ts, {
-    write.csv(ts$pat, paste(ts_output, "output.csv"))
+    write.csv(ts$flows, paste(ts_output, "output_flows.csv"))
+    write.csv(ts$sen, paste(ts_output, "output_sen.csv"))
+    write.csv(ts$jrr, paste(ts_output, "output_jrr.csv"))
+    write.csv(ts$occ, paste(ts_output, "output_occ.csv"))
+    write.csv(ts$pat, paste(ts_output, "output_pat.csv"))
   })
   #------------------------------------------------------------------
   #------------------------------------------------------------------

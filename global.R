@@ -21,8 +21,8 @@ source("input/parameters/parameters.R", local = TRUE)
 # Block temporarily pasted into global.R - for ease of debugging
 #-----------------------------------------------------------------
 # Define the simulation period - later do this reactively:
-date_start <- as.Date("1930-01-01")
-date_end <- as.Date("1930-09-30")
+# date_start <- as.Date("1930-01-01")
+# date_end <- as.Date("1930-09-30")
 lfalls_flowby <- 100 # change to read from parameter file!!!
 #
 source("code/classes/reservoir_class.R", local = TRUE)
@@ -54,7 +54,8 @@ source("code/server/potomac_flows_init.R", local = TRUE)
 # A few needed inputs which will probably be moved at some point
 #--------------------------------------------------------------------------------
 # date_today is later input$DREXtoday, but need non-reactive starting point
-date_today <- as.Date("1930-05-01")
+# date_today <- as.Date("1930-05-01")
+# date_today <- as.Date("2039-05-01")
 mos_0day <- 40 # margin of safety for Seneca release
 mos_9day <- 0 # margin of safety for N Br release
 #-----------------------------------------------------------------

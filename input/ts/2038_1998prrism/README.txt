@@ -1,0 +1,1 @@
+demands_daily.csv are estimated total system demands in 2020 - from PRRISM

@@ -1,5 +1,5 @@
 # 
-# This is the user-interface of a Shiny web application for the 2018 DREX.
+# This is the user-interface of a Shiny web app for the 2018 DREX.
 # Run the application by clicking 'Run App' above.
 #
 
@@ -10,16 +10,20 @@ dashboardPage(skin = "blue",
 
 dateRangeInput("plot_range",
                "Specify plot range",
-               start = "1929-10-01",
-               end = "1930-12-31",
+#               start = "1929-10-01",
+#               end = "1930-12-31",
+               start = date_start,
+               end = date_end,
                format = "yyyy-mm-dd",
                width = NULL), #"250px"),
 
 dateInput("DREXtoday",
           "Change last day of simulation",
           value = date_today, # date_today set in global.R
-          min = "1929-10-02",
-          max = "1931-12-31",
+#          min = "1929-10-02",
+#          max = "1931-12-31",
+          min = date_start,
+          max = date_end,
           format = "yyyy-mm-dd"),
 
 actionButton("run_main",

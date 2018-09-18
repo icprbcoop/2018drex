@@ -3,7 +3,7 @@
 #   Reservoir objects, which hold basic reservoir data
 #   and the inflow time series.
 #
-# Later add checks for the input info
+# Later should add checks for the input info
 #
 setClass("Reservoir",
          slots = c(name = "character",

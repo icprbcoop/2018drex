@@ -35,7 +35,7 @@
 # flows.ts.df <- potomac.ts.df
 #
 forecasts_flows_func <- function(date_sim,
-                                 demands.fc.df,                                  
+                                 demands.fc.df, # created by forecast_demands_func                                  
                                  sen_outflow_today,
                                  jrr_outflow_today,
                                  flows.ts.df){
@@ -53,11 +53,13 @@ forecasts_flows_func <- function(date_sim,
   # End for QAing  
   #
   # First we need to get some data
-  #   (potomac.data.df is a placeholder for data & fc sources)
+  #   potomac.data.df is a placeholder for data & fc sources
+  #     - but probably should be passing this to the function
   #   and we also make use of the values passed to the func
   flows.fc.df <- potomac.data.df %>%
+    # get today's flows and demands
     dplyr::filter(date_time == date_sim) %>%
-    dplyr::mutate(demand = first(demands.fc.df$demands_fc),
+    dplyr::mutate(demand = first(demands.fc.df$d_total),
                   sen_outflow = sen_outflow_today,
                   jrr_outflow = jrr_outflow_today,
                   jrr_outflow_lagged = -9999.0,
@@ -71,7 +73,7 @@ forecasts_flows_func <- function(date_sim,
                   lfalls_nat_fc9 = if_else(lfalls_nat_fc9 <= lfalls_nat,
                                            lfalls_nat_fc9, lfalls_nat*1.0),
                   lfalls_obs_fc9 = lfalls_nat_fc9 + sen_outflow +
-                    jrr_outflow - demands.fc.df$demands_fc[10]) %>%
+                    jrr_outflow - demands.fc.df$d_total[10]) %>%
                     
     dplyr::select(date_time, lfalls_nat, por_nat, demand, 
                   lfalls_adj, lfalls_obs, lfalls_obs_fc9,

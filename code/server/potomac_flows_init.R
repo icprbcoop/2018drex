@@ -26,7 +26,7 @@ potomac.data.df <- left_join(potomac.data.df,
                              demands.daily.df,
                              by = "date_time") %>%
   select(date_time,por_nat, below_por, 
-         lfalls_nat, demands_total_unrestricted)
+         lfalls_nat, d_total)
 #--------------------------------------------------------------------------------
 # Create and initialize dataframe of Potomac simulated flow time series
 #--------------------------------------------------------------------------------
@@ -43,10 +43,10 @@ potomac.data.df <- left_join(potomac.data.df,
 jrr_outflow_lagged_default <- 129
 potomac.ts.df0 <- potomac.data.df[1,] %>%
   mutate(lfalls_obs = lfalls_nat - 
-           demands_total_unrestricted,
+           d_total,
          lfalls_adj = lfalls_nat,
          lfalls_obs_fc9 = NA,
-         demand = demands_total_unrestricted,
+         demand = d_total,
          sen_outflow = sen.ts.df$outflow[1],
          jrr_outflow = jrr.ts.df$outflow[1],
          jrr_outflow_lagged = jrr_outflow_lagged_default) %>%
