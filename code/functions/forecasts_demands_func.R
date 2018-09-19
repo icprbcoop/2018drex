@@ -1,6 +1,7 @@
 #--------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------
 # A function that provides the necessary demand forecasts
+# (Right now its just reading the input demand time series)
 #   - it's being called by simulation_func, 
 #   - which is called by sim_main_func and sim_add_days_func
 #   - which is called by server.R

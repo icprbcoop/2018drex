@@ -4,7 +4,8 @@
 #
 
 dashboardPage(skin = "blue",
-  dashboardHeader(title = "WMA 2018 DREX"),
+  dashboardHeader(title = "WMA 2018 DREX",
+                  .list = NULL),
   dashboardSidebar(
     width = 250,
 

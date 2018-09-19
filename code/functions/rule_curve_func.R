@@ -26,6 +26,10 @@ rule_curve_func <- function(month_sim_in, stor, res){
   if(stor <= rc$stor3) {withdr_req <- rc$withdr3}
   if(stor <= rc$stor2) {withdr_req <- rc$withdr2}
   if(stor <= rc$stor1) {withdr_req <- rc$withdr1}
+  # if(stor > 9000) {withdr_req <- prod_max}
+  # if(stor <= 9000) {withdr_req <- 40}
+  # if(stor <= 4500) {withdr_req <- rc$withdr2}
+  # if(stor <= 1000) {withdr_req <- rc$withdr1}
   #
   return(withdr_req)
 }

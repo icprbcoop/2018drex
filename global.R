@@ -34,6 +34,7 @@ source("code/functions/estimate_need_func.R", local = TRUE)
 source("code/functions/sim_main_func.R", local = TRUE)
 source("code/functions/simulation_func.R", local = TRUE)
 source("code/functions/sim_add_days_func.R", local = TRUE)
+source("code/functions/rule_curve_func.R", local = TRUE)
 #--------------------------------------------------------------------------------
 # Make the reservoir objects and reservoir time series df's
 #--------------------------------------------------------------------------------

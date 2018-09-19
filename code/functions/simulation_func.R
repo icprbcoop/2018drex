@@ -36,8 +36,18 @@ simulation_func <- function(date_sim,
   #  - eventually, would use CO-OP demand models
   #  - also will depend on restriction status, ie res levels
   #
+  # date_sim <- date_start # for QAing only
+  # month_sim <- month(date_sim)
   demands.fc.df <- forecasts_demands_func(date_sim, demands.daily.df)
   # This df has a length of 15, with cols date_time, demands_fc
+  #
+  #-----------------------------------------------------------------------------
+  # First find wssc's pot & pat withdr according to pat RCs
+  month_sim <- month(date_sim)
+  d_today_wssc <- first(demands.fc.df$d_wssc)
+  pat.df <- ts$pat
+  pat_stor <- last(pat.df$storage)
+  pat_withdr_req <- rule_curve_func(month_sim, pat_stor, pat)
   #
   #-----------------------------------------------------------------------------
   # 1. Compute today's res releases assuming no water supply (ws) need
@@ -114,7 +124,7 @@ simulation_func <- function(date_sim,
   pat.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = pat, 
                                         res.ts.df = pat.ts.df,
-                                        withdr_req = 35,
+                                        withdr_req = pat_withdr_req,
                                         ws_rel_req = 0)
   occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = occ, 
