@@ -4,7 +4,9 @@
 #
 
 dashboardPage(skin = "blue",
-  dashboardHeader(title = "WMA 2018 DREX"),
+  dashboardHeader(title = "WMA 2018 DREX",
+                  tags$li("Todays date is...",
+                          class = "dropdown")),
   dashboardSidebar(
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")
