@@ -30,25 +30,47 @@ simulation_func <- function(date_sim,
                             ts){
   #
   #-----------------------------------------------------------------------------
-  # 0. First grab the demand forecasts
+  # 0. The demand forecasts
   #-----------------------------------------------------------------------------
   #  - right now just use values from input demand time series
   #  - eventually, would use CO-OP demand models
   #  - also will depend on restriction status, ie res levels
   #
-  # date_sim <- date_start # for QAing only
-  # month_sim <- month(date_sim)
   demands.fc.df <- forecasts_demands_func(date_sim, demands.daily.df)
-  # This df has a length of 15, with cols date_time, demands_fc
-  #
+  # This time series df has a length = 15, from today to 14 days in the future
+  # The columns are: date_time, d_fw_e, d_fw_w, d_fw_c, d_lw
+  #                  d_wa, d_wssc, d_total
   #-----------------------------------------------------------------------------
+  # Grab today's demands
+  d_today <- first(demands.fc.df)
+  month_sim <- month(date_sim)  
+  #
   # First find wssc's pot & pat withdr according to pat RCs
-  month_sim <- month(date_sim)
-  d_today_wssc <- first(demands.fc.df$d_wssc)
+  d_today_pat <- d_today$d_pat
   pat.df <- ts$pat
   pat_stor <- last(pat.df$storage)
-  pat_withdr_req <- rule_curve_func(month_sim, pat_stor, pat)
+  pat_withdr_req0 <- rule_curve_func(month_sim, pat_stor, pat)
+  wssc_pot_withdr0 <- d_today_pat - pat_withdr_req0
   #
+  #-----------------------------------------------------------------------------
+  # Next find FW's pot & occ withdr according to occ RCs
+  d_today_fw_e <- d_today$d_fw_e
+  d_today_fw_w <- d_today$d_fw_w
+  d_today_fw_c <- d_today$d_fw_c
+  occ.df <- ts$occ
+  occ_stor <- last(occ.df$storage)
+  occ_rc_withdr <- rule_curve_func(month_sim, occ_stor, occ)
+  occ_withdr_req0 <- case_when(
+    d_today_fw_e > occ_rc_withdr ~ occ_rc_withdr,
+    d_today_fw_e <= occ_rc_withdr ~ d_today_fw_e)
+  fw_pot_withdr0 <- d_today_fw_e + d_today_fw_w - occ_withdr_req0
+  #
+  #-----------------------------------------------------------------------------
+  # Next compute WA's pot withdr = WA's demand + FW Central SA demand
+  wa_pot_withdr0 <- d_today$d_wa + d_today_fw_c
+  #-----------------------------------------------------------------------------
+  # Next compute WA's pot withdr = WA's demand + FW Central SA demand
+  tot_pot_withdr0 <- wssc_pot_withdr0 + fw_pot_withdr0 + wa_pot_withdr0
   #-----------------------------------------------------------------------------
   # 1. Compute today's res releases assuming no water supply (ws) need
   #-----------------------------------------------------------------------------
@@ -67,15 +89,15 @@ simulation_func <- function(date_sim,
                                         res.ts.df = ts$jrr,
                                         withdr_req = 0,
                                         ws_rel_req = 0)
-  pat.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = pat,
-                                        res.ts.df = ts$pat,
-                                        withdr_req = 0,
-                                        ws_rel_req = 0)
+  pat.ts.df <- reservoir_ops_today_func(date_sim,
+                                        pat, # res
+                                        ts$pat, # res.ts.df
+                                        pat_withdr_req0, # withdr_req
+                                        0)  # ws_rel_req
   occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = occ,
                                         res.ts.df = ts$occ,
-                                        withdr_req = 0,
+                                        withdr_req = occ_withdr_req0,
                                         ws_rel_req = 0)
   #
   #-----------------------------------------------------------------------------
@@ -116,20 +138,21 @@ simulation_func <- function(date_sim,
                                         res.ts.df = sen.ts.df,
                                         withdr_req = 0,
                                         ws_rel_req = ws_need_0day)
-  jrr.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = jrr, 
+  jrr.ts.df <- reservoir_ops_today_func(date_sim,
+                                        jrr, 
                                         res.ts.df = jrr.ts.df,
                                         withdr_req = 0,
                                         ws_rel_req = ws_need_9day)
-  pat.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = pat, 
-                                        res.ts.df = pat.ts.df,
-                                        withdr_req = pat_withdr_req,
-                                        ws_rel_req = 0)
+  pat.ts.df <- reservoir_ops_today_func(date_sim,
+                                        pat, # res = pat
+                                        ts$pat, # pat.ts.df
+# why doesn't this work???              pat.ts.df,
+                                        pat_withdr_req0, # withdr_req
+                                        0)  # ws_rel_req
   occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
                                         res = occ, 
-                                        res.ts.df = occ.ts.df,
-                                        withdr_req = 60,
+                                        res.ts.df = ts$occ,
+                                        withdr_req = occ_withdr_req0,
                                         ws_rel_req = 0)
   #
   #-----------------------------------------------------------------------------
