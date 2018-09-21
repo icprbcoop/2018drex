@@ -5,7 +5,7 @@
 
 dashboardPage(skin = "blue",
   dashboardHeader(title = "WMA 2018 DREX",
-                  tags$li("Todays date is...",
+                  tags$li(textOutput("date_text"),
                           class = "dropdown")),
   dashboardSidebar(
     tags$head(

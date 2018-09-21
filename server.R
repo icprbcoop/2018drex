@@ -21,9 +21,14 @@ shinyServer(function(input, output, session) {
                        occ = ts$occ)
   #
   # Now allow a change of the simulation end date - to input$DREXtoday
-  observeEvent(input$run_main, {
-    ts <- sim_main_func(input$DREXtoday, ts)
+  
+  output$date_text  <- renderText({
+    paste("Today's date is", as.character(input$DREXtoday))
   })
+  # observeEvent(input$run_main, {
+  #   ts <- sim_main_func(input$DREXtoday, ts)
+  # })
+  
   #
   # Now allow the user to add chunks of days to the simulation
   observeEvent(input$run_add, {
