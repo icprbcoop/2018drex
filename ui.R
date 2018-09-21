@@ -116,30 +116,32 @@ actionButton("write_ts",
         withTags(
           html(
             body(
-              div(class="square",
-                  div(class="content",
-                      div(class="table",
-                          div(class="table-cell",
-                              p("precipitation deficit")
-                          )))),
-              div(class="square",
-                  div(class="content",
-                      div(class="table",
-                          div(class="table-cell",
-                              p("ground water wells")
-                          )))),
-              div(class="square",
-                  div(class="content",
-                      div(class="table",
-                          div(class="table-cell",
-                              p("reservoir flow")
-                          )))),
-              div(class="square",
-                  div(class="content",
-                      div(class="table",
-                          div(class="table-cell",
-                              p("streamflow")
-                          ))))
+              div(class="topbox",
+                  div(class="square",
+                      div(class="content",
+                          div(class="table",
+                              div(class="table-cell",
+                                  p("precipitation deficit")
+                              )))),
+                  div(class="square",
+                      div(class="content",
+                          div(class="table",
+                              div(class="table-cell",
+                                  p("ground water wells")
+                              )))),
+                  div(class="square",
+                      div(class="content",
+                          div(class="table",
+                              div(class="table-cell",
+                                  p("reservoir flow")
+                              )))),
+                  div(class="square",
+                      div(class="content",
+                          div(class="table",
+                              div(class="table-cell",
+                                  p("streamflow")
+                              ))))
+              ) #end of topbox 
               
               
             ))
@@ -147,30 +149,32 @@ actionButton("write_ts",
         
         column(
           width = 6,
-          div(class="square",
-              div(class="content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p("precipitation deficit")
-                      )))),
-          div(class="square",
-              div(class="content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p("ground water wells")
-                      )))),
-          div(class="square",
-              div(class="content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p("reservoir flow")
-                      )))),
-          div(class="square",
-              div(class="content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p("streamflow")
-                      ))))
+          div(class="topbox",
+            div(class="square",
+                div(class="content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p("precipitation deficit")
+                        )))),
+            div(class="square",
+                div(class="content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p("ground water wells")
+                        )))),
+            div(class="square",
+                div(class="content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p("reservoir flow")
+                        )))),
+            div(class="square",
+                div(class="content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p("streamflow")
+                        ))))
+          ) #end of topbox 
         # box(
         #   title = "MARYLAND DROUGHT STATUS",
         #   width = NULL,
