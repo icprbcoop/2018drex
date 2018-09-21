@@ -4,7 +4,7 @@ li{
   font:"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 .topbox {
-  width:110px;
+  width:250px;
   height:110px;
 }
 .square {
@@ -22,6 +22,7 @@ li{
     height:80%; /* = 100% - 2*10% padding */
     width:90%; /* = 100% - 2*5% padding */
     padding: 10% 5%;
+    /*background-color: blue;*/
 }
 
 .table{
