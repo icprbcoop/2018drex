@@ -118,56 +118,60 @@ actionButton("write_ts",
           withTags(
             html(
               body(
-                div(class="topbox",
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("precipitation deficit")
-                                )))),
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("ground water wells")
-                                )))),
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("reservoir flow")
-                                )))),
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("streamflow")
-                                )))),
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("precipitation deficit")
-                                )))),
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("ground water wells")
-                                )))),
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("reservoir flow")
-                                )))),
-                    div(class="square",
-                        div(class="content",
-                            div(class="table",
-                                div(class="table-cell",
-                                    p("streamflow")
-                                ))))
-                ) #end of topbox 
+                div(class="topbox_main",
+                    div(class="topbox1",
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("precipitation deficit")
+                                    )))), 
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("ground water wells")
+                                    )))),
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("reservoir flow")
+                                    )))),
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("streamflow")
+                                    ))))
+                    ), #end of topbox1
+                    div(class="topbox2",
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("precipitation deficit")
+                                    )))),
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("ground water wells")
+                                    )))),
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("reservoir flow")
+                                    )))),
+                        div(class="square",
+                            div(class="content",
+                                div(class="table",
+                                    div(class="table-cell",
+                                        p("streamflow")
+                                    ))))
+                    ) #end of topbox2
+                ) #end of topbox-main
               
               
             ))

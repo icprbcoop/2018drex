@@ -1,11 +1,24 @@
 li{
   color: white;
-  font-size: 20px;
+  font-size: 30px;
   font:"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-.topbox {
+
+.topbox_main{
   width:250px;
-  height:110px;
+}
+
+.topbox1 {
+  float: left;
+  width:125px;
+  padding-bottom : 40%;
+
+}
+.topbox2 {
+  float: right;
+  width:125px;
+  padding-bottom : 40%;
+ 
 }
 .square {
     float:left;
