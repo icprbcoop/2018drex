@@ -16,7 +16,7 @@
 #******************************************************************
 # ts = list(sen.ts.df, ..., potomac.ts.df) - with today added
 #--------------------------------------------------------------------------------
-simulation_func <- function(date_sim,
+simulation_func <- function(date_sim0,
                             mos_0day,
                             mos_9day,
                             demands.daily.df,
@@ -34,7 +34,7 @@ simulation_func <- function(date_sim,
   #  - eventually, would use CO-OP demand models
   #  - also will depend on restriction status, ie res levels
   #
-  demands.fc.df <- forecasts_demands_func(date_sim, demands.daily.df)
+  demands.fc.df <- forecasts_demands_func(date_sim0, demands.daily.df)
   # This time series df has a length = 15, from today to 14 days hence
   # It is a placeholder for all the supplier total demand fcs
   # The demands.daily.df columns are: date_time, d_fw_e, d_fw_w, d_fw_c,
@@ -47,9 +47,9 @@ simulation_func <- function(date_sim,
   d_today <- first(demands.fc.df)
   d_1day <- demands.fc.df[2,]
   d_9day <- demands.fc.df[10,]
-  month_today <- month(date_sim)  
-  month_1day <- month(date_sim + 1)
-  month_9day <- month(date_sim + 9)
+  month_today <- month(date_sim0)  
+  month_1day <- month(date_sim0 + 1)
+  month_9day <- month(date_sim0 + 9)
   #
   #-----------------------------------------------------------------------------
   # Estimate Potomac & reservoir withdrawals assuming no ws releases/loadshifts
@@ -98,26 +98,26 @@ simulation_func <- function(date_sim,
   #  - this will provide today's natural sen release to
   #     calculate lfalls_obs without ws releases.
   #
-  sen.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = sen, 
-                                        res.ts.df = ts$sen,
-                                        withdr_req = 0,
-                                        ws_rel_req = 0) 
-  jrr.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = jrr,
-                                        res.ts.df = ts$jrr,
-                                        withdr_req = 0,
-                                        ws_rel_req = 0)
-  pat.ts.df <- reservoir_ops_today_func(date_sim,
+  sen.ts.df <- reservoir_ops_today_func(date_sim0,
+                                        sen, 
+                                        ts$sen,
+                                        0,
+                                        0) 
+  jrr.ts.df <- reservoir_ops_today_func(date_sim0,
+                                        jrr,
+                                        ts$jrr,
+                                        0,
+                                        0)
+  pat.ts.df <- reservoir_ops_today_func(date_sim0,
                                         pat, # res
                                         ts$pat, # res.ts.df
                                         pat_withdr_req0, # withdr_req
                                         0)  # ws_rel_req
-  occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = occ,
-                                        res.ts.df = ts$occ,
-                                        withdr_req = occ_withdr_req0,
-                                        ws_rel_req = 0)
+  occ.ts.df <- reservoir_ops_today_func(date_sim0,
+                                        occ,
+                                        ts$occ,
+                                        occ_withdr_req0,
+                                        0)
   #
   #-----------------------------------------------------------------------------
   # 2. Do prelim update of flows in potomac.ts.df 
@@ -126,13 +126,15 @@ simulation_func <- function(date_sim,
   #    - in this step, assuming no ws releases
   #-----------------------------------------------------------------------------
   #
-  potomac.ts.df <- forecasts_flows_func(date_sim = date_sim,
-                                        demands.fc.df = demands.fc.df,
-                                        sen_outflow_today = last(sen.ts.df$outflow),
-                                        jrr_outflow_today = last(jrr.ts.df$outflow),
-                                        pat_withdr_today = last(pat.ts.df$withdr),
-                                        need_0day = 0,
-                                        flows.ts.df = ts$flows)
+  qa1 <- 1111.1
+  potomac.ts.df <- forecasts_flows_func(date_sim0,
+                                        qa1,
+                                        demands.fc.df,
+                                        last(sen.ts.df$outflow),
+                                        last(jrr.ts.df$outflow),
+                                        last(pat.ts.df$withdr),
+                                        0,
+                                        ts$flows)
   # Grab some results for use as input in next step
   lfalls_obs_fc0_no_ws <- last(potomac.ts.df$lfalls_obs)
   lfalls_obs_fc1_no_ws <- last(potomac.ts.df$lfalls_obs_fc1)
@@ -159,27 +161,27 @@ simulation_func <- function(date_sim,
   #-----------------------------------------------------------------------------
   #   There are no withdrawals from Sen or JRR
   #
-  sen.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = sen, 
-                                        res.ts.df = sen.ts.df,
-                                        withdr_req = 0,
-                                        ws_rel_req = ws_need_1day)
-  jrr.ts.df <- reservoir_ops_today_func(date_sim,
+  sen.ts.df <- reservoir_ops_today_func(date_sim0,
+                                        sen, 
+                                        sen.ts.df,
+                                        0,
+                                        ws_need_1day)
+  jrr.ts.df <- reservoir_ops_today_func(date_sim0,
                                         jrr, 
-                                        res.ts.df = jrr.ts.df,
-                                        withdr_req = 0,
-                                        ws_rel_req = ws_need_9day)
-  pat.ts.df <- reservoir_ops_today_func(date_sim,
+                                        jrr.ts.df,
+                                        0,
+                                        ws_need_9day)
+  pat.ts.df <- reservoir_ops_today_func(date_sim0,
                                         pat, # res = pat
                                         ts$pat, # pat.ts.df
 # why doesn't this work???              pat.ts.df,
                                         pat_withdr_req0 + ws_need_0day, 
                                         0)  # ws_rel_req
-  occ.ts.df <- reservoir_ops_today_func(date_sim = date_sim,
-                                        res = occ, 
-                                        res.ts.df = ts$occ,
-                                        withdr_req = occ_withdr_req0,
-                                        ws_rel_req = 0)
+  occ.ts.df <- reservoir_ops_today_func(date_sim0,
+                                        occ, 
+                                        ts$occ,
+                                        occ_withdr_req0,
+                                        0)
   #
   #-----------------------------------------------------------------------------
   # 5. Do final update of flows in potomac.ts.df
@@ -196,13 +198,15 @@ simulation_func <- function(date_sim,
   # demands.fc.df <- demands.fc.df %>%
   #   mutate(withdr_pot_wssc = d_wssc - last(pat.ts.df$withdr))
   #
-  potomac.ts.df <- forecasts_flows_func(date_sim = date_sim,
-                                        demands.fc.df = demands.fc.df,
-                                        sen_outflow_today = last(sen.ts.df$outflow),
-                                        jrr_outflow_today = last(jrr.ts.df$outflow),
-                                        pat_withdr_today = last(pat.ts.df$withdr),
-                                        need_0day = ws_need_0day,
-                                        flows.ts.df = potomac.ts.df)
+  qa2 <- 22222.2
+  potomac.ts.df <- forecasts_flows_func(date_sim0,
+                                        qa1,
+                                        demands.fc.df,
+                                        last(sen.ts.df$outflow),
+                                        last(jrr.ts.df$outflow),
+                                        last(pat.ts.df$withdr),
+                                        ws_need_0day,
+                                        potomac.ts.df)
   # Send the results back to the set of reactive values, ts:
   ts$sen <- sen.ts.df
   ts$jrr <- jrr.ts.df
