@@ -32,7 +32,7 @@
 # date_sim <- as.Date("1930-03-15")
 # flows.ts.df <- potomac.ts.df
 #
-forecasts_flows_func <- function(date_sim, qaval,
+forecasts_flows_func <- function(date_sim, qavald, qavaln,
                                  demands.fc.df, # created by forecast_demands_func                                  
                                  sen_outflow_today,
                                  jrr_outflow_today,
@@ -62,7 +62,9 @@ forecasts_flows_func <- function(date_sim, qaval,
   #   - and we also make use of the values passed to the func
   flows.fc.df <- potomac.data.df %>%
     dplyr::filter(date_time == date_sim) %>%
-    dplyr::mutate(qa1 = qaval,
+#    dplyr::mutate(qa1 = as.Date(qaval, origin = "1970-01-01"),
+    dplyr::mutate(qad = qavald,
+                  qav = qavaln,
                   withdr_pot_wa = demands.fc.df$d_fw_c[1] +
                                   demands.fc.df$d_wa[1],
 #                  withdr_pot_wssc = demands.fc.df$withdr_pot_wssc[1],
@@ -107,7 +109,7 @@ forecasts_flows_func <- function(date_sim, qaval,
                                    sen_outflow - sen_outflow_lagged
     ) %>% # end of mutate
     #------------------------------------------------------------------------------
-    dplyr::select(date_time, qa1, lfalls_nat, 
+    dplyr::select(date_time, qad, qav, lfalls_nat, 
                   por_nat, below_por, demand, 
                   lfalls_adj, lfalls_obs, 
                   lfalls_obs_fc9, lfalls_obs_fc1,

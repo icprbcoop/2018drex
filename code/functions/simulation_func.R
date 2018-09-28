@@ -126,9 +126,11 @@ simulation_func <- function(date_sim0,
   #    - in this step, assuming no ws releases
   #-----------------------------------------------------------------------------
   #
-  qa1 <- 1111.1
+  qad1 <- as.Date(last(pat.ts.df$date_time))
+  qav1 <- 111.1
   potomac.ts.df <- forecasts_flows_func(date_sim0,
-                                        qa1,
+                                        qad1,
+                                        qav1,
                                         demands.fc.df,
                                         last(sen.ts.df$outflow),
                                         last(jrr.ts.df$outflow),
@@ -198,9 +200,12 @@ simulation_func <- function(date_sim0,
   # demands.fc.df <- demands.fc.df %>%
   #   mutate(withdr_pot_wssc = d_wssc - last(pat.ts.df$withdr))
   #
-  qa2 <- 22222.2
+  qad2 <- as.Date(last(occ.ts.df$date_time))
+  qad3 <- as.Date(last(potomac.ts.df$date_time))
+  qav2 <- 10.9
   potomac.ts.df <- forecasts_flows_func(date_sim0,
-                                        qa1,
+                                        qad2,
+                                        qav2,
                                         demands.fc.df,
                                         last(sen.ts.df$outflow),
                                         last(jrr.ts.df$outflow),

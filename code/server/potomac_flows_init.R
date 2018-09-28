@@ -44,7 +44,8 @@ sen_outflow_lagged_default <- 9
 sen_other <- sen_other_watershed_flows # from parameters.R
 potomac.ts.df0 <- potomac.data.df[1,] %>%
   mutate(lfalls_adj = lfalls_nat,
-         qa1 = 9999.9,
+         qad = date_start,
+         qav = 9999.9,
          lfalls_obs_fc9 = 1000,
          lfalls_obs_fc1 = 1000,
          demand = 300, # delete this later
@@ -60,7 +61,7 @@ potomac.ts.df0 <- potomac.data.df[1,] %>%
          need_0day = 0.0,
          withdr_pot_wa = 100,
          lfalls_obs = lfalls_nat - 300) %>%
-  select(date_time, qa1, lfalls_nat, por_nat, below_por, demand, 
+  select(date_time, qad, qav, lfalls_nat, por_nat, below_por, demand, 
          lfalls_adj, lfalls_obs, 
          lfalls_obs_fc9, lfalls_obs_fc1,
          sen_outflow, sen_outflow_lagged, sen_watershed, 
