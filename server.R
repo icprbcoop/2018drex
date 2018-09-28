@@ -1,12 +1,15 @@
-#------------------------------------------------------------------
-#------------------------------------------------------------------
-# First, server defines reactive values and uses 3 observeEvent's
-#------------------------------------------------------------------
-#------------------------------------------------------------------
+#******************************************************************
+# server.R defines reactive values & uses observeEvent to do simulation,
+# then produces output
+#******************************************************************
 shinyServer(function(input, output, session) {
-  #
-  # There's probably an easier way to do this!
+  #----------------------------------------------------------------
+  #----------------------------------------------------------------
+  # First, do the simulation
+  #----------------------------------------------------------------
+  #----------------------------------------------------------------
   # Run the main simulation to the hard-coded input, date_today
+  #    - ts here is the precursor of the set of reactive values
   ts0 <- list(sen = sen.ts.df0, 
               jrr = jrr.ts.df0, 
               pat = pat.ts.df0,
@@ -21,7 +24,8 @@ shinyServer(function(input, output, session) {
                        pat = ts$pat,
                        occ = ts$occ)
   #
-  # Allow the user to re-run the simulation - say, if end date changes
+  # Allow the user to re-run the simulation 
+  #   - say, if end date (aka DREXtoday) changes
   observeEvent(input$run_main, {
     ts <- sim_main_func(input$DREXtoday, ts)
   })
@@ -41,7 +45,7 @@ shinyServer(function(input, output, session) {
   })
   #------------------------------------------------------------------
   #------------------------------------------------------------------
-  # Second, server creates graphs and values for boxes to be displayed
+  # Second, creates graphs and values for boxes for display
   #------------------------------------------------------------------
   #------------------------------------------------------------------
   # All of these below probably should be done in sub-scripts:

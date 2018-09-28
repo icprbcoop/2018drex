@@ -18,6 +18,11 @@ date_today <- as.Date("1930-05-01")
 mgd_to_cfs <- 1.547
 #
 #--------------------------------------------------------------------------------
+# Miscellaneous values - some are placeholders to be refined later
+#--------------------------------------------------------------------------------
+sen_other_watershed_flows <- 30 # wwtp and other land area watershed flows, MGD
+#
+#--------------------------------------------------------------------------------
 # Reservoir rule curves
 #--------------------------------------------------------------------------------
 # Maybe eventually these should be read from csv files

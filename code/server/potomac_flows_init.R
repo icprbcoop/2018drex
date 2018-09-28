@@ -1,9 +1,7 @@
-#------------------------------------------------------------------
-#------------------------------------------------------------------
+#******************************************************************
 # Create two dataframes of Potomac River flows inflow & outflow data
 #    and Potomac River simulated flow time series
-#------------------------------------------------------------------
-#------------------------------------------------------------------
+#******************************************************************
 #
 #--------------------------------------------------------------------------------
 # Create dataframe of the data needed to compute Potomac flows 
@@ -26,7 +24,8 @@ potomac.data.df <- left_join(potomac.data.df,
                              demands.daily.df,
                              by = "date_time") %>%
   select(date_time,por_nat, below_por, 
-         lfalls_nat, d_total)
+#         lfalls_nat, d_total)
+         lfalls_nat)
 #--------------------------------------------------------------------------------
 # Create and initialize dataframe of Potomac simulated flow time series
 #--------------------------------------------------------------------------------
@@ -41,18 +40,32 @@ potomac.data.df <- left_join(potomac.data.df,
 #   - jrr_outflow_lagged
 #--------------------------------------------------------------------------------
 jrr_outflow_lagged_default <- 129
+sen_outflow_lagged_default <- 9
+sen_other <- sen_other_watershed_flows # from parameters.R
 potomac.ts.df0 <- potomac.data.df[1,] %>%
-  mutate(lfalls_obs = lfalls_nat - 
-           d_total,
-         lfalls_adj = lfalls_nat,
-         lfalls_obs_fc9 = NA,
-         demand = d_total,
-         sen_outflow = sen.ts.df$outflow[1],
-         jrr_outflow = jrr.ts.df$outflow[1],
-         jrr_outflow_lagged = jrr_outflow_lagged_default) %>%
-  select(date_time, lfalls_nat, por_nat, demand, 
-         lfalls_adj, lfalls_obs, lfalls_obs_fc9,
-         sen_outflow, jrr_outflow, jrr_outflow_lagged)
+  mutate(lfalls_adj = lfalls_nat,
+         lfalls_obs_fc9 = 1000,
+         lfalls_obs_fc1 = 1000,
+         demand = 300, # delete this later
+         sen_outflow = 0.0, # represents reservoir outflow
+         sen_outflow_lagged = sen_outflow_lagged_default, # one-day lag
+         sen_watershed = sen_other, # represents other seneca cr watershed flows
+         jrr_outflow = 120,
+         jrr_outflow_lagged = jrr_outflow_lagged_default,
+         # creating Potomac withdrawals with reasonable start day values:
+         withdr_pot_fw = 100,
+         withdr_pot_fw_lagged = 100,
+         withdr_pot_wssc = 100,
+         need_0day = 0.0,
+         withdr_pot_wa = 100,
+         lfalls_obs = lfalls_nat - 300) %>%
+  select(date_time, lfalls_nat, por_nat, below_por, demand, 
+         lfalls_adj, lfalls_obs, 
+         lfalls_obs_fc9, lfalls_obs_fc1,
+         sen_outflow, sen_outflow_lagged, sen_watershed, 
+         jrr_outflow, jrr_outflow_lagged,
+         withdr_pot_fw, withdr_pot_fw_lagged,
+         withdr_pot_wssc, need_0day, withdr_pot_wa)
 potomac.ts.df <- potomac.ts.df0
 #
 # Make the 9-day flow forecast, using our old empirical eq., also used in PRRISM
