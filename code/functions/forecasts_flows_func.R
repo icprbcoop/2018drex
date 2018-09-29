@@ -38,7 +38,7 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
                                  jrr_outflow_today,
                                  pat_withdr_today,
                                  need_0day,
-                                 flows.ts.df){
+                                 ts){
   #------------------------------------------------------------------------------
   # Get data
   #------------------------------------------------------------------------------
@@ -50,6 +50,17 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
   # For some reason the next 2 lines don't work!!!
   # flows.dayold <- data.frame(flows.ts.df) %>%
   #   dplyr::filter(date_time >= date_sim - 9, date_time < date_sim)
+  #
+  flows.ts.df <- ts$flows  
+  # Trim the flow.ts.df to make sure the last row is yesterday
+  flows.ts.df <- data.frame(flows.ts.df) %>%
+    dplyr::filter(date_time < date_sim)
+  #
+  # Get the last row of the flows.ts.df, "yesterday", 
+  #    and read its values:
+  yesterday.df <- tail(flows.ts.df,1)
+  yesterday_date <- yesterday.df[1,1] # yesterday's date
+  #
   flows.dayold <- tail(flows.ts.df, 9)
   jrr_outflow_lagged_today <- flows.dayold$jrr_outflow[1]
   sen_outflow_yesterday <- flows.dayold$sen_outflow[9]
@@ -60,8 +71,10 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
   # Grab today's flows from potomac.data.df - a placeholder for flow data sources
   #   - but probably should be passing this to the function
   #   - and we also make use of the values passed to the func
-  flows.fc.df <- potomac.data.df %>%
-    dplyr::filter(date_time == date_sim) %>%
+#  newrow.df <- potomac.data.df %>%
+  newrow.df <- subset(potomac.data.df, 
+                      date_time == yesterday_date + 1) %>%
+#    dplyr::filter(date_time == date_sim) %>%
 #    dplyr::mutate(qa1 = as.Date(qaval, origin = "1970-01-01"),
     dplyr::mutate(qad = qavald,
                   qav = qavaln,
@@ -120,9 +133,9 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
                   withdr_pot_fw, withdr_pot_fw_lagged)
   # Add the fc row for today to potomac.ts.df
   #   first deleting any preliminary values in the df
-  flows.ts.df <- data.frame(flows.ts.df) %>%
-    dplyr::filter(date_time < date_sim)
-  flows.ts.df <- rbind(flows.ts.df, flows.fc.df)
+  # flows.ts.df <- data.frame(flows.ts.df) %>%
+  #   dplyr::filter(date_time < date_sim)
+  flows.ts.df <- rbind(flows.ts.df, newrow.df)
   #
   # Finally correct value of lfalls_obs
   #   - need the lagged impact of the jrr release:
@@ -133,5 +146,6 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
   #                 lfalls_obs = lfalls_adj - demand
   #                   )
   #
-  return(flows.ts.df)
+  ts$flows <- flows.ts.df
+  return(ts)
 }

@@ -128,7 +128,7 @@ simulation_func <- function(date_sim0,
   #
   qad1 <- as.Date(last(pat.ts.df$date_time))
   qav1 <- 111.1
-  potomac.ts.df <- forecasts_flows_func(date_sim0,
+  ts <- forecasts_flows_func(date_sim0,
                                         qad1,
                                         qav1,
                                         demands.fc.df,
@@ -136,8 +136,9 @@ simulation_func <- function(date_sim0,
                                         last(jrr.ts.df$outflow),
                                         last(pat.ts.df$withdr),
                                         0,
-                                        ts$flows)
+                                        ts)
   # Grab some results for use as input in next step
+  potomac.ts.df <- ts$flows
   lfalls_obs_fc0_no_ws <- last(potomac.ts.df$lfalls_obs)
   lfalls_obs_fc1_no_ws <- last(potomac.ts.df$lfalls_obs_fc1)
   lfalls_obs_fc9_no_ws <- last(potomac.ts.df$lfalls_obs_fc9)
@@ -184,6 +185,9 @@ simulation_func <- function(date_sim0,
                                         ts$occ,
                                         occ_withdr_req0,
                                         0)
+  sen_out <- last(sen.ts.df$outflow)
+  jrr_out <- last(jrr.ts.df$outflow)
+  pat_withdr <- last(pat.ts.df$withdr)
   #
   #-----------------------------------------------------------------------------
   # 5. Do final update of flows in potomac.ts.df
@@ -202,16 +206,20 @@ simulation_func <- function(date_sim0,
   #
   qad2 <- as.Date(last(occ.ts.df$date_time))
   qad3 <- as.Date(last(potomac.ts.df$date_time))
+  df <- ts$flows
+  qad4 <- as.Date(last(df$date_time))
+  qad5 <- date_sim0
   qav2 <- 10.9
-  potomac.ts.df <- forecasts_flows_func(date_sim0,
-                                        qad2,
+  ts <- forecasts_flows_func(date_sim0,
+                                        qad5,
                                         qav2,
                                         demands.fc.df,
-                                        last(sen.ts.df$outflow),
-                                        last(jrr.ts.df$outflow),
-                                        last(pat.ts.df$withdr),
+                                        sen_out,
+                                        jrr_out,
+                                        pat_withdr,
                                         ws_need_0day,
-                                        potomac.ts.df)
+                                        ts)
+  potomac.ts.df <- ts$flows
   # Send the results back to the set of reactive values, ts:
   ts$sen <- sen.ts.df
   ts$jrr <- jrr.ts.df
