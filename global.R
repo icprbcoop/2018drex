@@ -67,6 +67,13 @@ plot.height <- "340px"
 plot.width <- "95%"
 #------------------------------------------------------------------------------
 
+#variables for css color inputs to squares
+green <- "background-color:green"
+yellow <- "background-color:yellow"
+orange <- "background-color:orange"
+red <- "background-color:red"
+navy <- "background-color:navy"
+black <- "background-color: black"
 
 
 
