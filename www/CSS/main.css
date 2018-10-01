@@ -1,8 +1,8 @@
-li{
+/*li{
   color: white;
   font-size: 30px;
   font:"Helvetica Neue",Helvetica,Arial,sans-serif;
-}
+}*/
 
 .topbox_main{
   width:250px;
@@ -32,9 +32,10 @@ li{
 
 .content {
     position:absolute;
-    height:80%; /* = 100% - 2*10% padding */
-    width:90%; /* = 100% - 2*5% padding */
-    padding: 10% 5%;
+    font-size:12px;
+    /*height:80%; 
+    width:90%;
+    padding: 10% 5%;8?
     /*background-color: blue;*/
 }
 

@@ -6,7 +6,8 @@
 dashboardPage(skin = "blue",
   dashboardHeader(title = "WMA 2018 DREX",
                   tags$li(textOutput("date_text"),
-                          class = "dropdown")),
+                          class = "dropdown")
+                  ),
   dashboardSidebar(
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")
