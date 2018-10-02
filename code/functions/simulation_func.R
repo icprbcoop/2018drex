@@ -54,30 +54,26 @@ simulation_func <- function(date_sim0,
   #-----------------------------------------------------------------------------
   # Estimate Potomac & reservoir withdrawals assuming no ws releases/loadshifts
   #
-  # First find wssc's pot & pat withdr according to pat RCs
+  # First find wssc's pat withdr according to pat RCs
   #   - based on today's demand fc
   # (Need to add checks!)
-  # d_today_pat <- d_today$d_wssc
   pat.df <- ts$pat
   pat_stor <- last(pat.df$storage)
   pat_withdr_req0 <- rule_curve_func(month_today, pat_stor, pat)
-  # wssc_pot_withdr0 <- d_today_pat - pat_withdr_req0
   #
   #-----------------------------------------------------------------------------
-  # Next find FW's pot & occ withdr according to occ RCs
+  # Next find FW's occ withdr according to occ RCs
   #   - based on tomorrow's demand fc
   # (Need to add a lot of checks!)
   d_1day_fw_e <- d_1day$d_fw_e # eastern sa is served by Griffith/Occoquan
-  # d_1day_fw_w <- d_1day$d_fw_w # western sa is served by Corbalis/Potomac
-  # d_1day_lw <- d_1day$d_lw # FW serves LW from Corbalis
-  # d_today_fw_c <- d_today$d_fw_c # central sa (Falls Church) is served by Aqueduct
   occ.df <- ts$occ
   occ_stor <- last(occ.df$storage)
   occ_withdr_rc <- rule_curve_func(month_today, occ_stor, occ)
+  # don't withdraw more than the eastern sa demand
+  #  (no load-shifting yet)
   occ_withdr_req0 <- case_when(
     d_1day_fw_e > occ_withdr_rc ~ occ_withdr_rc,
     d_1day_fw_e <= occ_withdr_rc ~ d_1day_fw_e)
-  # fw_pot_withdr0 <- d_1day_fw_e + d_1day_fw_w + d_1day_lw - occ_withdr_req0
   #
   #-----------------------------------------------------------------------------
   # Finally compute WA's pot withdr = WA's demand + FW Central SA demand
@@ -85,7 +81,7 @@ simulation_func <- function(date_sim0,
   # wa_pot_withdr0 <- d_today$d_wa + d_today_fw_c
   #
   # Take the 15-day demand df and estimate Potomac withdrawals each day
-  # For now, use today's RC withdrawal for all of the 15 days of estimates
+  # At this step, use today's RC withdrawal for all of the 15 days of estimates
   demands.fc.df <- demands.fc.df %>%
     mutate(withdr_pot_wa = d_wa + d_fw_c,
            withdr_pot_wssc = d_wssc - pat_withdr_req0,
@@ -127,7 +123,7 @@ simulation_func <- function(date_sim0,
   #-----------------------------------------------------------------------------
   #
   qad1 <- as.Date(last(pat.ts.df$date_time))
-  qav1 <- 111.1
+  qav1 <- 222.2
   ts <- forecasts_flows_func(date_sim0,
                                         qad1,
                                         qav1,
@@ -209,7 +205,7 @@ simulation_func <- function(date_sim0,
   df <- ts$flows
   qad4 <- as.Date(last(df$date_time))
   qad5 <- date_sim0
-  qav2 <- 10.9
+  qav2 <- ws_need_0day
   ts <- forecasts_flows_func(date_sim0,
                                         qad5,
                                         qav2,

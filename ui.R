@@ -59,13 +59,13 @@ actionButton("write_ts",
         box(
           title = "Potomac River flow",
           width = NULL,
-          plotOutput("potomacFlows", height = "280px")
+          plotOutput("potomacFlows", height = "240px")
           )
         ),
       column(
         width = 4,
 #        infoBoxOutput("sim_today", width = NULL),
-        valueBoxOutput("sim_today", width = NULL),
+#        valueBoxOutput("sim_today", width = NULL),
         valueBoxOutput("por_flow", width = NULL),
         valueBoxOutput("demand", width = NULL),
 #        valueBoxOutput("lfalls_adj", width = NULL),

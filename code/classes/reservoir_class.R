@@ -8,7 +8,8 @@
 setClass("Reservoir",
          slots = c(name = "character",
                    capacity = "numeric", # MG
-                   prod_max = "numeric", # MGD
+                   withdr_max = "numeric", # MGD
+                   withdr_min = "numeric", # MGD
                    rc = "data.frame", # the rule curves
                    # rc specifies storage thresholds, MG, 
                    #   and withdrawals, MGD

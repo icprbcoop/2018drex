@@ -72,12 +72,11 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
   #   - but probably should be passing this to the function
   #   - and we also make use of the values passed to the func
 #  newrow.df <- potomac.data.df %>%
+#    dplyr::filter(date_time == date_sim) %>%  
   newrow.df <- subset(potomac.data.df, 
                       date_time == yesterday_date + 1) %>%
-#    dplyr::filter(date_time == date_sim) %>%
-#    dplyr::mutate(qa1 = as.Date(qaval, origin = "1970-01-01"),
-    dplyr::mutate(qad = qavald,
-                  qav = qavaln,
+    dplyr::mutate(qad = qavald, # a slot for debugging dates
+                  qav = qavaln, # a slot for debugging values
                   withdr_pot_wa = demands.fc.df$d_fw_c[1] +
                                   demands.fc.df$d_wa[1],
 #                  withdr_pot_wssc = demands.fc.df$withdr_pot_wssc[1],

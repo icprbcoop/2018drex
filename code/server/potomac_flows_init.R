@@ -44,8 +44,8 @@ sen_outflow_lagged_default <- 9
 sen_other <- sen_other_watershed_flows # from parameters.R
 potomac.ts.df0 <- potomac.data.df[1,] %>%
   mutate(lfalls_adj = lfalls_nat,
-         qad = date_start,
-         qav = 9999.9,
+         qad = date_start,  # a slot for debugging dates
+         qav = 9999.9,  # a slot for debugging values
          lfalls_obs_fc9 = 1000,
          lfalls_obs_fc1 = 1000,
          demand = 300, # delete this later

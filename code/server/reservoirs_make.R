@@ -22,39 +22,43 @@ inflows.df <- flows.daily.mgd.df %>%
 # Load the basic reservoir data and inflow time series
 #------------------------------------------------------------------
 # Later want to read this from /input/parameters/*.R
-sen_cap <- 4000
-sen_stor0 <- 3000
-sen_flowby <- 10
-sen_withdr_req0 <- 5
-sen_prod_max <- 0
-sen_ws_rel_req0 <- 3
+sen_cap <- 4000.0
+sen_stor0 <- 3000.0
+sen_flowby <- 10.0
+sen_withdr_req0 <- 5.0
+sen_withdr_max <- 2.0
+sen_withdr_min <- 1.0
+sen_ws_rel_req0 <- 3.0
 sen.inflows.df <- inflows.df %>%
   select(date_time, inflows = lsen_in)
 #
-jrr_cap <- 16000
-jrr_stor0 <- 15000
-jrr_flowby <- 120
-jrr_withdr_req0 <- 120
-jrr_prod_max <- 0
-jrr_ws_rel_req0 <- 300
+jrr_cap <- 16000.0
+jrr_stor0 <- 15000.0
+jrr_flowby <- 120.0
+jrr_withdr_req0 <- 120.0
+jrr_withdr_max <- 2.0
+jrr_withdr_min <- 1.0
+jrr_ws_rel_req0 <- 300.0
 jrr.inflows.df <- inflows.df %>%
   select(date_time, inflows = jrr_in)
 #
-pat_cap <- 10000
-pat_stor0 <- 10000
-pat_flowby <- 10 # still bugs in res_ops_today - NA's when this was 120
-pat_withdr_req0 <- 40
-pat_prod_max <- 65
-pat_ws_rel_req0 <- 0
+pat_cap <- 10000.0
+pat_stor0 <- 10000.0
+pat_flowby <- 10.0 # still bugs in res_ops_today - NA's when this was 120
+pat_withdr_req0 <- 40.0
+pat_withdr_max <- 65.0
+pat_withdr_min <- 1.0
+pat_ws_rel_req0 <- 0.0
 pat.inflows.df <- inflows.df %>%
   select(date_time, inflows = pat_in)
 #
-occ_cap <- 8000
-occ_stor0 <- 8000
-occ_flowby <- 0
-occ_withdr_req0 <- 70
-occ_prod_max <- 120
-occ_ws_rel_req0 <- 0
+occ_cap <- 8000.0
+occ_stor0 <- 8000.0
+occ_flowby <- 0.0
+occ_withdr_req0 <- 70.0
+occ_withdr_max <- 120.0
+occ_withdr_min <- 45.0
+occ_ws_rel_req0 <- 0.0
 occ.inflows.df <- inflows.df %>%
   select(date_time, inflows = occ_in)
 #
@@ -63,7 +67,8 @@ occ.inflows.df <- inflows.df %>%
 #------------------------------------------------------------------
 sen <- new("Reservoir", name = "Little Seneca Reservoir", 
            capacity = sen_cap,
-           prod_max = sen_prod_max,
+           withdr_max = sen_withdr_max,
+           withdr_min = sen_withdr_max,
            rc = sen.rc.df,
            stor0 = sen_stor0,
            flowby = sen_flowby,
@@ -71,7 +76,8 @@ sen <- new("Reservoir", name = "Little Seneca Reservoir",
 #
 jrr <- new("Reservoir", name = "Jennings Randolph Reservoir", 
            capacity = jrr_cap,
-           prod_max = jrr_prod_max,
+           withdr_max = jrr_withdr_max,
+           withdr_min = jrr_withdr_max,
            rc = jrr.rc.df,
            stor0 = jrr_stor0,
            flowby = jrr_flowby,
@@ -79,7 +85,8 @@ jrr <- new("Reservoir", name = "Jennings Randolph Reservoir",
 #
 pat <- new("Reservoir", name = "Patuxent reservoirs", 
            capacity = pat_cap,
-           prod_max = pat_prod_max,
+           withdr_max = pat_withdr_max,
+           withdr_min = pat_withdr_max,
            rc = pat.rc.df,
            stor0 = pat_stor0,
            flowby = pat_flowby,
@@ -87,7 +94,8 @@ pat <- new("Reservoir", name = "Patuxent reservoirs",
 #
 occ <- new("Reservoir", name = "Occoquan Reservoir", 
            capacity = occ_cap,
-           prod_max = occ_prod_max,
+           withdr_max = occ_withdr_max,
+           withdr_min = occ_withdr_max,
            rc = occ.rc.df,
            stor0 = occ_stor0,
            flowby = occ_flowby,

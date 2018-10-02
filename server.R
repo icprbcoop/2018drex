@@ -74,31 +74,19 @@ shinyServer(function(input, output, session) {
     ggplot(data = potomac.graph.df, aes(x = date_time, y = flow_mgd, group = location)) +
       geom_line(aes(color = location))
     }) # end output$potomacFlows
-  #------------------------------------------------------------------
-  # Display today's date
-  # output$sim_today <- renderInfoBox({
-  #   potomac.ts.df <- ts$flows 
-  #   sim_today <- last(potomac.ts.df$date_time)
-  #   infoBox(
-  #   title = "Today's date",
-  #   value = sim_today,
-  #   icon = shiny::icon("calendar"),
-  #   color = "blue"
+  # #------------------------------------------------------------------
+  # # Create today's date
+  # #------------------------------------------------------------------
+  #   output$sim_today <- renderValueBox({
+  #   potomac.ts.df <- ts$flows
+  #   sim_today0 <- last(potomac.ts.df$date_time)
+  #   sim_today <- paste("Today's date is ", sim_today0)
+  #   valueBox(
+  #     value = tags$p(sim_today, style = "font-size: 60%;"),
+  #     subtitle = NULL,
+  #     color = "black"
   #   )
-  # })
-  #------------------------------------------------------------------
-  # Create today's date
-  #------------------------------------------------------------------
-    output$sim_today <- renderValueBox({
-    potomac.ts.df <- ts$flows
-    sim_today0 <- last(potomac.ts.df$date_time)
-    sim_today <- paste("Today's date is ", sim_today0)
-    valueBox(
-      value = tags$p(sim_today, style = "font-size: 60%;"),
-      subtitle = NULL,
-      color = "black"
-    )
-  }) 
+  # }) 
   #------------------------------------------------------------------
   # Create value for yesterday's Potomac River flow at Point of Rocks
   #------------------------------------------------------------------

@@ -7,14 +7,14 @@
 # res = reservoir name (sen, jrr, pat, or occ) 
 #  (?to simulate sav: add 20% to jrr cap and combine sav & jrr inflows?)
 # res.ts.df = reservoir time series dataframe
-# withdr_extra_req = extra withdrawal above RC request (= 0 for sen & jrr)
+# withdr_req = withdrawal request (= 0 for sen & jrr)
 # ws_rel_req = release request for water supply purposes
 #     (release over dam to stream below)
 # prioritization of flowby vs water supply is really a policy decision!
 # prioritization: in logic below, 1st priority is flowby = res@flowby
 #                 2nd priority is withdr_req
 #                 3rd priority is ws_rel_req
-#   all of WMA reservoirs except Savage have ws withdr OR rel, not both
+#   all of WMA reservoirs except Savage have ws withdr OR rel, NOT both
 #   in case of Savage, I THINK Westernport withdr would have priority
 #       over a release, but I THINK min flowby would have 1st priority?
 #                 
@@ -55,7 +55,9 @@ reservoir_ops_today_func <- function(date_sim, res, res.ts.df,
   # Access some values storaged in the reservoir object
     cap <- res@capacity # see reservoir_make.R for basic res data
     flowby <- res@flowby
-    prod_max <- res@prod_max
+    withdr_max <- res@withdr_max
+    withdr_min <- res@withdr_min
+    if(withdr_req > withdr_max) {withdr_req = withdr_max}
   # Trim the res.ts.df to make sure the last row is yesterday
     res.ts.df <- data.frame(res.ts.df) %>%
       dplyr::filter(date_time < date_sim)
@@ -104,6 +106,9 @@ reservoir_ops_today_func <- function(date_sim, res, res.ts.df,
                ~ available + w_req - flowby,
                outflow < flowby & available + w_req < flowby
                ~ 0),
+             # # if withdr turns out to be < withdr_min, set to 0?
+             # #   since withdr_min assumes a hydraulic constraint
+             # if(withdr < withdr_min) {withdr = 0},
              # Finally, readjust outflow if necessary
              outflow = case_when(
                outflow >= flowby ~ outflow,
