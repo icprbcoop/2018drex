@@ -283,5 +283,20 @@ shinyServer(function(input, output, session) {
   output$VADEQStatus <- renderText({c('<img src="', vadeq_map, '">')
   })
   #------------------------------------------------------------------
+  #date to login bar
+  output$date_text  <- renderText({
+    paste("Today's date is", as.character(input$DREXtoday))
+  })
+  
+  #------------------------------------------------------------------
+  #colors for squares
+  green <- "background-color:green"
+  yellow <- "background-color:yellow"
+  orange <- "background-color:orange"
+  red <- "background-color:red"
+  navy <- "background-color:navy"
+  black <- "background-color: black"
+  
+  #------------------------------------------------------------------
   }) # end shinyServer
 

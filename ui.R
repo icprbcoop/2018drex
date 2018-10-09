@@ -5,7 +5,10 @@
 
 dashboardPage(skin = "blue",
   dashboardHeader(title = "WMA 2018 DREX",
-                  .list = NULL),
+                  .list = NULL, 
+                  tags$li(textOutput("date_text"),
+                          class = "dropdown")
+                  ),
   dashboardSidebar(
     width = 250,
 
@@ -52,6 +55,8 @@ actionButton("write_ts",
              width = "180px")
       ),
   dashboardBody(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")),
 
     fluidRow(
       column(
