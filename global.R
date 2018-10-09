@@ -65,5 +65,13 @@ plot.width <- "95%"
 #------------------------------------------------------------------------------
 
 
+#------------------------------------------------------------------
+#colors for squares
+green <- "background-color:green"
+yellow <- "background-color:yellow"
+orange <- "background-color:orange"
+red <- "background-color:red"
+navy <- "background-color:navy"
+black <- "background-color: black"
 
 
