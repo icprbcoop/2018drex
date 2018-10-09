@@ -27,13 +27,17 @@ shinyServer(function(input, output, session) {
   # Allow the user to re-run the simulation 
   #   - say, if end date (aka DREXtoday) changes
   observeEvent(input$run_main, {
+    test_date$test_date_value <- input$DREXtoday
     ts <- sim_main_func(input$DREXtoday, ts)
   })
   #
   # Allow the user to add chunks of days to the simulation
   observeEvent(input$run_add, {
+    #test_date$test_date_value <- ?
     ts <- sim_add_days_func(input$chunkofdays, ts)
   })
+  
+  test_date <- reactiveValues(test_date_value = "1930-05-01")
   #
   # Allow the user to write simulation output time series to files
   observeEvent(input$write_ts, {
@@ -285,7 +289,7 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   #date to login bar
   output$date_text  <- renderText({
-    paste("Today's date is", as.character(input$DREXtoday))
+    paste("Today's date is", as.character(test_date$test_date_value))#input$DREXtoday))
   })
   
   #------------------------------------------------------------------
