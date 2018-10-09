@@ -120,5 +120,6 @@ reservoir_ops_today_func <- function(date_sim, res, res.ts.df,
     #
     # add the new row, today, to res.ops.df:
     res.ts.df <- rbind(res.ts.df, newrow.df)
+  #  ts$res <- rbind(res.ts.df, newrow.df) ?
   return(res.ts.df)
 }

@@ -19,7 +19,7 @@
 sim_main_func <- function(date_today, ts0){
   sim_n <- as.numeric(as.POSIXct(date_today) - as.POSIXct(date_start),
                       units = "days")
-  ts <- ts0 # this holds the time series for the first day, date_start
+  ts <- ts0 # why??? this holds the time series for the first day, date_start
   for (sim_i in 2:sim_n + 1) { # start by adding the 2nd day
     date_sim <- as.Date(date_start + sim_i - 1)
     # simulation_func adds one day, date_sim, to all of the time series
@@ -28,10 +28,7 @@ sim_main_func <- function(date_today, ts0){
                           mos_9day,
                           demands.daily.df,
                           potomac.daily.df,
-                          sen,
-                          jrr,
-                          pat,
-                          occ,
+                          sen, jrr, pat, occ, # these are the reservoir "objects"
                           ts)
   } # end of simulation loop
   return(ts)
