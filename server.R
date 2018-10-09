@@ -33,7 +33,7 @@ shinyServer(function(input, output, session) {
   #
   # Allow the user to add chunks of days to the simulation
   observeEvent(input$run_add, {
-    #test_date$test_date_value <- ?
+    test_date$test_date_value <- as.Date(input$DREXtoday) +input$chunkofdays
     ts <- sim_add_days_func(input$chunkofdays, ts)
   })
   
