@@ -47,7 +47,7 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
   #   - should later check speed of filter vs tail( , 9)
   #   - how to handle beginning of sim?
   #
-  # For some reason the next 2 lines don't work!!!
+  # For some reason the next 2 lines don't work!!! but tail does!!!
   # flows.dayold <- data.frame(flows.ts.df) %>%
   #   dplyr::filter(date_time >= date_sim - 9, date_time < date_sim)
   #
@@ -61,9 +61,9 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
   yesterday.df <- tail(flows.ts.df,1)
   yesterday_date <- yesterday.df[1,1] # yesterday's date
   #
-  flows.dayold <- tail(flows.ts.df, 9)
-  jrr_outflow_lagged_today <- flows.dayold$jrr_outflow[1]
-  sen_outflow_yesterday <- flows.dayold$sen_outflow[9]
+  flows.dayold <- tail(flows.ts.df, 9) # from 9 days past to yesterday
+  jrr_outflow_lagged_today <- flows.dayold$jrr_outflow[1] # Jrr release nine days ago
+  sen_outflow_yesterday <- flows.dayold$sen_outflow[9] # sen release yesterday
   upstr_m1 <- flows.dayold$por_nat[9] + flows.dayold$below_por[9]
   upstr_m2 <- flows.dayold$por_nat[8] + flows.dayold$below_por[8]
   withdr_pot_fw_yesterday <- flows.dayold$withdr_pot_fw[9]
@@ -95,6 +95,7 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
                   lfalls_adj = lfalls_nat + jrr_outflow_lagged,
                   #----------------------------------------------------------------
                   # The 0-day fc happens here
+                  # ie what's where we need it to be today
                   #
                   lfalls_obs = lfalls_nat + sen_watershed +
                     jrr_outflow_lagged + sen_outflow_lagged -

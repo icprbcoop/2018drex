@@ -12,7 +12,7 @@
 # jrr - a reservoir object representing Jennings Randolph
 # ts = list(sen.ts.df, ..., potomac.ts.df) - all ops time series
 #******************************************************************
-# Outputs
+# Outputs - testing
 #******************************************************************
 # ts = list(sen.ts.df, ..., potomac.ts.df) - with today added
 #--------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ simulation_func <- function(date_sim0,
   #-----------------------------------------------------------------------------
   # Estimate Potomac & reservoir withdrawals assuming no ws releases/loadshifts
   #
-  # First find wssc's pat withdr according to pat RCs
+  # First find wssc's pat withdr according to Patuxent rule curves (RCs)
   #   - based on today's demand fc
   # (Need to add checks!)
   pat.df <- ts$pat
@@ -62,7 +62,7 @@ simulation_func <- function(date_sim0,
   pat_withdr_req0 <- rule_curve_func(month_today, pat_stor, pat)
   #
   #-----------------------------------------------------------------------------
-  # Next find FW's occ withdr according to occ RCs
+  # Next find FW's occ withdr according to Occoquan RCs
   #   - based on tomorrow's demand fc
   # (Need to add a lot of checks!)
   d_1day_fw_e <- d_1day$d_fw_e # eastern sa is served by Griffith/Occoquan
@@ -76,7 +76,7 @@ simulation_func <- function(date_sim0,
     d_1day_fw_e <= occ_withdr_rc ~ d_1day_fw_e)
   #
   #-----------------------------------------------------------------------------
-  # Finally compute WA's pot withdr = WA's demand + FW Central SA demand
+  # Finally compute what Washington Aqueduct's Potomac withdr = WA's demand + FW Central SA demand
   #   - based on today's demand fc
   # wa_pot_withdr0 <- d_today$d_wa + d_today_fw_c
   #
@@ -121,7 +121,7 @@ simulation_func <- function(date_sim0,
   #    - later intend to also add future flows - ie 15-day fcs
   #    - in this step, assuming no ws releases
   #-----------------------------------------------------------------------------
-  #
+  # qad and qav are 2 debugging slots
   qad1 <- as.Date(last(pat.ts.df$date_time))
   qav1 <- 222.2
   ts <- forecasts_flows_func(date_sim0,

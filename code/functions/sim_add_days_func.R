@@ -19,15 +19,12 @@ sim_add_days_func <- function(added_days, ts){
   date_start <- last(df1$date_time)
   for (sim_i in 2:added_days + 1) { # start the simulation on the 2nd day
     date_sim <- as.Date(date_start + sim_i - 1)
-    uptodate.ts <- simulation_func(date_sim,
+    ts <- simulation_func(date_sim,
                                    mos_0day,
                                    mos_9day,
                                    demands.daily.df,
                                    potomac.daily.df,
-                                   sen,
-                                   jrr,
-                                   pat,
-                                   occ,
+                                   sen, jrr, pat, occ,
                                    ts)
   }
   return(ts)
