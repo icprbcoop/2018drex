@@ -12,7 +12,7 @@
 # jrr - a reservoir object representing Jennings Randolph
 # ts = list(sen.ts.df, ..., potomac.ts.df) - all ops time series
 #******************************************************************
-# Outputs - testing
+# Outputs - testing 2
 #******************************************************************
 # ts = list(sen.ts.df, ..., potomac.ts.df) - with today added
 #--------------------------------------------------------------------------------
