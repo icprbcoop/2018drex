@@ -327,14 +327,14 @@ shinyServer(function(input, output, session) {
   })
   
   #------------------------------------------------------------------
-  #NoVa wanring status squares
+  #NoVa warning status squares
   output$boxes2  <- renderUI({
     div(class="topbox2", 
         div(class="square", style="background-color:yellow",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("precipitation deficit")
+                        p("precipi- tation deficit")
                     )))),
         div(class="square", style="background-color:orange",
             div(class="my_content",
@@ -352,7 +352,7 @@ shinyServer(function(input, output, session) {
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("streamflow")
+                        p("stream- flow")
                     ))))
     ) #end of topbox2
   })
@@ -369,14 +369,14 @@ shinyServer(function(input, output, session) {
   
   precip_value <- eventReactive(test_date$test_date_value,{#a_index,{
     case_when(
-      p_data_percent() <= .0 ~ "background-color:purple", #"#000000",
+      p_data_percent() <= 0 ~ "background-color:purple", #"#000000",
       p_data_percent() > .0 && p_data_percent() <= .20 ~ red,#"background-color:red", #"#cc3300",
       p_data_percent() > .20 && p_data_percent() <= .40 ~ orange,#"background-color:orange",  #"#ff9966",
       p_data_percent() > .40 && p_data_percent() <= .60 ~ yellow,#"background-color:yellow",  #"#ffcc00",
       p_data_percent() > .60 && p_data_percent() <= .80 ~ green,#"background-color:green", #"#99cc33",
       p_data_percent() > .80 && p_data_percent() < 1 ~  navy, #"background-color:navy" #"#339900"
-      TRUE ~ black,
-      p_data_percent() == NULL~black
+      TRUE ~ black
+      
     )
     
   })

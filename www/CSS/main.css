@@ -35,16 +35,19 @@ li{
 .square {
     float:left;
     position: relative;
+    border: 3px solid black;
+    text-align:center;
     width: 40%;
     padding-bottom : 40%; /* = width for a 1:1 aspect ratio */
     margin:1.66%;
     overflow:hidden;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     /*background-color:red;*/
 }
 
 .my_content {
     position:absolute;
-    font-size:12px;
+    font-size:10px;
     font-weight: bold;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color:black;
