@@ -11,17 +11,23 @@ li{
 /*h1{
   color: green;
 }*/
-.topbox_main{
+
+/*.topbox_main{
   width:250px;
+}*/
+
+.info-box{
+  height: 50px;
 }
+
 .topbox1 {
-  float: left;
+  /*float: left;*/
   width:125px;
   padding-bottom : 40%;
 
 }
 .topbox2 {
-  float: right;
+  /*float: right;*/
   width:125px;
   padding-bottom : 40%;
  
@@ -36,18 +42,18 @@ li{
     /*background-color:red;*/
 }
 
-/*.content {
+.my_content {
     position:absolute;
     font-size:12px;
     font-weight: bold;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color:white;*/
+    color:black;
     
     /*height:80%; 
     width:90%;
     padding: 10% 5%;8?
     /*background-color: blue;*/
-/*}*/
+}
 
 .table{
     display:table;

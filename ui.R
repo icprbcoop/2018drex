@@ -113,13 +113,19 @@ actionButton("write_ts",
         infoBoxOutput("lfaa_alert", width = NULL),
         infoBoxOutput("mwcog_stage", width = NULL),
         box(
-          title = "PLACE-HOLDER FOR MARYLAND DROUGHT STATUS",
-          width = NULL,
-          tags$p("Western region: Drought Watch; Central region: Drought Warning")),
+          title = "MARYLAND DROUGHT STATUS",
+          width = 6,
+          height = 200,
+          htmlOutput(outputId = "boxes")
+          ),
+          #tags$p("Western region: Drought Watch; Central region: Drought Warning")),
         box(
-          title = "PLACE-HOLDER FOR VIRGINIA DROUGHT STATUS",
-          width = NULL,
-          "NoVa: Drought Watch; Shenandoah: Drought Emergency")
+          title = "VIRGINIA DROUGHT STATUS",
+          width = 6,
+          height = 200,
+          htmlOutput(outputId = "boxes2")
+          )
+          #"NoVa: Drought Watch; Shenandoah: Drought Emergency")
         )
     ), # end fluidRow with reservoir storage
 #
