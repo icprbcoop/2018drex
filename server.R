@@ -303,25 +303,25 @@ shinyServer(function(input, output, session) {
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("p")
+                        p("precipi- tation deficit")
                     )))), 
         div(class="square", style=g_value(),#"background-color:red",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("g")
+                        p("ground water wells")
                     )))),
         div(class="square", style=q_value(),#"background-color:green",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("q")
+                        p("reservoir flow")
                     )))),
         div(class="square", style=s_value(),#"background-color:orange",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("s")
+                        p("stream- flow")
                     ))))
     )#, #end of topbox1
   })
@@ -402,7 +402,7 @@ shinyServer(function(input, output, session) {
     date_func(my_data_s$date, my_data_s$storage_days, test_date$test_date_value)
   })
   
-  s_value <- eventReactive(input$data_index,{
+  s_value <- eventReactive(test_date$test_date_value,{
     case_when(
       s_data_percent() <= 0 ~ "background-color:purple", #"#000000",
       s_data_percent() > 0 && s_data_percent() <= 60 ~ red,#"background-color:red", #"#cc3300",
@@ -418,7 +418,7 @@ shinyServer(function(input, output, session) {
     date_func(my_data_g$date, my_data_g$flow_cfs, test_date$test_date_value)
   })
   
-  g_value <- eventReactive(input$data_index,{
+  g_value <- eventReactive(test_date$test_date_value,{
     case_when(
       g_data_percent() <= 0 ~ "background-color:purple", #"#000000",
       g_data_percent() > 0 && g_data_percent() <= 55 ~ red,#"background-color:red", #"#cc3300",
