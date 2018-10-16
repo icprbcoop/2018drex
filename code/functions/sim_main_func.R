@@ -16,12 +16,15 @@
 #--------------------------------------------------------------------------------
 # Define the main sim function - simulates from date_start to date_today
 
-sim_main_func <- function(date_today, ts){
-  sim_n <- as.numeric(as.POSIXct(date_today) - as.POSIXct(date_start),
+sim_main_func <- function(date_today0, ts){
+  sim_n <- as.numeric(as.POSIXct(date_today0) - as.POSIXct(date_start),
                       units = "days")
-  # ts <- ts0 # why??? this holds the time series for the first day, date_start
-  for (sim_i in 2:sim_n + 1) { # start by adding the 2nd day
-    date_sim <- as.Date(date_start + sim_i - 1)
+  # ts <- ts00 # why??? this holds the time series for the first day, date_start
+    # print(paste("In sim_main_func I, starts with ", x))
+    for (sim_i in 1:sim_n) { # start by adding the 2nd day
+    #date_sim <- as.Date(date_start + sim_i - 1)
+      date_sim <- date_start + lubridate::days(sim_i)
+    # print(paste("in sim_main_func, sim_i, date_sim are: ", sim_i, date_sim))
     # simulation_func adds one day, date_sim, to all of the time series
     ts <- simulation_func(date_sim,
                           mos_0day,

@@ -171,16 +171,6 @@ shinyServer(function(input, output, session) {
     )
     }) # end output$coop_ops
   #------------------------------------------------------------------
-  # Output the LFAA stage
-  # Let total WMA Potomac River withdrawals = W
-  # and adjusted flow at Little Falls = Little Falls obs + W = Qadj
-  # The LFAA Alert stage is triggered when 
-  #     W >= 0.5*Qadj
-  # or equivalently, W/0.8 < Qadj <= W/0.5
-  # Restrictions stage: (W + 110)??? < Qadj <= (W + 100)/0.8
-  # Emergency stage???: Qadj < W + 110???
-  # The problem is the definition of Emergency stage is probabalistic
-  #   - will do some modeling to get a better surrogate definition
   #------------------------------------------------------------------
   # Create info on LFAA stage
   #------------------------------------------------------------------
@@ -279,15 +269,35 @@ shinyServer(function(input, output, session) {
   }) # end occ renderPlot
   #
   #------------------------------------------------------------------
-  # misc placeholders for state drought status info
   #------------------------------------------------------------------
-    mde_map = "http://mde.maryland.gov/programs/Water/droughtinformation/Currentconditions/PublishingImages/DroughtGraphsStarting2017Apr30/Drought2018-04-30.png"
-  output$MDEStatus <- renderText({c('<img src="', mde_map, '">')
+  # Temporary output for QAing purposes
+  #------------------------------------------------------------------
+  output$QA_out <- renderValueBox({
+    potomac.df <- ts$flows
+    sen.df <- ts$sen
+    jrr.df <- ts$jrr
+    pat.df <- ts$pat
+    occ.df <- ts$occ
+    QA_out <- paste("Min flow at LFalls = ",
+                      round(min(potomac.df$lfalls_obs, na.rm = TRUE)),
+                      " mgd",
+                      "________ Min sen, jrr, pat, occ stor = ",
+                      round(min(sen.df$storage, na.rm = TRUE)), " mg, ",
+                    round(min(jrr.df$storage, na.rm = TRUE)), " mg,  ",
+                    round(min(pat.df$storage, na.rm = TRUE)), " mg,  ",
+                    round(min(occ.df$storage, na.rm = TRUE)),
+                    " mg")
+    valueBox(
+      value = tags$p(QA_out, style = "font-size: 60%;"),
+      subtitle = NULL,
+      color = "blue"
+    )
   })
-  
-  vadeq_map = "http://deq1.bse.vt.edu/drought/state/images/maps/imageMapFile152838207923720.png"
-  output$VADEQStatus <- renderText({c('<img src="', vadeq_map, '">')
-  })
+  #------------------------------------------------------------------
+  #------------------------------------------------------------------
+  # Temporary output for QAing
+  #------------------------------------------------------------------
+
   #------------------------------------------------------------------
   #date to login bar
   output$date_text  <- renderText({

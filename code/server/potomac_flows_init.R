@@ -59,6 +59,7 @@ potomac.ts.df0 <- potomac.data.df[1,] %>%
          withdr_pot_fw_lagged = 100,
          withdr_pot_wssc = 100,
          need_0day = 0.0,
+         need_1day = 0.0,
          withdr_pot_wa = 100,
          lfalls_obs = lfalls_nat - 300) %>%
   select(date_time, qad, qav, lfalls_nat, por_nat, below_por, demand, 
@@ -67,7 +68,7 @@ potomac.ts.df0 <- potomac.data.df[1,] %>%
          sen_outflow, sen_outflow_lagged, sen_watershed, 
          jrr_outflow, jrr_outflow_lagged,
          withdr_pot_fw, withdr_pot_fw_lagged,
-         withdr_pot_wssc, need_0day, withdr_pot_wa)
+         withdr_pot_wssc, need_0day, need_1day, withdr_pot_wa)
 potomac.ts.df <- potomac.ts.df0
 #
 # Make the 9-day flow forecast, using our old empirical eq., also used in PRRISM

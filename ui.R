@@ -1,14 +1,20 @@
-# 
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 # This is the user-interface of a Shiny web app for the 2018 DREX.
 # Run the application by clicking 'Run App' above.
-#
-
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 dashboardPage(skin = "blue",
   dashboardHeader(title = "WMA 2018 DREX",
                   .list = NULL, 
                   tags$li(textOutput("date_text"),
                           class = "dropdown")
                   ),
+  #--------------------------------------------------------------------------------
+  #--------------------------------------------------------------------------------
+  # The sidebar - has the user inputs and controls
+  #--------------------------------------------------------------------------------
+  #--------------------------------------------------------------------------------
   dashboardSidebar(
     width = 250,
 
@@ -54,20 +60,30 @@ actionButton("write_ts",
              icon = NULL,
              width = "180px")
       ),
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
+# The body - has the graphs and other output info
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
   dashboardBody(
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")),
-
-    fluidRow(
+    #--------------------------------------------------------------------------------
+    # Potomac River flows graph
+    #--------------------------------------------------------------------------------
+        fluidRow(
       column(
         width = 8,
         box(
           title = "Potomac River flow",
           width = NULL,
-          plotOutput("potomacFlows", height = "240px")
+          plotOutput("potomacFlows", height = "220px")
           )
         ),
-      column(
+      #--------------------------------------------------------------------------------
+      # Output to the left of the Potomac River flows graph
+      #--------------------------------------------------------------------------------
+        column(
         width = 4,
 #        infoBoxOutput("sim_today", width = NULL),
 #        valueBoxOutput("sim_today", width = NULL),
@@ -79,6 +95,9 @@ actionButton("write_ts",
       )
     ), # end fluidRow with Potomac flows
     #
+    #--------------------------------------------------------------------------------
+    # The four reservoir storage/release graphs
+    #--------------------------------------------------------------------------------
     fluidRow(
       column(
         width = 4,
@@ -106,10 +125,11 @@ actionButton("write_ts",
           plotOutput("patStorageReleases", height = "150px")
         )
       ), 
-      column(
+      #--------------------------------------------------------------------------------
+      # Output to the left of the reservoir storage graphs
+      #--------------------------------------------------------------------------------
+        column(
         width = 4,
-#        tags$head( 
-#          tags$style(HTML(".fa { font-size: 12px; }"))), 
         infoBoxOutput("lfaa_alert", width = NULL),
         infoBoxOutput("mwcog_stage", width = NULL),
         box(
@@ -129,26 +149,13 @@ actionButton("write_ts",
         )
     ), # end fluidRow with reservoir storage
 #
+#--------------------------------------------------------------------------------
+# Temporary row to display some output for QAing
+#--------------------------------------------------------------------------------
+# 
     fluidRow(
-      box(
-       title = "MD drought status map",
-      width = 3,
-      tags$img(src = "http://mde.maryland.gov/programs/Water/droughtinformation/Currentconditions/PublishingImages/DroughtGraphsStarting2017Apr30/Drought2018-01-31.png",
-                          width = "300px",
-                          height = "300px")),
-      box(
-        title = "VA drought status map",
-        width = 3,
-        tags$img(src = "http://deq1.bse.vt.edu/drought/state/images/maps/imageMapFile152838207923720.png",
-                 width = "300px",
-                 height = "300px")),
-      box(
-        title = "State restrictions",
-        width = 4),
-      box(
-        title = "MWCOG restrictions",
-        width = 2)
-      ) # end fluidRow with state and COG drought status/restrictions
+      valueBoxOutput("QA_out", width = NULL) 
+      ) # end fluidRow for QAing purposes
       ) # end dashboardBody
 ) # end dashboardPage
 

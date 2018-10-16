@@ -22,10 +22,10 @@
 # A vector of 15 demands, beginning with today's 
 #   and ending 14 days hence.
 # These are actual data, serving as placeholder values for forecasts.
-forecasts_demands_func <- function(date_sim, demands.daily.df){
+forecasts_demands_func <- function(date_sim000, demands.daily.df){
   demands.fc.df <- demands.daily.df %>%
-    dplyr::filter(date_time >= date_sim,
-                  date_time < date_sim + 15) %>%
+    dplyr::filter(date_time >= date_sim000,
+                  date_time < date_sim000 + 15) %>%
     dplyr::select(date_time, d_fw_e, d_fw_w, d_fw_c, d_lw,
                   d_wa, d_wssc)
   return(demands.fc.df)

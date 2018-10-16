@@ -23,9 +23,9 @@ mgd_to_cfs <- 1.547
 sen_other_watershed_flows <- 30 # wwtp and other land area watershed flows, MGD
 #
 #--------------------------------------------------------------------------------
-# Reservoir rule curves
+# Reservoir data and rule curves
 #--------------------------------------------------------------------------------
-# Maybe eventually these should be read from csv files
+# Maybe eventually rule curves should be read from csv files
 #
 month_sim <- c(1:12)
 # Little Seneca and Jennings Randolph have no water supply intake/withdrawals, 
@@ -47,6 +47,8 @@ jrr.rc.df <- sen.rc.df
 #--------------------------------------------------------------------------------
 # Occoquan Reservoir
 #
+occ_fixed_ls <- 15 # load-shift amount, mgd
+occ_stor_emerg <- 1000 # emergency storage, below which there are no load-shifts
 # In PRRISM the UOSA wwtp discharge, above the 2000 level, is added to RC withdrawals
 #    Below I'm neglecting monthly factors and just using annual averages, MGD
 uosa2000 <- 25.1

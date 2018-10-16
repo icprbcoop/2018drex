@@ -32,12 +32,14 @@
 # date_sim <- as.Date("1930-03-15")
 # flows.ts.df <- potomac.ts.df
 #
-forecasts_flows_func <- function(date_sim, qavald, qavaln,
+forecasts_flows_func <- function(date_sim00, qavald, qavaln,
                                  demands.fc.df, # created by forecast_demands_func                                  
                                  sen_outflow_today,
                                  jrr_outflow_today,
                                  pat_withdr_today,
+                                 occ_withdr_today,
                                  need_0day,
+                                 need_1day,
                                  flows.ts){
   #------------------------------------------------------------------------------
   # Get data
@@ -55,7 +57,7 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
   # flows.ts.df <- flows.ts
   # Trim the flow.ts.df to make sure the last row is yesterday
   flows.ts.df <- data.frame(flows.ts) %>%
-    dplyr::filter(date_time < date_sim)
+    dplyr::filter(date_time < date_sim00)
   #
   # Get the last row of the flows.ts.df, "yesterday", 
   #    and read its values:
@@ -84,8 +86,13 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
                   withdr_pot_wssc = demands.fc.df$d_wssc[1] -
                                      pat_withdr_today,
                   need_0day = need_0day,
-                  withdr_pot_fw = demands.fc.df$withdr_pot_fw[1],
+                  need_1day = need_1day,
+                  withdr_pot_fw = demands.fc.df$d_fw_e[1] +
+                                  demands.fc.df$d_fw_w[1] +
+                                  demands.fc.df$d_lw[1] - 
+                                  occ_withdr_today,
                   withdr_pot_fw_lagged = withdr_pot_fw_yesterday,
+# need to rename this demand_pot
                   demand = withdr_pot_wa + withdr_pot_wssc + withdr_pot_fw,
                   sen_outflow = sen_outflow_today, # a func input
                   sen_outflow_lagged = sen_outflow_yesterday,
@@ -130,7 +137,7 @@ forecasts_flows_func <- function(date_sim, qavald, qavaln,
                   sen_outflow, sen_outflow_lagged, sen_watershed, 
                   jrr_outflow, jrr_outflow_lagged,
                   withdr_pot_wa, withdr_pot_wssc, 
-                  need_0day,
+                  need_0day, need_1day,
                   withdr_pot_fw, withdr_pot_fw_lagged)
   # Add the fc row for today to potomac.ts.df
   #   first deleting any preliminary values in the df
