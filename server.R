@@ -369,7 +369,7 @@ shinyServer(function(input, output, session) {
   
   precip_value <- eventReactive(test_date$test_date_value,{#a_index,{
     case_when(
-      p_data_percent() <= 0 ~ "background-color:purple", #"#000000",
+      p_data_percent() <= 0 ~ green,#"background-color:purple", #"#000000",
       p_data_percent() > .0 && p_data_percent() <= .20 ~ red,#"background-color:red", #"#cc3300",
       p_data_percent() > .20 && p_data_percent() <= .40 ~ orange,#"background-color:orange",  #"#ff9966",
       p_data_percent() > .40 && p_data_percent() <= .60 ~ yellow,#"background-color:yellow",  #"#ffcc00",
@@ -387,7 +387,7 @@ shinyServer(function(input, output, session) {
 
   q_value <- eventReactive(test_date$test_date_value,{
     case_when(
-      q_data_percent() <= 0 ~ "background-color:purple", #"#000000",
+      q_data_percent() <= 0 ~ red,#"background-color:purple", #"#000000",
       q_data_percent() > 0 && q_data_percent() <= 100 ~ red,#"background-color:red", #"#cc3300",
       q_data_percent() > 100 && q_data_percent() <= 200 ~ orange,#"background-color:orange",  #"#ff9966",
       q_data_percent() > 200 && q_data_percent() <= 300 ~ yellow,#"background-color:yellow",  #"#ffcc00",
@@ -404,7 +404,7 @@ shinyServer(function(input, output, session) {
   
   s_value <- eventReactive(test_date$test_date_value,{
     case_when(
-      s_data_percent() <= 0 ~ "background-color:purple", #"#000000",
+      s_data_percent() <= 0 ~ yellow,#"background-color:purple", #"#000000",
       s_data_percent() > 0 && s_data_percent() <= 60 ~ red,#"background-color:red", #"#cc3300",
       s_data_percent() > 60 && s_data_percent() <= 90 ~ orange,#"background-color:orange",  #"#ff9966",
       s_data_percent() > 90 && s_data_percent() <= 120 ~ yellow,#"background-color:yellow",  #"#ffcc00",
@@ -420,7 +420,7 @@ shinyServer(function(input, output, session) {
   
   g_value <- eventReactive(test_date$test_date_value,{
     case_when(
-      g_data_percent() <= 0 ~ "background-color:purple", #"#000000",
+      g_data_percent() <= 0 ~ orange,#"background-color:purple", #"#000000",
       g_data_percent() > 0 && g_data_percent() <= 55 ~ red,#"background-color:red", #"#cc3300",
       g_data_percent() > 55 && g_data_percent() <= 110 ~ orange,#"background-color:orange",  #"#ff9966",
       g_data_percent() > 110 && g_data_percent() <= 165 ~ yellow,#"background-color:yellow",  #"#ffcc00",
