@@ -88,7 +88,8 @@ actionButton("write_ts",
 #        infoBoxOutput("sim_today", width = NULL),
 #        valueBoxOutput("sim_today", width = NULL),
         valueBoxOutput("por_flow", width = NULL),
-        valueBoxOutput("demand", width = NULL),
+# may not have space for displaying demand:
+#        valueBoxOutput("demand", width = NULL),
 #        valueBoxOutput("lfalls_adj", width = NULL),
         valueBoxOutput("lfalls_obs", width = NULL),
         infoBoxOutput("coop_ops", width = NULL)
