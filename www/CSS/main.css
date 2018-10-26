@@ -32,6 +32,38 @@ li{
   padding-bottom : 40%;
  
 }
+
+ 
+.longbox  {
+  display:inline-block;
+  width: 100%;
+  
+}
+
+.p1 {
+  color:black;
+  
+}
+
+.ibox {
+  display:inline-block;
+  width:60%;
+  height:50px;
+  
+}
+
+.squarei {
+    /*float:left;*/
+    display:inline-block;
+    position: relative;
+    width: 7%;
+    height:40px;
+    /*padding-bottom : 40%;*/ /* = width for a 1:1 aspect ratio */
+    margin:1.66%;
+    overflow:hidden;
+    /*background-color:red;*/
+} 
+
 .square {
     float:left;
     position: relative;
@@ -69,3 +101,5 @@ li{
     height:100%;
     width:100%;
 }
+
+

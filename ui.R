@@ -124,9 +124,26 @@ actionButton("write_ts",
               width = 6,
               valueBoxOutput("por_flow", width = NULL),
               valueBoxOutput("lfalls_obs", width = NULL),
-              infoBoxOutput("coop_ops", width = NULL),
-              infoBoxOutput("lfaa_alert", width = NULL),
-              infoBoxOutput("mwcog_stage", width = NULL),
+              # infoBoxOutput("coop_ops", width = NULL),
+              # infoBoxOutput("lfaa_alert", width = NULL),
+              # infoBoxOutput("mwcog_stage", width = NULL),
+              box(
+                title=NULL,
+                width=NULL,
+                htmlOutput(outputId = "coop_ops")
+              ),
+              box(
+                title=NULL,
+                width=NULL,
+                htmlOutput(outputId = "lfaa_alert")
+              ),
+              box(
+                title=NULL,
+                width=NULL,
+                htmlOutput(outputId = "mwcog_stage")
+              ),
+              
+             
               box(
                 title = "MARYLAND DROUGHT STATUS",
                 width = 6,

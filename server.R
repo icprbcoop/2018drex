@@ -153,75 +153,161 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   # Create info on CO-OP operational status
   #------------------------------------------------------------------
-    output$coop_ops <- renderInfoBox({
+    # output$coop_ops <- renderInfoBox({
+    # potomac.ts.df <- ts$flows
+    # por_flow <- last(potomac.ts.df$por_nat*mgd_to_cfs)
+    # if(por_flow > 2000) {
+    #   text_stage <- "NORMAL"
+    #   color_stage <- "green"}
+    # if(por_flow <= 2000) {
+    #   text_stage <- "Daily monitoring & reporting"
+    #   color_stage <- "yellow"}
+    # infoBox(
+    #   title = "CO-OP operations status",
+    #   value = paste(text_stage),
+    #   subtitle = NULL,
+    #   icon = shiny::icon("arrow"),
+    #   color = color_stage
+    # )
+    # }) # end output$coop_ops
+  
+  output$coop_ops <- renderUI({
     potomac.ts.df <- ts$flows
     por_flow <- last(potomac.ts.df$por_nat*mgd_to_cfs)
     if(por_flow > 2000) {
       text_stage <- "NORMAL"
-      color_stage <- "green"}
+      color_stage <- green}
     if(por_flow <= 2000) {
       text_stage <- "Daily monitoring & reporting"
-      color_stage <- "yellow"}
-    infoBox(
-      title = "CO-OP operations status",
-      value = paste(text_stage),
-      subtitle = NULL,
-      icon = shiny::icon("arrow"),
-      color = color_stage
+      color_stage <- yellow}
+    div(class="longbox",
+        div(class="squarei", style = color_stage,
+            div(class="content",
+                div(class="table",
+                    div(class="table-cell")))),
+        div(class="ibox", style = "background-color:white",
+            div(class="content",
+                div(class="table",
+                    div(class="table-cell",
+                        p(class = "p1",paste0("CO-OP operations status ",text_stage))
+                    ))))
     )
-    }) # end output$coop_ops
+    
+  }
+  )
   #------------------------------------------------------------------
   #------------------------------------------------------------------
   # Create info on LFAA stage
   #------------------------------------------------------------------
-    output$lfaa_alert <- renderInfoBox({
+#     output$lfaa_alert <- renderInfoBox({
+#     potomac.ts.df <- ts$flows
+#     W <- last(potomac.ts.df$demand*1.0)
+#     Qadj <- round(last(potomac.ts.df$lfalls_adj*1.0))
+#     if(Qadj > W/0.5) {
+#       text_stage <- "NORMAL"
+#       color_stage <- "green"}
+#     if(Qadj <= W/0.5 & Qadj > (W + 100)/0.8){
+#       text_stage <- "ALERT"
+#       color_stage <- "yellow"}
+#     if(Qadj <= (W + 100)/0.8 & Qadj > W + 110){
+#       text_stage <- "RESTRICTION"
+#       color_stage <- "orange"}
+#     if(Qadj <= (W + 110)){
+#       text_stage <- "EMERGENCY"
+#       color_stage <- "red"}
+# #
+#     infoBox(
+#       title = "LFAA Stage",
+#       value = paste(Qadj, text_stage),
+#       subtitle = "Little Falls adj. flow, MGD",
+#       icon = shiny::icon("arrow"),
+#       color = color_stage
+#     )
+#   }) # end output$lfaa_alert
+  #
+  
+  
+  output$lfaa_alert <- renderUI({
     potomac.ts.df <- ts$flows
     W <- last(potomac.ts.df$demand*1.0)
     Qadj <- round(last(potomac.ts.df$lfalls_adj*1.0))
     if(Qadj > W/0.5) {
       text_stage <- "NORMAL"
-      color_stage <- "green"}
+      color_stage <- green}
     if(Qadj <= W/0.5 & Qadj > (W + 100)/0.8){
       text_stage <- "ALERT"
-      color_stage <- "yellow"}
+      color_stage <- yellow}
     if(Qadj <= (W + 100)/0.8 & Qadj > W + 110){
       text_stage <- "RESTRICTION"
-      color_stage <- "orange"}
+      color_stage <- orange}
     if(Qadj <= (W + 110)){
       text_stage <- "EMERGENCY"
-      color_stage <- "red"}
-#
-    infoBox(
-      title = "LFAA Stage",
-      value = paste(Qadj, text_stage),
-      subtitle = "Little Falls adj. flow, MGD",
-      icon = shiny::icon("arrow"),
-      color = color_stage
+      color_stage <- red}
+  
+    div(class="longbox",
+        div(class="squarei", style = color_stage,
+            div(class="content",
+                div(class="table",
+                    div(class="table-cell")))),
+        div(class="ibox", style = "background-color:white",
+            div(class="content",
+                div(class="table",
+                    div(class="table-cell",
+                        p(class = "p1",paste0("Little Falls adj. flow, MGD ",text_stage))
+                    ))))
     )
-  }) # end output$lfaa_alert
-  #
+    
+  }
+  )
   #------------------------------------------------------------------
   # Create info on MWCOG Drought Plan stage
   #------------------------------------------------------------------
-  output$mwcog_stage <- renderInfoBox({
+  # output$mwcog_stage <- renderInfoBox({
+  #   potomac.ts.df <- ts$flows
+  #   por_flow <- last(potomac.ts.df$por_nat)
+  #   if(por_flow > 2000) {
+  #     text_stage <- "NORMAL - Wise Water Use"
+  #     color_stage <- "green"}
+  #   if(por_flow <= 2000) {
+  #     # based on NOAA drought status - D1
+  #     # then "notifications" upon 1st release, & when jrr+sen at 75%
+  #     text_stage <- "WATCH - Voluntary Water Conservation"
+  #     color_stage <- "yellow"}
+  #   infoBox(
+  #     title = "MWCOG drought stage",
+  #     value = paste(text_stage),
+  #     subtitle = NULL,
+  #     icon = shiny::icon("arrow"),
+  #     color = color_stage
+  #   )
+  # }) # end output$mwcog_stage
+  # 
+  output$mwcog_stage <- renderUI({
     potomac.ts.df <- ts$flows
     por_flow <- last(potomac.ts.df$por_nat)
     if(por_flow > 2000) {
       text_stage <- "NORMAL - Wise Water Use"
-      color_stage <- "green"}
+      color_stage <- green}
     if(por_flow <= 2000) {
       # based on NOAA drought status - D1
       # then "notifications" upon 1st release, & when jrr+sen at 75%
       text_stage <- "WATCH - Voluntary Water Conservation"
-      color_stage <- "yellow"}
-    infoBox(
-      title = "MWCOG drought stage",
-      value = paste(text_stage),
-      subtitle = NULL,
-      icon = shiny::icon("arrow"),
-      color = color_stage
+      color_stage <- yellow}
+    div(class="longbox",
+        div(class="squarei", style = color_stage,
+            div(class="content",
+                div(class="table",
+                    div(class="table-cell")))),
+        div(class="ibox", style = "background-color:white",
+            div(class="content",
+                div(class="table",
+                    div(class="table-cell",
+                        p(class = "p1",paste0("MWCOG drought stage ",text_stage))
+                    ))))
     )
-  }) # end output$mwcog_stage
+    
+  }
+  )
   #------------------------------------------------------------------
   # Create graph of storage and releases for each reservoir
   #------------------------------------------------------------------
