@@ -6,7 +6,7 @@ source("global.R", local = TRUE)
 #
 # date_today is set in /input/parameters/parameters.R, 
 #    but might want to change it
-date_today <- as.Date("1930-01-15")
+date_today <- as.Date("1930-01-03")
 #
   # Run the main simulation to the hard-coded input, date_today
   #    - ts here is the precursor of the set of reactive values
@@ -20,31 +20,24 @@ date_today <- as.Date("1930-01-15")
   flows.ts.df <- ts_new$flows
   date_last <- last(flows.ts.df$date_time)
   print(paste("After initial main run, the last date is ", date_last))
-  # Now rerun, just as in the Shiny model
-  ts_new2 <- sim_main_func(date_today, ts_new)
-  flows.ts.df <- ts_new2$flows
-  date_last <- last(flows.ts.df$date_time)
-  print(paste("After second main run, the last date is ", date_last))
-    #
-  # Now add chunks of days twice
-  chunkofdays <- 7
-  ts <- sim_add_days_func(chunkofdays, ts_new2)
-  flows.ts.df <- ts$flows
-  date_last <- last(flows.ts.df$date_time)
-  print(paste("After adding 1st chunkofdays, the last date is ", date_last))
+  # Now write some output
+  write.csv(ts_new$flows, paste(ts_output, "offline_flows.csv"))
+  write.csv(ts_new$sen, paste(ts_output, "offline_sen.csv"))
+  write.csv(ts_new$jrr, paste(ts_output, "offline_jrr.csv"))
+  write.csv(ts_new$occ, paste(ts_output, "offline_occ.csv"))
+  write.csv(ts_new$pat, paste(ts_output, "offline_pat.csv"))
   #
-  # ts <- sim_add_days_func(chunkofdays, ts_new3)
+  # # Now rerun, just as in the Shiny model
+  # ts_new2 <- sim_main_func(date_today, ts_new)
+  # flows.ts.df <- ts_new2$flows
+  # date_last <- last(flows.ts.df$date_time)
+  # print(paste("After second main run, the last date is ", date_last))
+  #   #
+  # # Now add chunks of days twice
+  # chunkofdays <- 7
+  # ts <- sim_add_days_func(chunkofdays, ts_new2)
   # flows.ts.df <- ts$flows
   # date_last <- last(flows.ts.df$date_time)
-  # print(paste("After adding 2nd chunkofdays, the last date is ", date_last))
+  # print(paste("After adding 1st chunkofdays, the last date is ", date_last))
   #
   # Now write some output
-  write.csv(ts$flows, paste(ts_output, "offline_flows.csv"))
-  write.csv(ts$sen, paste(ts_output, "offline_sen.csv"))
-  write.csv(ts$jrr, paste(ts_output, "offline_jrr.csv"))
-  write.csv(ts$occ, paste(ts_output, "offline_occ.csv"))
-  write.csv(ts$pat, paste(ts_output, "offline_pat.csv"))
-  
-  n <- 5
-  for (i in 1:n + 1){print(i)}
-  #

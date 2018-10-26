@@ -230,9 +230,11 @@ shinyServer(function(input, output, session) {
       filter(date_time >= input$plot_range[1],
              date_time <= input$plot_range[2])
     ggplot(data = jrr.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage, color = "Storage")) +
-      geom_line(aes(y = outflow, color = "Outflow")) +
-      scale_color_manual(values = c("grey", "black"))
+      geom_line(aes(y = storage_ws, color = "WS Storage")) +
+      geom_line(aes(y = storage_wq, color = "WQ Storage")) +
+      geom_line(aes(y = outflow_ws, color = "WS Outflow")) +
+      geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
+      scale_color_manual(values = c("grey", "blue", "yellow", "black"))
   }) # end jrr renderPlot
   #
   #------------------------------------------------------------------

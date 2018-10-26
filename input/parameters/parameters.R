@@ -32,6 +32,15 @@ month_sim <- c(1:12)
 #   so these are dummy values
 #--------------------------------------------------------------------------------
 # Little Seneca Reservoir
+#
+sen_cap <- 4000.0
+sen_stor0 <- 3000.0
+sen_flowby <- 10.0
+sen_withdr_req0 <- 5.0
+sen_withdr_max <- 2.0
+sen_withdr_min <- 1.0
+sen_ws_rel_req0 <- 3.0
+#
 sen.rc.df <- data.frame(month_sim) %>%
   dplyr::mutate(stor1 = 500,
                 stor2 = 1000,
@@ -42,10 +51,42 @@ sen.rc.df <- data.frame(month_sim) %>%
 #
 #--------------------------------------------------------------------------------
 # Jennings Randolph Reservoir
-jrr.rc.df <- sen.rc.df
 #
+jrr_cap <- 28823.0
+jrr_cap_cp <- 28223.0
+jrr_stor0 <- 28223.0
+jrr_flowby <- 77.6
+jrr_withdr_req0 <- 0.0
+jrr_withdr_max <- 5818
+jrr_withdr_min <- 0.0
+jrr_ws_rel_req0 <- 300.0
+#
+jrr_ws_frac <- 0.4456
+jrr_wq_frac <- 0.5544
+#
+# jrr.rc.df <- sen.rc.df
+#
+# Note these storages assume the scenario year is 2039!
+stor1 <- c(16379, 16379, 19795, 26466, 26466, 26466,
+           25047, 23667, 22327, 21035, 18604, 16379)
+stor2 <- c(19795, 19795, 22327, 28223, 28223, 28223,
+           28223, 28223, 28223, 25047, 22327, 19795)
+stor3 <- c(26466, 26466, 26466, 28823, 28823, 28823,
+           28823, 28823, 28823, 27926, 27045, 26466)
+withdr2 <- c(300, 300, 300, 400, 300, 300,
+             250, 200, 150, 200, 300, 300)
+jrr.rc.df <- data.frame(month_sim, stor1, stor2, stor3, withdr2) %>%
+  dplyr::mutate(withdr1 = 77.6, withdr3 = 970)
 #--------------------------------------------------------------------------------
 # Occoquan Reservoir
+#
+occ_cap <- 8000.0
+occ_stor0 <- 8000.0
+occ_flowby <- 0.0
+occ_withdr_req0 <- 70.0
+occ_withdr_max <- 120.0
+occ_withdr_min <- 45.0
+occ_ws_rel_req0 <- 0.0
 #
 occ_fixed_ls <- 15 # load-shift amount, mgd
 occ_stor_emerg <- 1000 # emergency storage, below which there are no load-shifts
@@ -66,6 +107,14 @@ occ.rc.df <- data.frame(month_sim, stor1, stor2, stor3) %>%
   dplyr::mutate(withdr1 = 48, withdr2 = 50 + uosa_added, withdr3 = 70 + uosa_added)
 #--------------------------------------------------------------------------------
 # Patuxent reservoirs
+#
+pat_cap <- 10000.0
+pat_stor0 <- 10000.0
+pat_flowby <- 10.0 # still bugs in res_ops_today - NA's when this was 120
+pat_withdr_req0 <- 40.0
+pat_withdr_max <- 65.0
+pat_withdr_min <- 1.0
+pat_ws_rel_req0 <- 0.0
 #
 stor1 <- c(1000, 1000, 1000, 1000, 1000, 1000,
            1000, 1000, 1000, 1000, 1000, 1000)

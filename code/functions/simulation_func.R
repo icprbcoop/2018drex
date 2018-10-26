@@ -82,6 +82,11 @@ simulation_func <- function(date_sim0,
     d_today_fw_e > occ_withdr_rc ~ occ_withdr_rc,
     d_today_fw_e <= occ_withdr_rc ~ d_today_fw_e)
   #
+  # Finally compute Jennings water quality release 
+  jrr.df <- ts$jrr
+  jrr_stor <- last(jrr.df$storage)
+  jrr_rel_rc <- nbr_rule_curve_func(month_today, jrr_stor, jrr)
+  #
   #-----------------------------------------------------------------------------
   # 1. Compute today's upstr releases assuming no water supply (ws) needs
   #-----------------------------------------------------------------------------
@@ -95,11 +100,12 @@ simulation_func <- function(date_sim0,
                                         ts$sen,
                                         0,
                                         0) 
-  ts$jrr <- reservoir_ops_today_func(date_sim0,
+  ts$jrr <- jrr_reservoir_ops_today_func2(date_sim0,
                                         jrr,
                                         ts$jrr,
                                         0,
-                                        0)
+                                        0,
+                                        jrr_rel_rc)
   ts$pat <- reservoir_ops_today_func(date_sim0,
                                         pat, # res
                                         ts$pat, # res.ts.df
@@ -157,7 +163,7 @@ simulation_func <- function(date_sim0,
   #
   # Compute ws need in 9 days - for N Br release 
   ws_need_9day <- estimate_need_func(lfalls_obs_fc9_no_ws,
-                                     mos_9day)
+                                     mos_9day + 100)
   #
   # What about the "Occoquan load-shift"? to save L Seneca storage
   #   Load-shifting, ie additional Occ withdrawal, is only allowed
@@ -183,11 +189,12 @@ simulation_func <- function(date_sim0,
                                         ts$sen,
                                         0,
                                         sen_rel_req)
-  ts$jrr <- reservoir_ops_today_func(date_sim0,
+  ts$jrr <- jrr_reservoir_ops_today_func2(date_sim0,
                                         jrr, 
                                         ts$jrr,
                                         0,
-                                        ws_need_9day)
+                                        ws_need_9day,
+                                        jrr_rel_rc) # wq_rel_req
   ts$pat <- reservoir_ops_today_func(date_sim0,
                                         pat, # res = pat
                                         ts$pat, 
@@ -227,7 +234,7 @@ simulation_func <- function(date_sim0,
   qad3 <- as.Date(last(potomac.ts.df2$date_time))
   qad5 <- date_sim0
   qav2 <- lfalls_obs_fc1_no_ws
-  qav3 <- occ_ls
+  qav3 <- jrr_rel_rc
   ts$flows <- forecasts_flows_func(date_sim0,
                                         qad1,
                                         qav3,

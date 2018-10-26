@@ -21,44 +21,24 @@ inflows.df <- flows.daily.mgd.df %>%
 #------------------------------------------------------------------
 # Load the basic reservoir data and inflow time series
 #------------------------------------------------------------------
-# Later want to read this from /input/parameters/*.R
-sen_cap <- 4000.0
-sen_stor0 <- 3000.0
-sen_flowby <- 10.0
-sen_withdr_req0 <- 5.0
-sen_withdr_max <- 2.0
-sen_withdr_min <- 1.0
-sen_ws_rel_req0 <- 3.0
+# Note - read for each res from /input/parameters/*.R
+# res_cap <- 4000.0
+# res_stor0 <- 3000.0
+# res_flowby <- 10.0
+# res_withdr_req0 <- 5.0
+# res_withdr_max <- 2.0
+# res_withdr_min <- 1.0
+# res_ws_rel_req0 <- 3.0
+#
 sen.inflows.df <- inflows.df %>%
   select(date_time, inflows = lsen_in)
 #
-jrr_cap <- 16000.0
-jrr_stor0 <- 15000.0
-jrr_flowby <- 120.0
-jrr_withdr_req0 <- 120.0
-jrr_withdr_max <- 2.0
-jrr_withdr_min <- 1.0
-jrr_ws_rel_req0 <- 300.0
 jrr.inflows.df <- inflows.df %>%
   select(date_time, inflows = jrr_in)
 #
-pat_cap <- 10000.0
-pat_stor0 <- 10000.0
-pat_flowby <- 10.0 # still bugs in res_ops_today - NA's when this was 120
-pat_withdr_req0 <- 40.0
-pat_withdr_max <- 65.0
-pat_withdr_min <- 1.0
-pat_ws_rel_req0 <- 0.0
 pat.inflows.df <- inflows.df %>%
   select(date_time, inflows = pat_in)
 #
-occ_cap <- 8000.0
-occ_stor0 <- 8000.0
-occ_flowby <- 0.0
-occ_withdr_req0 <- 70.0
-occ_withdr_max <- 120.0
-occ_withdr_min <- 45.0
-occ_ws_rel_req0 <- 0.0
 occ.inflows.df <- inflows.df %>%
   select(date_time, inflows = occ_in)
 #
@@ -105,7 +85,18 @@ occ <- new("Reservoir", name = "Occoquan Reservoir",
 # Initialize dataframes that hold the reservoir time series (ts)
 #------------------------------------------------------------------
 sen.ts.df0 <- reservoir_ops_init_func(sen, sen_withdr_req0, sen_ws_rel_req0)
-jrr.ts.df0 <- reservoir_ops_init_func(jrr, jrr_withdr_req0, jrr_ws_rel_req0)
+jrr.ts.df00 <- reservoir_ops_init_func(jrr, jrr_withdr_req0, jrr_ws_rel_req0)
+jrr.ts.df0 <- jrr.ts.df00 %>%
+  mutate(storage_ws = 13000,
+         storage_wq = 15000,
+         ws_rel_req = 0,
+         wq_rel_req = 120,
+         outflow = 120, # adding this because of mysterious problem
+         outflow_ws = 0,
+         outflow_wq = 120) %>%
+  select(date_time, storage, storage_ws, storage_wq,
+         inflow, withdr, outflow, outflow_ws, outflow_wq,
+         withdr_req, rel_req, ws_rel_req, wq_rel_req, available)
 pat.ts.df0 <- reservoir_ops_init_func(pat, pat_withdr_req0, pat_ws_rel_req0)
 occ.ts.df0 <- reservoir_ops_init_func(occ, occ_withdr_req0, occ_ws_rel_req0)
 #
