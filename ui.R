@@ -17,19 +17,18 @@ dashboardPage(skin = "blue",
   #--------------------------------------------------------------------------------
   dashboardSidebar(
     width = 250,
-
-dateRangeInput("plot_range",
+    dateRangeInput("plot_range",
                "Specify plot range",
 #               start = "1929-10-01",
 #               end = "1930-12-31",
                start = date_start,
                end = date_end,
                format = "yyyy-mm-dd",
-               width = NULL), #"250px"),
-
+               width = NULL),
 dateInput("DREXtoday",
           "Change last day of simulation",
-          value = date_today, # date_today set in global.R
+#          value = date_today, # date_today set in global.R
+          value = "1930-02-15",
 #          min = "1929-10-02",
 #          max = "1931-12-31",
           min = date_start,
@@ -68,95 +67,86 @@ actionButton("write_ts",
   dashboardBody(
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")),
-    #--------------------------------------------------------------------------------
-    # Potomac River flows graph
-    #--------------------------------------------------------------------------------
-        fluidRow(
-      column(
-        width = 8,
-        box(
-          title = "Potomac River flow",
-          width = NULL,
-          plotOutput("potomacFlows", height = "220px")
-          )
-        ),
-      #--------------------------------------------------------------------------------
-      # Output to the left of the Potomac River flows graph
-      #--------------------------------------------------------------------------------
-        column(
-        width = 4,
-#        infoBoxOutput("sim_today", width = NULL),
-#        valueBoxOutput("sim_today", width = NULL),
-        valueBoxOutput("por_flow", width = NULL),
-# may not have space for displaying demand:
-#        valueBoxOutput("demand", width = NULL),
-#        valueBoxOutput("lfalls_adj", width = NULL),
-        valueBoxOutput("lfalls_obs", width = NULL),
-        infoBoxOutput("coop_ops", width = NULL)
-      )
-    ), # end fluidRow with Potomac flows
-    #
-    #--------------------------------------------------------------------------------
-    # The four reservoir storage/release graphs
-    #--------------------------------------------------------------------------------
-    fluidRow(
-      column(
-        width = 4,
-        box(
-          title = "Jennings Randolph",
-          width = NULL,
-          plotOutput("jrrStorageReleases", height = "150px")
-        ),
-        box(
-          title = "Occoquan",
-          width = NULL,
-          plotOutput("occStorageReleases", height = "150px")
-        )
-      ),
-      column(
-        width = 4,
-        box(
-          title = "Little Seneca",
-          width = NULL,
-          plotOutput("senStorageReleases", height = "150px")
-        ),
-        box(
-          title = "Patuxent",
-          width = NULL,
-          plotOutput("patStorageReleases", height = "150px")
-        )
-      ), 
-      #--------------------------------------------------------------------------------
-      # Output to the left of the reservoir storage graphs
-      #--------------------------------------------------------------------------------
-        column(
-        width = 4,
-        infoBoxOutput("lfaa_alert", width = NULL),
-        infoBoxOutput("mwcog_stage", width = NULL),
-        box(
-          title = "MARYLAND DROUGHT STATUS",
-          width = 6,
-          height = 220,
-          htmlOutput(outputId = "boxes")
-          ),
-          #tags$p("Western region: Drought Watch; Central region: Drought Warning")),
-        box(
-          title = "VIRGINIA DROUGHT STATUS",
-          width = 6,
-          height = 220,
-          htmlOutput(outputId = "boxes2")
-          )
-          #"NoVa: Drought Watch; Shenandoah: Drought Emergency")
-        )
-    ), # end fluidRow with reservoir storage
-#
-#--------------------------------------------------------------------------------
-# Temporary row to display some output for QAing
-#--------------------------------------------------------------------------------
-# 
-    fluidRow(
+      # seem to need to start with fluidrow, so define main row & col
+        fluidRow( # major row that contains whole body
+          column( # major column that contains whole body
+            width = 12,
+            #
+            # now add the content
+            column(  # this is the 1st main column - with the graphs
+              width = 6,
+              fluidRow( # row with Potomac flow graph
+                box(
+                  title = "Potomac River flow",
+                  width = NULL,
+                  plotOutput("potomacFlows", height = "220px")
+                  )
+                ),
+              fluidRow( # row with 2 reservoir graphs
+                column(
+                  width = 6,
+                  box(
+                    title = "Jennings Randolph",
+                    width = NULL,
+                    plotOutput("jrrStorageReleases", height = "150px")
+                    )
+                ),
+                column(
+                  width = 6,
+                  box(
+                    title = "Occoquan",
+                    width = NULL,
+                    plotOutput("occStorageReleases", height = "150px")
+                    )
+                )
+              ), # end row with jrr and occ graphs
+              fluidRow(
+                column(
+                  width = 6,
+                  box(
+                    title = "Little Seneca",
+                    width = NULL,
+                    plotOutput("senStorageReleases", height = "150px")
+                    )
+                  ),
+                column(
+                  width = 6,
+                  box(
+                    title = "Patuxent",
+                    width = NULL,
+                    plotOutput("patStorageReleases", height = "150px")
+                    )
+                  )
+                  ) # end row with sen and pat graphs 
+#                ) # end of row with all 4 reservoir graphs
+            ), # end of 1st main column - with graphs
+            column( # this is the 2nd main column - with values & triggers
+              width = 6,
+              valueBoxOutput("por_flow", width = NULL),
+              valueBoxOutput("lfalls_obs", width = NULL),
+              infoBoxOutput("coop_ops", width = NULL),
+              infoBoxOutput("lfaa_alert", width = NULL),
+              infoBoxOutput("mwcog_stage", width = NULL),
+              box(
+                title = "MARYLAND DROUGHT STATUS",
+                width = 6,
+                height = 220,
+                htmlOutput(outputId = "boxes")
+                ),
+                #tags$p("Western region: Drought Watch; Central region: Drought Warning")),
+              box(
+                title = "VIRGINIA DROUGHT STATUS",
+                width = 6,
+                height = 220,
+                htmlOutput(outputId = "boxes2")
+                )
+                #"NoVa: Drought Watch; Shenandoah: Drought Emergency")
+              ) # end of 2nd main column
+            ) # end of major column that contains whole body
+          ), # end of major row that contains whole body
+    fluidRow( # Temporary row to display some output for QAing
       valueBoxOutput("QA_out", width = NULL) 
       ) # end fluidRow for QAing purposes
-      ) # end dashboardBody
+    ) # end dashboardBody
 ) # end dashboardPage
 

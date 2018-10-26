@@ -118,12 +118,12 @@ jrr_reservoir_ops_today_func2 <- function(date_sim, res, res.ts.df,
     # if there's a ws release request, drop the wq release down to the min
     ws_rel <- ws_rel_req
     wq_rel <- wq_rel_req
-    print(paste("ws_rel0", ws_rel))
+    # print(paste("ws_rel0", ws_rel))
       if(ws_rel_req > 0){
       wq_rel <- rc$withdr1*1.0       
       ws_rel <- rel_req - wq_rel
       }
-    print(paste("ws_rel1", ws_rel))
+    # print(paste("ws_rel1", ws_rel))
     # if there's excess water over the top RC, release it, and if
     #   excess < rel_req it's safe to release rel_req
     # (forget for now about the Corps' max release of 9000 cfs)
@@ -142,7 +142,7 @@ jrr_reservoir_ops_today_func2 <- function(date_sim, res, res.ts.df,
         outflow0 <- if_else(available < rc$stor1, rc$withdr1, rc$withdr2)
         ws_rel <- 0.0
       }
-      print(paste("ws_rel2", ws_rel))
+      # print(paste("ws_rel2", ws_rel))
       if(ws_rel_req > 0){
         # make sure there's enough in ws storage for the ws release
         ws_rel <- if_else(ws_rel < stor_ws, ws_rel, stor_ws)
@@ -151,9 +151,9 @@ jrr_reservoir_ops_today_func2 <- function(date_sim, res, res.ts.df,
           wq_rel <- wq_rel_req
           ws_rel <- 0.0
         }
-        print(paste("ws_rel3", ws_rel))
+        # print(paste("ws_rel3", ws_rel))
       }
-      print(paste("ws_rel4", ws_rel))
+      # print(paste("ws_rel4", ws_rel))
       outflow0 <- ws_rel + wq_rel
     }
     
