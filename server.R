@@ -193,7 +193,7 @@ shinyServer(function(input, output, session) {
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p(class = "p1",paste0("CO-OP operations status ",text_stage2))
+                        p(class = "p1",paste0("CO-OP operations status "))#,text_stage2))
                     ))))
     )
     
@@ -260,7 +260,7 @@ shinyServer(function(input, output, session) {
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p(class = "p1",paste0("Little Falls adj. flow, MGD "))#,text_stage2))
+                        p(class = "p1",paste0("LFAA stage"))#"Little Falls adj. flow, MGD "))#,text_stage2))
                     ))))
     )
     
@@ -313,7 +313,7 @@ shinyServer(function(input, output, session) {
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p(class = "p1",paste0("MWCOG drought stage ",text_stage2))
+                        p(class = "p1",paste0("MWCOG drought stage "))#,text_stage2))
                     ))))
     )
     
@@ -406,64 +406,112 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   #Shenandoah warning status squares
   output$boxes  <- renderUI({
-    #div(class="topbox_main",
-    div(class="topbox1",
-        div(class="square", style=precip_value(),#"background-color:yellow"
+    
+    div(class="topbox_main",
+      img( src="https://md.water.usgs.gov/drought/MDE-Drought2017-02-28.png", height="160px", width="360px"),
+      
+    div(class="sidebox",
+        div(class="square", style = "background-color:white",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("precipi- tation deficit")
-                    )))), 
-        div(class="square", style=g_value(),#"background-color:red",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell",
-                        p("ground water wells")
+                        p(class="p3",style="font-size:6px","Flow benefit, MGD")
                     )))),
-        div(class="square", style=q_value(),#"background-color:green",
+        div(class="square", style="background-color:grey",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p("reservoir flow")
-                    )))),
-        div(class="square", style=s_value(),#"background-color:orange",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell",
-                        p("stream- flow")
+                        p("12")
                     ))))
-    )#, #end of topbox1
+      ) #end of sidebox
+    ) #end of topbox_main
+
   })
   
   #------------------------------------------------------------------
   #NoVa warning status squares
   output$boxes2  <- renderUI({
-    div(class="topbox2", 
-        div(class="square", style="background-color:yellow",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell",
-                        p("precipi- tation deficit")
-                    )))),
-        div(class="square", style="background-color:orange",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell",
-                        p("ground water wells")
-                    )))),
-        div(class="square", style="background-color:red",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell",
-                        p("reservoir flow")
-                    )))),
-        div(class="square", style="background-color:green",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell",
-                        p("stream- flow")
-                    ))))
-    ) #end of topbox2
+    div(class="topbox_main",
+      div(class="topbox1",
+          div(class="square", style=precip_value(),#"background-color:yellow"
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("precipi- tation deficit")
+                      )))), 
+          div(class="square", style=g_value(),#"background-color:red",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("ground water wells")
+                      )))),
+          div(class="square", style=q_value(),#"background-color:green",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("reservoir flow")
+                      )))),
+          div(class="square", style=s_value(),#"background-color:orange",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("stream- flow")
+                      )))),
+          div(class="ibox", style = "background-color:white",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p(class = "p3",paste0("Shenandoah "))#,text_stage2))
+                      ))))
+      ), #end of topbox1
+      div(class="topbox2", 
+          div(class="square", style="background-color:yellow",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("precipi- tation deficit")
+                      )))),
+          div(class="square", style="background-color:orange",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("ground water wells")
+                      )))),
+          div(class="square", style="background-color:red",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("reservoir flow")
+                      )))),
+          div(class="square", style="background-color:green",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("stream- flow")
+                      )))),
+          div(class="ibox", style = "background-color:white",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p(class = "p3",paste0("NoVa "))#,text_stage2))
+                      ))))
+          
+      ), #end of topbox2
+      div(class="sidebox",
+          div(class="square", style = "background-color:white",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p(class="p3",style="font-size:6px","Flow benefit, MGD")
+                      )))),
+          div(class="square", style="background-color:grey",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p("12")
+                      ))))
+      ) #end of sidebox
+    )#end of topbox_main
   })
   
   #------------------------------------------------------------------

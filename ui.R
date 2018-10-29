@@ -149,14 +149,14 @@ actionButton("write_ts",
              
               box(
                 title = "MARYLAND DROUGHT STATUS",
-                width = 6,
+                width = NULL,#6,
                 height = 220,
                 htmlOutput(outputId = "boxes")
                 ),
                 #tags$p("Western region: Drought Watch; Central region: Drought Warning")),
               box(
                 title = "VIRGINIA DROUGHT STATUS",
-                width = 6,
+                width = NULL,#6,
                 height = 220,
                 htmlOutput(outputId = "boxes2")
                 )

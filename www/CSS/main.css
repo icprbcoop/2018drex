@@ -25,17 +25,30 @@ li {
   padding:0;
 }
 
+.topbox_main{
+  
+}
+
 .topbox1 {
   /*float: left;*/
+  display:inline-block;
   width:125px;
   padding-bottom : 40%;
 
 }
 .topbox2 {
   /*float: right;*/
+  display:inline-block;
   width:125px;
   padding-bottom : 40%;
  
+}
+
+.sidebox {
+  display:inline-block;
+  position:relative;
+  width:20%;
+  height: 50px;
 }
 
  
@@ -47,7 +60,7 @@ li {
 
 .p1 {
   color:black;
-  font-size:15px;
+  font-size:20px;
 }
 
 .p2 {
@@ -55,7 +68,7 @@ li {
   font-weight:bold;
   margin:0;
   padding:0;
-  
+  font-size:20px;
   
 }
 
