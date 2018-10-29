@@ -20,6 +20,11 @@ li {
   height: 50px;
 }*/
 
+.box {
+  margin:0;
+  padding:0;
+}
+
 .topbox1 {
   /*float: left;*/
   width:125px;
@@ -90,8 +95,10 @@ li {
 
 .my_content {
     position:absolute;
+    margin: 0;
+    padding: 0;
     font-size:10px;
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color:black;
     
@@ -100,6 +107,7 @@ li {
     padding: 10% 5%;8?
     /*background-color: blue;*/
 }
+
 
 .table{
     display:table;

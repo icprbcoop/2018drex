@@ -184,13 +184,13 @@ shinyServer(function(input, output, session) {
       color_stage <- yellow}
     div(class="longbox",
         div(class="squarei", style = color_stage,
-            div(class="content",
+            div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
                         p(class="p2",text_stage)
                           )))),
         div(class="ibox", style = "background-color:white",
-            div(class="content",
+            div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
                         p(class = "p1",paste0("CO-OP operations status ",text_stage2))
@@ -251,13 +251,13 @@ shinyServer(function(input, output, session) {
   
     div(class="longbox",
         div(class="squarei", style = color_stage,
-            div(class="content",
+            div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
                         p(class="p2",text_stage)
                         )))),
         div(class="ibox", style = "background-color:white",
-            div(class="content",
+            div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
                         p(class = "p1",paste0("Little Falls adj. flow, MGD "))#,text_stage2))
@@ -304,13 +304,13 @@ shinyServer(function(input, output, session) {
       color_stage <- yellow}
     div(class="longbox",
         div(class="squarei", style = color_stage,
-            div(class="content",
+            div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
                         p(class="p2",text_stage)
                         )))),
         div(class="ibox", style = "background-color:white",
-            div(class="content",
+            div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
                         p(class = "p1",paste0("MWCOG drought stage ",text_stage2))
