@@ -130,16 +130,19 @@ actionButton("write_ts",
               box(
                 title=NULL,
                 width=NULL,
+                height=50,
                 htmlOutput(outputId = "coop_ops")
               ),
               box(
                 title=NULL,
                 width=NULL,
+                height=50,
                 htmlOutput(outputId = "lfaa_alert")
               ),
               box(
                 title=NULL,
                 width=NULL,
+                height=50,
                 htmlOutput(outputId = "mwcog_stage")
               ),
               

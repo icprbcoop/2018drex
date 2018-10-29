@@ -176,25 +176,30 @@ shinyServer(function(input, output, session) {
     por_flow <- last(potomac.ts.df$por_nat*mgd_to_cfs)
     if(por_flow > 2000) {
       text_stage <- "NORMAL"
+      text_stage2 <- ""
       color_stage <- green}
     if(por_flow <= 2000) {
-      text_stage <- "Daily monitoring & reporting"
+      text_stage <- "WATCH" 
+      text_stage2 <- "Daily monitoring & reporting"
       color_stage <- yellow}
     div(class="longbox",
         div(class="squarei", style = color_stage,
             div(class="content",
                 div(class="table",
-                    div(class="table-cell")))),
+                    div(class="table-cell",
+                        p(class="p2",text_stage)
+                          )))),
         div(class="ibox", style = "background-color:white",
             div(class="content",
                 div(class="table",
                     div(class="table-cell",
-                        p(class = "p1",paste0("CO-OP operations status ",text_stage))
+                        p(class = "p1",paste0("CO-OP operations status ",text_stage2))
                     ))))
     )
     
   }
   )
+
   #------------------------------------------------------------------
   #------------------------------------------------------------------
   # Create info on LFAA stage
@@ -248,12 +253,14 @@ shinyServer(function(input, output, session) {
         div(class="squarei", style = color_stage,
             div(class="content",
                 div(class="table",
-                    div(class="table-cell")))),
+                    div(class="table-cell",
+                        p(class="p2",text_stage)
+                        )))),
         div(class="ibox", style = "background-color:white",
             div(class="content",
                 div(class="table",
                     div(class="table-cell",
-                        p(class = "p1",paste0("Little Falls adj. flow, MGD ",text_stage))
+                        p(class = "p1",paste0("Little Falls adj. flow, MGD "))#,text_stage2))
                     ))))
     )
     
@@ -286,23 +293,27 @@ shinyServer(function(input, output, session) {
     potomac.ts.df <- ts$flows
     por_flow <- last(potomac.ts.df$por_nat)
     if(por_flow > 2000) {
-      text_stage <- "NORMAL - Wise Water Use"
+      text_stage <- "NORMAL" 
+      text_stage2 <- "- Wise Water Use"
       color_stage <- green}
     if(por_flow <= 2000) {
       # based on NOAA drought status - D1
       # then "notifications" upon 1st release, & when jrr+sen at 75%
-      text_stage <- "WATCH - Voluntary Water Conservation"
+      text_stage <- "WATCH" 
+      text_stage2 <- "- Voluntary Water Conservation"
       color_stage <- yellow}
     div(class="longbox",
         div(class="squarei", style = color_stage,
             div(class="content",
                 div(class="table",
-                    div(class="table-cell")))),
+                    div(class="table-cell",
+                        p(class="p2",text_stage)
+                        )))),
         div(class="ibox", style = "background-color:white",
             div(class="content",
                 div(class="table",
                     div(class="table-cell",
-                        p(class = "p1",paste0("MWCOG drought stage ",text_stage))
+                        p(class = "p1",paste0("MWCOG drought stage ",text_stage2))
                     ))))
     )
     

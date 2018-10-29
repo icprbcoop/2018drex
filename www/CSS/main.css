@@ -3,7 +3,7 @@
 color: blue;
 font-size:10px;
 }*/
-li{
+li {
   color: white;
   font-size: 25px;
   font:"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -16,9 +16,9 @@ li{
   width:250px;
 }*/
 
-.info-box{
+/*.info-box{
   height: 50px;
-}
+}*/
 
 .topbox1 {
   /*float: left;*/
@@ -42,13 +42,22 @@ li{
 
 .p1 {
   color:black;
+  font-size:15px;
+}
+
+.p2 {
+  color:white;
+  font-weight:bold;
+  margin:0;
+  padding:0;
+  
   
 }
 
 .ibox {
   display:inline-block;
   width:60%;
-  height:50px;
+  height:25px;
   
 }
 
@@ -56,12 +65,14 @@ li{
     /*float:left;*/
     display:inline-block;
     position: relative;
-    width: 7%;
-    height:40px;
+    width: 20%;
+    height:25px;
     /*padding-bottom : 40%;*/ /* = width for a 1:1 aspect ratio */
-    margin:1.66%;
+    /*margin:1.66%;*/
     overflow:hidden;
     /*background-color:red;*/
+    margin:0;
+    padding:0;
 } 
 
 .square {
