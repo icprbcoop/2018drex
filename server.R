@@ -411,19 +411,19 @@ shinyServer(function(input, output, session) {
       img( src="https://md.water.usgs.gov/drought/MDE-Drought2017-02-28.png", height="160px", width="360px"),
       
     div(class="sidebox",
-        div(class="square", style = "background-color:white",
+        div(class="squareside1", style = "background-color:white",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell",
-                        p(class="p3",style="font-size:6px","Flow benefit, MGD")
+                        p(class="p3","Flow benefit, MGD")
                     )))),
-        div(class="square", style="background-color:grey",
+        div(class="squareside2", style="background-color:silver",
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell",
-                        p("12")
+                    div(class="table-cell", style="text-align:right;",
+                        p(style="font-size:15px;","12")
                     ))))
-      ) #end of sidebox
+    ) #end of sidebox
     ) #end of topbox_main
 
   })
@@ -437,25 +437,25 @@ shinyServer(function(input, output, session) {
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("precipi- tation deficit")
+                          p(class="p4","P")
                       )))), 
           div(class="square", style=g_value(),#"background-color:red",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("ground water wells")
-                      )))),
-          div(class="square", style=q_value(),#"background-color:green",
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p("reservoir flow")
+                          p(class="p4","GW")
                       )))),
           div(class="square", style=s_value(),#"background-color:orange",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("stream- flow")
+                          p(class="p4","SW")
+                      )))),
+          div(class="square", style=q_value(),#"background-color:green",
+              div(class="my_content",
+                  div(class="table",
+                      div(class="table-cell",
+                          p(class="p4","R")
                       )))),
           div(class="ibox", style = "background-color:white",
               div(class="my_content",
@@ -469,25 +469,25 @@ shinyServer(function(input, output, session) {
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("precipi- tation deficit")
+                          p(class="p4","P")
                       )))),
           div(class="square", style="background-color:orange",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("ground water wells")
+                          p(class="p4","GW")
                       )))),
           div(class="square", style="background-color:red",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("reservoir flow")
+                          p(class="p4","SW")
                       )))),
           div(class="square", style="background-color:green",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("stream- flow")
+                          p(class="p4","R")
                       )))),
           div(class="ibox", style = "background-color:white",
               div(class="my_content",
@@ -498,17 +498,17 @@ shinyServer(function(input, output, session) {
           
       ), #end of topbox2
       div(class="sidebox",
-          div(class="square", style = "background-color:white",
+          div(class="squareside1", style = "background-color:white",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p(class="p3",style="font-size:6px","Flow benefit, MGD")
+                          p(class="p3","Flow benefit, MGD")
                       )))),
-          div(class="square", style="background-color:grey",
+          div(class="squareside2", style="background-color:silver",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p("12")
+                          p(style="font-size:15px;","12")
                       ))))
       ) #end of sidebox
     )#end of topbox_main
