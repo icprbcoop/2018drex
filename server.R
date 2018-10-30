@@ -283,7 +283,7 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = outflow_ws, color = "WS Outflow")) +
       geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
       scale_color_manual(values = c("grey", "blue", "yellow", "black"))
-  }) # end jrr renderPlot
+  }) # end jrr renderPlot testing
   
   #
   #------------------------------------------------------------------
