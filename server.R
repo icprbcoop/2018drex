@@ -66,19 +66,21 @@ shinyServer(function(input, output, session) {
   potomac.graph.df0 <- left_join(potomac.ts.df, 
                                  potomac.data.df, 
                                  by = "date_time") %>%
-    dplyr::select(date_time, lfalls_nat = lfalls_nat.x, 
-                  por_nat = por_nat.x, 
-                  demand, lfalls_obs,
-                  sen_outflow, jrr_outflow)
+    dplyr::select(Date = date_time, LFalls = lfalls_obs, 
+ #                 por_nat = por_nat.x, 
+                  Withdrawals = demand)
   potomac.graph.df <- potomac.graph.df0 %>%
-    gather(key = "location", 
-           value = "flow_mgd", -date_time) 
+    gather(key = "Flow", 
+           value = "MGD", -Date) 
   
     potomac.graph.df <- potomac.graph.df %>%
-      filter(date_time >= input$plot_range[1],
-             date_time <= input$plot_range[2])
-    ggplot(data = potomac.graph.df, aes(x = date_time, y = flow_mgd, group = location)) +
-      geom_line(aes(color = location))
+      filter(Date >= input$plot_range[1],
+             Date <= input$plot_range[2])
+    ggplot(data = potomac.graph.df, aes(x = Date, y = MGD, group = Flow)) +
+      geom_line(aes(color = Flow, size = Flow)) +
+      scale_color_manual(values = c("deepskyblue1", "red")) +
+      scale_size_manual(values = c(2, 1)) +
+      theme(axis.title.x = element_blank())
     }) # end output$potomacFlows
   # #------------------------------------------------------------------
   # # Create today's date
@@ -200,38 +202,6 @@ shinyServer(function(input, output, session) {
   }
   )
 
-  #------------------------------------------------------------------
-  #------------------------------------------------------------------
-  # Create info on LFAA stage
-  #------------------------------------------------------------------
-#     output$lfaa_alert <- renderInfoBox({
-#     potomac.ts.df <- ts$flows
-#     W <- last(potomac.ts.df$demand*1.0)
-#     Qadj <- round(last(potomac.ts.df$lfalls_adj*1.0))
-#     if(Qadj > W/0.5) {
-#       text_stage <- "NORMAL"
-#       color_stage <- "green"}
-#     if(Qadj <= W/0.5 & Qadj > (W + 100)/0.8){
-#       text_stage <- "ALERT"
-#       color_stage <- "yellow"}
-#     if(Qadj <= (W + 100)/0.8 & Qadj > W + 110){
-#       text_stage <- "RESTRICTION"
-#       color_stage <- "orange"}
-#     if(Qadj <= (W + 110)){
-#       text_stage <- "EMERGENCY"
-#       color_stage <- "red"}
-# #
-#     infoBox(
-#       title = "LFAA Stage",
-#       value = paste(Qadj, text_stage),
-#       subtitle = "Little Falls adj. flow, MGD",
-#       icon = shiny::icon("arrow"),
-#       color = color_stage
-#     )
-#   }) # end output$lfaa_alert
-  #
-  
-  
   output$lfaa_alert <- renderUI({
     potomac.ts.df <- ts$flows
     W <- last(potomac.ts.df$demand*1.0)
@@ -269,25 +239,6 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   # Create info on MWCOG Drought Plan stage
   #------------------------------------------------------------------
-  # output$mwcog_stage <- renderInfoBox({
-  #   potomac.ts.df <- ts$flows
-  #   por_flow <- last(potomac.ts.df$por_nat)
-  #   if(por_flow > 2000) {
-  #     text_stage <- "NORMAL - Wise Water Use"
-  #     color_stage <- "green"}
-  #   if(por_flow <= 2000) {
-  #     # based on NOAA drought status - D1
-  #     # then "notifications" upon 1st release, & when jrr+sen at 75%
-  #     text_stage <- "WATCH - Voluntary Water Conservation"
-  #     color_stage <- "yellow"}
-  #   infoBox(
-  #     title = "MWCOG drought stage",
-  #     value = paste(text_stage),
-  #     subtitle = NULL,
-  #     icon = shiny::icon("arrow"),
-  #     color = color_stage
-  #   )
-  # }) # end output$mwcog_stage
   # 
   output$mwcog_stage <- renderUI({
     potomac.ts.df <- ts$flows
@@ -333,6 +284,7 @@ shinyServer(function(input, output, session) {
       geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
       scale_color_manual(values = c("grey", "blue", "yellow", "black"))
   }) # end jrr renderPlot
+  
   #
   #------------------------------------------------------------------
     output$senStorageReleases <- renderPlot({

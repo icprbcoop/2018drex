@@ -19,9 +19,9 @@ dashboardPage(skin = "blue",
     width = 250,
     dateRangeInput("plot_range",
                "Specify plot range",
-#               start = "1929-10-01",
+               start = "1930-02-01",
 #               end = "1930-12-31",
-               start = date_start,
+               # start = date_start,
                end = date_end,
                format = "yyyy-mm-dd",
                width = NULL),
@@ -77,7 +77,7 @@ actionButton("write_ts",
               width = 6,
               fluidRow( # row with Potomac flow graph
                 box(
-                  title = "Potomac River flow",
+                  title = "Potomac River",
                   width = NULL,
                   plotOutput("potomacFlows", height = "220px")
                   )
