@@ -362,7 +362,7 @@ shinyServer(function(input, output, session) {
   #Shenandoah warning status squares
   output$boxes  <- renderUI({
     
-    div(class="topbox_main",
+    div(class="topbox_main", p(class= "title","MARYLAND DROUGHT STATUS"),
       img( src="https://md.water.usgs.gov/drought/MDE-Drought2017-02-28.png", height="160px", width="360px"),
       
     div(class="sidebox",
@@ -386,8 +386,8 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   #NoVa warning status squares
   output$boxes2  <- renderUI({
-    div(class="topbox_main",
-      div(class="topbox1",
+    div(class="topbox_main", p(class= "title", "VIRGINIA DROUGHT STATUS"),
+      div(class="topbox1", 
           div(class="square", style=precip_value(),#"background-color:yellow"
               div(class="my_content",
                   div(class="table",
