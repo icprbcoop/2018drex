@@ -352,7 +352,10 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   #date to login bar
   output$date_text  <- renderText({
-    paste("Today's date is", as.character(test_date$test_date_value))
+    potomac.ts.df <- ts$flows
+    test_date <- last(potomac.ts.df$date_time)
+#    paste("Today's date is", as.character(test_date$test_date_value))
+    paste0("Today's date is", as.character(test_date),"  ")
   })
   
   #------------------------------------------------------------------
