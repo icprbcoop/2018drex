@@ -100,7 +100,7 @@ li {
     display:inline-block;
     position: relative;
     width: 100%;
-    height:25px;
+    height:70px;
     /*padding-bottom : 40%;*/ /* = width for a 1:1 aspect ratio */
     /*margin:1.66%;*/
     overflow:hidden;
@@ -177,8 +177,23 @@ li {
 .table-cell{
     display:table-cell;
     vertical-align:middle;
-    height:100%;
-    width:100%;
+    height:60px;
+    width:50px;
 }
 
 
+.table-cell2{
+    display:table-cell;
+    /*vertical-align:middle;*/
+    height:100%;
+    width:100%;
+    text-align:center;
+}
+
+.table-cell3{
+    display:table-cell;
+    /*vertical-align:middle;*/
+    height:100%;
+    width:100px;
+    text-align:center;
+}

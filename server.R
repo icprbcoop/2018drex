@@ -188,13 +188,13 @@ shinyServer(function(input, output, session) {
         div(class="squarei", style = color_stage,
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell",
+                    div(class="table-cell2",
                         p(class="p2",text_stage)
                           )))),
         div(class="ibox", style = "background-color:white",
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell",
+                    div(class="table-cell2",
                         p(class = "p1",paste0("CO-OP operations status "))#,text_stage2))
                     ))))
     )
@@ -223,13 +223,13 @@ shinyServer(function(input, output, session) {
         div(class="squarei", style = color_stage,
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell",
+                    div(class="table-cell2",
                         p(class="p2",text_stage)
                         )))),
         div(class="ibox", style = "background-color:white",
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell",
+                    div(class="table-cell2",
                         p(class = "p1",paste0("LFAA stage"))#"Little Falls adj. flow, MGD "))#,text_stage2))
                     ))))
     )
@@ -257,13 +257,13 @@ shinyServer(function(input, output, session) {
         div(class="squarei", style = color_stage,
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell",
+                    div(class="table-cell2",
                         p(class="p2",text_stage)
                         )))),
         div(class="ibox", style = "background-color:white",
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell",
+                    div(class="table-cell2",
                         p(class = "p1",paste0("MWCOG drought stage "))#,text_stage2))
                     ))))
     )
@@ -375,7 +375,7 @@ shinyServer(function(input, output, session) {
         div(class="squareside2", style="background-color:silver",
             div(class="my_content",
                 div(class="table",
-                    div(class="table-cell", style="text-align:right;",
+                    div(class="table-cell3", #style="text-align:right;",
                         p(style="font-size:15px;","12")
                     ))))
     ) #end of sidebox
@@ -438,7 +438,7 @@ shinyServer(function(input, output, session) {
                       div(class="table-cell",
                           p(class="p4","SW")
                       )))),
-          div(class="square", style="background-color:green",
+          div(class="square", style="background-color:#5CC33D",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
@@ -462,7 +462,7 @@ shinyServer(function(input, output, session) {
           div(class="squareside2", style="background-color:silver",
               div(class="my_content",
                   div(class="table",
-                      div(class="table-cell",
+                      div(class="table-cell3", #style= "text-align:right",
                           p(style="font-size:15px;","12")
                       ))))
       ) #end of sidebox
