@@ -16,8 +16,8 @@
 #--------------------------------------------------------------------------------
 # Define the main sim function - simulates from date_start to date_today
 
-sim_main_func <- function(date_today0, ts){
-  sim_n <- as.numeric(as.POSIXct(date_today0) - as.POSIXct(date_start),
+sim_main_func <- function(date_today, ts){
+  sim_n <- as.numeric(as.POSIXct(date_today) - as.POSIXct(date_start),
                       units = "days")
   # ts <- ts00 # why??? this holds the time series for the first day, date_start
     # print(paste("In sim_main_func I, starts with ", x))

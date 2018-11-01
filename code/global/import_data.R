@@ -4,11 +4,18 @@
 # The path to the time series is defined by /config/paths.R
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
-#
 # Import river flow and reservoir inflow ts:
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 flows.daily.mgd.df <- data.table::fread(paste(ts_path, "flows_daily_mgd.csv", sep = ""),
                                       data.table = FALSE) %>%
   dplyr::mutate(date_time = as.Date(date)) %>%
+  #
+  #------------------------------------------------------------------------------
+  # Temporarily increase jrr inflow by 20% to approximately simulate Savage
+  #------------------------------------------------------------------------------
+  dplyr::mutate(jrr = jrr*1.2) %>%
+  #----------------------------------------------------------------------------
   dplyr::select(sim_day, date_time,
                 jrr_in = jrr,
                 lsen_in = lsen,
@@ -16,7 +23,12 @@ flows.daily.mgd.df <- data.table::fread(paste(ts_path, "flows_daily_mgd.csv", se
                 occ_in = occ,
                 por_nat, below_por, lfalls_nat)
 #
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # Import a time series of total system demands.
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+#
 # (Later we could create a stochastic demand model like in PRRISM.)
 demands.daily.df <- data.table::fread(paste(ts_path, "demands_daily.csv", sep = ""),
                                        data.table = FALSE) %>%

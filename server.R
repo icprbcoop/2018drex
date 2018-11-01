@@ -15,7 +15,7 @@ shinyServer(function(input, output, session) {
               pat = pat.ts.df0,
               occ = occ.ts.df0,
               flows = potomac.ts.df0)
-  ts <- sim_main_func(date_today, ts0)
+  ts <- sim_main_func(date_today0, ts0) # date_today0 is set in parameters.R
   #
   # Now make ts reactive, initializing to results from above
   ts <- reactiveValues(flows = ts$flows, 
@@ -355,7 +355,7 @@ shinyServer(function(input, output, session) {
     potomac.ts.df <- ts$flows
     test_date <- last(potomac.ts.df$date_time)
 #    paste("Today's date is", as.character(test_date$test_date_value))
-    paste0("Today's date is", as.character(test_date),"  ")
+    paste0("Today's date is ", as.character(test_date),"  ")
   })
   
   #------------------------------------------------------------------

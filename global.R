@@ -57,8 +57,8 @@ source("code/server/potomac_flows_init.R", local = TRUE)
 # A few needed inputs which will probably be moved at some point
 #--------------------------------------------------------------------------------
 # date_today is later input$DREXtoday, but need non-reactive starting point
-# date_today <- as.Date("1930-05-01")
-# date_today <- as.Date("2039-05-01")
+# date_today0 <- as.Date("1930-05-01")
+# date_today0 <- as.Date("2039-05-01")
 lfalls_flowby <- 100 # change to read from parameter file!!!
 mos_0day <- 0 # margin of safety for Patuxent load shift
 mos_1day <- 120 # margin of safety for Seneca release

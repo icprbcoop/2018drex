@@ -4,9 +4,9 @@
 # First run global.R, which loads all data, paths, functions
 source("global.R", local = TRUE) 
 #
-# date_today is set in /input/parameters/parameters.R, 
+# date_today0 is set in /input/parameters/parameters.R, 
 #    but might want to change it
-date_today <- as.Date("1930-01-03")
+date_today0 <- as.Date("1930-01-03")
 #
   # Run the main simulation to the hard-coded input, date_today
   #    - ts here is the precursor of the set of reactive values
@@ -15,7 +15,7 @@ date_today <- as.Date("1930-01-03")
               pat = pat.ts.df0,
               occ = occ.ts.df0,
               flows = potomac.ts.df0)
-  ts_new <- sim_main_func(date_today, ts0)
+  ts_new <- sim_main_func(date_today0, ts0)
   #
   flows.ts.df <- ts_new$flows
   date_last <- last(flows.ts.df$date_time)
