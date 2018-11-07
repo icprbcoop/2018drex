@@ -61,10 +61,14 @@ simulation_func <- function(date_sim0,
   # First find wssc's pat withdr according to Patuxent rule curves (RCs)
   #   - based on today's demand fc
   # (Need to add checks!)
+  # print(demands.fc.df)
   pat.df <- ts$pat
+  # print(pat.df)
   d_today_wssc <- d_today$d_wssc
   patstuff <- last(pat.df)
   pat_stor <- last(pat.df$storage)
+  # print(paste("month_today and pat_stor are ", month_today, pat_stor))
+  # print(pat)
   pat_withdr_req0 <- rule_curve_func(month_today, pat_stor, pat)
   pat_pot_withdr0 <- d_today_wssc - pat_withdr_req0 # for QAing
   #
@@ -161,9 +165,10 @@ simulation_func <- function(date_sim0,
   ws_need_1day <- estimate_need_func(lfalls_obs_fc1_no_ws,
                                      mos_1day)
   #
-  # Compute ws need in 9 days - for N Br release 
+  # Compute ws need in 9 days - for N Br release
+  #  - the 50 is for quick and dirty balancing
   ws_need_9day <- estimate_need_func(lfalls_obs_fc9_no_ws,
-                                     mos_9day + 100)
+                                     mos_9day + 50)
   #
   # What about the "Occoquan load-shift"? to save L Seneca storage
   #   Load-shifting, ie additional Occ withdrawal, is only allowed

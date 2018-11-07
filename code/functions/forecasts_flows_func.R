@@ -92,21 +92,25 @@ forecasts_flows_func <- function(date_sim00, qavald, qavaln,
                                   demands.fc.df$d_lw[1] - 
                                   occ_withdr_today,
                   withdr_pot_fw_lagged = withdr_pot_fw_yesterday,
-# need to rename this demand_pot
+# need to rename this withdr_pot
                   demand = withdr_pot_wa + withdr_pot_wssc + withdr_pot_fw,
                   sen_outflow = sen_outflow_today, # a func input
                   sen_outflow_lagged = sen_outflow_yesterday,
                   sen_watershed = sen_other_watershed_flows, # from parameters.R
                   jrr_outflow = jrr_outflow_today, # a func input
+                  savage_outflow = jrr_outflow*0.2,
                   jrr_outflow_lagged = jrr_outflow_lagged_today,
+                  savage_outflow_lagged = jrr_outflow_lagged*0.2,
                   lfalls_nat = lfalls_nat*1.0, # somehow int - need num
-                  lfalls_adj = lfalls_nat + jrr_outflow_lagged,
+                  lfalls_adj = lfalls_nat +
+                               jrr_outflow_lagged + savage_outflow_lagged,
                   #----------------------------------------------------------------
                   # The 0-day fc happens here
                   # ie what's where we need it to be today
                   #
                   lfalls_obs = lfalls_nat + sen_watershed +
-                    jrr_outflow_lagged + sen_outflow_lagged -
+                    jrr_outflow_lagged + savage_outflow_lagged +
+                    sen_outflow_lagged -
                     withdr_pot_wa - withdr_pot_wssc - 
                     withdr_pot_fw_lagged,
     #------------------------------------------------------------------------------
@@ -119,15 +123,19 @@ forecasts_flows_func <- function(date_sim00, qavald, qavaln,
                   #     jrr_outflow + sen_watershed -
                   #     withdr_pot_wa - withdr_pot_wssc - withdr_pot_fw_lagged,
                   lfalls_obs_fc9 = lfalls_nat_fc9 +
-                    jrr_outflow + sen_watershed - # assume no lsen release
+                    jrr_outflow + savage_outflow +
+                    sen_watershed - # assume no lsen release
                     withdr_pot_wa -
                     withdr_pot_wssc -
                     withdr_pot_fw_lagged,
     # The 1-day lfalls observed fc
     #
-                  lfalls_obs_fc1 = lfalls_obs + 
+                  lfalls_obs_fc1 = case_when(
+                    # can't fc high flows, so here's a try at a check
+                    upstr_m1 < 5000 & upstr_m2 < 5000 ~ lfalls_obs + 
                                    upstr_m1 - upstr_m2 +
-                                   sen_outflow - sen_outflow_lagged
+                                   sen_outflow - sen_outflow_lagged,
+                    TRUE ~ lfalls_obs)
     ) %>% # end of mutate
     #------------------------------------------------------------------------------
     dplyr::select(date_time, qad, qav, lfalls_nat, 
@@ -136,6 +144,7 @@ forecasts_flows_func <- function(date_sim00, qavald, qavaln,
                   lfalls_obs_fc9, lfalls_obs_fc1,
                   sen_outflow, sen_outflow_lagged, sen_watershed, 
                   jrr_outflow, jrr_outflow_lagged,
+                  savage_outflow, savage_outflow_lagged,
                   withdr_pot_wa, withdr_pot_wssc, 
                   need_0day, need_1day,
                   withdr_pot_fw, withdr_pot_fw_lagged)

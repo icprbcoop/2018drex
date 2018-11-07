@@ -1,15 +1,15 @@
 #------------------------------------------------------------------
 #------------------------------------------------------------------
 # This script:
-#   a) loads in basic reservoir data, ie capacity, inflow, etc.,
-#   b) creates reservoir "objects" (R S4 class type objects) to hold this data,
-#   c) initializes reservoir dataframes with daily time series
+#   A) loads in basic reservoir data, ie capacity, inflow, etc.,
+#   B) creates reservoir "objects" (R S4 class type objects) to hold this data,
+#   C) initializes reservoir dataframes with daily time series
 #       (calling reservoir_ops_init_func)
 #------------------------------------------------------------------
 #------------------------------------------------------------------
 #
 #------------------------------------------------------------------
-# Create a dataframe of reservoir inflows
+# A. Create a dataframe of reservoir inflows
 #------------------------------------------------------------------
 # (This is not really necessary - maybe get rid of)
 #
@@ -43,7 +43,7 @@ occ.inflows.df <- inflows.df %>%
   select(date_time, inflows = occ_in)
 #
 #------------------------------------------------------------------
-# Create "reservoir" objects - in the reservoir class:
+# B. Create "reservoir" objects - in the reservoir class:
 #------------------------------------------------------------------
 sen <- new("Reservoir", name = "Little Seneca Reservoir", 
            capacity = sen_cap,
@@ -82,13 +82,13 @@ occ <- new("Reservoir", name = "Occoquan Reservoir",
            inflows = occ.inflows.df)
 #
 #------------------------------------------------------------------
-# Initialize dataframes that hold the reservoir time series (ts)
+# C. Initialize dataframes that hold the reservoir time series (ts)
 #------------------------------------------------------------------
 sen.ts.df0 <- reservoir_ops_init_func(sen, sen_withdr_req0, sen_ws_rel_req0)
 jrr.ts.df00 <- reservoir_ops_init_func(jrr, jrr_withdr_req0, jrr_ws_rel_req0)
 jrr.ts.df0 <- jrr.ts.df00 %>%
   mutate(storage_ws = 13000,
-         storage_wq = 15000,
+         storage_wq = 8000, # in DREX we start in January
          ws_rel_req = 0,
          wq_rel_req = 120,
          outflow = 120, # adding this because of mysterious problem

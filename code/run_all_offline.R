@@ -6,10 +6,11 @@ source("global.R", local = TRUE)
 #
 # date_today0 is set in /input/parameters/parameters.R, 
 #    but might want to change it
-date_today0 <- as.Date("1930-01-03")
+# date_today0 <- as.Date("1930-01-03")
 #
   # Run the main simulation to the hard-coded input, date_today
   #    - ts here is the precursor of the set of reactive values
+
   ts0 <- list(sen = sen.ts.df0, 
               jrr = jrr.ts.df0, 
               pat = pat.ts.df0,
@@ -19,13 +20,13 @@ date_today0 <- as.Date("1930-01-03")
   #
   flows.ts.df <- ts_new$flows
   date_last <- last(flows.ts.df$date_time)
-  print(paste("After initial main run, the last date is ", date_last))
+  # print(paste("After initial main run, the last date is ", date_last))
   # Now write some output
-  write.csv(ts_new$flows, paste(ts_output, "offline_flows.csv"))
-  write.csv(ts_new$sen, paste(ts_output, "offline_sen.csv"))
-  write.csv(ts_new$jrr, paste(ts_output, "offline_jrr.csv"))
-  write.csv(ts_new$occ, paste(ts_output, "offline_occ.csv"))
-  write.csv(ts_new$pat, paste(ts_output, "offline_pat.csv"))
+  # write.csv(ts_new$flows, paste(ts_output, "offline_flows.csv"))
+  # write.csv(ts_new$sen, paste(ts_output, "offline_sen.csv"))
+  # write.csv(ts_new$jrr, paste(ts_output, "offline_jrr.csv"))
+  # write.csv(ts_new$occ, paste(ts_output, "offline_occ.csv"))
+  # write.csv(ts_new$pat, paste(ts_output, "offline_pat.csv"))
   #
   # # Now rerun, just as in the Shiny model
   # ts_new2 <- sim_main_func(date_today, ts_new)

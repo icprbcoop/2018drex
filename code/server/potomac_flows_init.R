@@ -53,7 +53,9 @@ potomac.ts.df0 <- potomac.data.df[1,] %>%
          sen_outflow_lagged = sen_outflow_lagged_default, # one-day lag
          sen_watershed = sen_other, # represents other seneca cr watershed flows
          jrr_outflow = 120,
+         savage_outflow = 50,
          jrr_outflow_lagged = jrr_outflow_lagged_default,
+         savage_outflow_lagged = 50,
          # creating Potomac withdrawals with reasonable start day values:
          withdr_pot_fw = 100,
          withdr_pot_fw_lagged = 100,
@@ -67,6 +69,7 @@ potomac.ts.df0 <- potomac.data.df[1,] %>%
          lfalls_obs_fc9, lfalls_obs_fc1,
          sen_outflow, sen_outflow_lagged, sen_watershed, 
          jrr_outflow, jrr_outflow_lagged,
+         savage_outflow, savage_outflow_lagged,
          withdr_pot_fw, withdr_pot_fw_lagged,
          withdr_pot_wssc, need_0day, need_1day, withdr_pot_wa)
 potomac.ts.df <- potomac.ts.df0

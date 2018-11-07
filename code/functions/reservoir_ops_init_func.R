@@ -59,7 +59,8 @@ reservoir_ops_init_func <- function(res,
                   outflow = case_when(
                     cap - available <= -rel_min ~ available - cap, # spill
                     cap - available > rel_min & available > rel_min ~ rel_min,
-                    cap - available > rel_min & available <= rel_min ~ available),
+                    cap - available > rel_min & available <= rel_min ~ available,
+                    TRUE ~ 100.0),
                   withdr_req = w,
                   withdr = case_when(stor + inflow >= w ~ w,
                                 stor + inflow < w ~ stor + inflow),

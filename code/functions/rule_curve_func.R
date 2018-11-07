@@ -23,6 +23,9 @@ rule_curve_func <- function(month_sim_in, stor, res){
   res.rc.df <- res@rc
   withdr_max <- res@withdr_max
   rc <- subset(res.rc.df, month_sim == month_sim_in)
+  # print(paste("stor is ", stor))
+  # print(rc)
+  # print(" ")
   if(stor > rc$stor3) {withdr_req <- withdr_max}
   if(stor <= rc$stor3) {withdr_req <- rc$withdr3}
   if(stor <= rc$stor2) {withdr_req <- rc$withdr2}

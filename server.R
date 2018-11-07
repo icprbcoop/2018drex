@@ -125,19 +125,7 @@ shinyServer(function(input, output, session) {
       color = "blue"
     )
   })  
-  #------------------------------------------------------------------
-  # # Output today's "adjusted" flow at Little Falls
-  # output$lfalls_adj <- renderValueBox({
-  #   potomac.ts.df <- ts$flows
-  #   lfalls_adj <- paste("Flow at Little Falls (adjusted) = ",
-  #                     round(last(potomac.ts.df$lfalls_adj)),
-  #                     " MGD")
-  #   valueBox(
-  #     value = tags$p(lfalls_adj, style = "font-size: 50%;"),
-  #     subtitle = NULL,
-  #     color = "blue"
-  #   )
-  # })
+  
   #------------------------------------------------------------------
   # Create value for yesterday's Potomac River flow at Little Falls
   #------------------------------------------------------------------
@@ -155,35 +143,25 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   # Create info on CO-OP operational status
   #------------------------------------------------------------------
-    # output$coop_ops <- renderInfoBox({
-    # potomac.ts.df <- ts$flows
-    # por_flow <- last(potomac.ts.df$por_nat*mgd_to_cfs)
-    # if(por_flow > 2000) {
-    #   text_stage <- "NORMAL"
-    #   color_stage <- "green"}
-    # if(por_flow <= 2000) {
-    #   text_stage <- "Daily monitoring & reporting"
-    #   color_stage <- "yellow"}
-    # infoBox(
-    #   title = "CO-OP operations status",
-    #   value = paste(text_stage),
-    #   subtitle = NULL,
-    #   icon = shiny::icon("arrow"),
-    #   color = color_stage
-    # )
-    # }) # end output$coop_ops
-  
+  #
   output$coop_ops <- renderUI({
-    potomac.ts.df <- ts$flows
-    por_flow <- last(potomac.ts.df$por_nat*mgd_to_cfs)
+    flows.last <- last(ts$flows)
+    por_flow <- flows.last$por_nat[1]*mgd_to_cfs
+    q_adj <- flows.last$lfalls_adj[1]
+    withdr_pot <- flows.last$demand[1]
+    #
     if(por_flow > 2000) {
       text_stage <- "NORMAL"
       text_stage2 <- ""
       color_stage <- green}
     if(por_flow <= 2000) {
-      text_stage <- "WATCH" 
+      text_stage <- "DAILY OPS" 
       text_stage2 <- "Daily monitoring & reporting"
       color_stage <- yellow}
+    if(q_adj <= 100 + 2*withdr_pot) {
+      text_stage <- "HOURLY OPS" 
+      text_stage2 <- "Hourly monitoring & reporting"
+      color_stage <- orange}
     div(class="longbox",
         div(class="squarei", style = color_stage,
             div(class="my_content",
@@ -197,25 +175,34 @@ shinyServer(function(input, output, session) {
                     div(class="table-cell2",
                         p(class = "p1",paste0("CO-OP operations status "))#,text_stage2))
                     ))))
-    )
-    
-  }
-  )
-
+    ) # end div(class="longbox" 
+  }) # end renderUI
+  #------------------------------------------------------------------
+  # Create info on LFAA status
+  #------------------------------------------------------------------
+  #
   output$lfaa_alert <- renderUI({
-    potomac.ts.df <- ts$flows
-    W <- last(potomac.ts.df$demand*1.0)
-    Qadj <- round(last(potomac.ts.df$lfalls_adj*1.0))
-    if(Qadj > W/0.5) {
+    flows.last <- last(ts$flows)
+    q_adj <- flows.last$lfalls_adj[1]
+    W <- flows.last$demand[1]
+    #
+    sen.last <- last(ts$sen)
+    jrr.last <- last(ts$jrr)
+    sen_stor <- sen.last$stor[1]
+    jrr_ws_stor <- jrr.last$storage_ws[1]
+    jrr_ws_cap_cp <- jrr_cap*jrr_ws_frac
+    shared_ws_frac <- (sen_stor + jrr_ws_stor)/(sen_cap + jrr_ws_cap_cp)
+    #
+    if(q_adj > W/0.5) {
       text_stage <- "NORMAL"
       color_stage <- green}
-    if(Qadj <= W/0.5 & Qadj > (W + 100)/0.8){
+    if(q_adj <= W/0.5 & q_adj > (W + 100)/0.8){
       text_stage <- "ALERT"
       color_stage <- yellow}
-    if(Qadj <= (W + 100)/0.8 & Qadj > W + 110){
+    if(q_adj <= (W + 100)/0.8) {
       text_stage <- "RESTRICTION"
       color_stage <- orange}
-    if(Qadj <= (W + 110)){
+    if(shared_ws_frac <= 0.05){
       text_stage <- "EMERGENCY"
       color_stage <- red}
   
@@ -232,27 +219,44 @@ shinyServer(function(input, output, session) {
                     div(class="table-cell2",
                         p(class = "p1",paste0("LFAA stage"))#"Little Falls adj. flow, MGD "))#,text_stage2))
                     ))))
-    )
-    
-  }
-  )
+    ) # end div(class="longbox"
+  }) # end renderUI
+  #
   #------------------------------------------------------------------
   # Create info on MWCOG Drought Plan stage
   #------------------------------------------------------------------
   # 
   output$mwcog_stage <- renderUI({
-    potomac.ts.df <- ts$flows
-    por_flow <- last(potomac.ts.df$por_nat)
-    if(por_flow > 2000) {
+    flows.last <- last(ts$flows)
+    por_flow <- flows.last$por_nat[1]*mgd_to_cfs
+    sen.last <- last(ts$sen)
+    jrr.last <- last(ts$jrr)
+    sen_stor <- sen.last$stor[1]
+    jrr_ws_stor <- jrr.last$storage_ws[1]
+    jrr_ws_cap_cp <- jrr_cap*jrr_ws_frac
+    shared_ws_frac <- (sen_stor + jrr_ws_stor)/(sen_cap + jrr_ws_cap_cp)
+    #
+    # would 1500 cfs work as a surrogate for NOAA D1?
+    noaa_d1_surrogate <- 1500
+    if(por_flow > noaa_d1_surrogate) {
       text_stage <- "NORMAL" 
       text_stage2 <- "- Wise Water Use"
       color_stage <- green}
-    if(por_flow <= 2000) {
+    if(por_flow <= noaa_d1_surrogate) { # surrogate
       # based on NOAA drought status - D1
       # then "notifications" upon 1st release, & when jrr+sen at 75%
       text_stage <- "WATCH" 
       text_stage2 <- "- Voluntary Water Conservation"
       color_stage <- yellow}
+    if(shared_ws_frac <= 0.60){
+      text_stage <- "WARNING"
+      text_stage2 <- "- Voluntary Water Conservation"
+      color_stage <- orange}
+    if(shared_ws_frac <= 0.05){
+      text_stage <- "EMERGENCY"
+      text_stage2 <- "- Voluntary Water Conservation"
+      color_stage <- red}
+    
     div(class="longbox",
         div(class="squarei", style = color_stage,
             div(class="my_content",
@@ -266,10 +270,9 @@ shinyServer(function(input, output, session) {
                     div(class="table-cell2",
                         p(class = "p1",paste0("MWCOG drought stage "))#,text_stage2))
                     ))))
-    )
-    
-  }
-  )
+
+    ) # end div(class="longbox",
+  }) # end renderUI
   #------------------------------------------------------------------
   # Create graph of storage and releases for each reservoir
   #------------------------------------------------------------------
