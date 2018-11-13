@@ -14,8 +14,8 @@
 
 source("code/global/load_packages.R", local = TRUE)
 source("config/paths.R", local = TRUE)
-source("code/global/import_data.R", local = TRUE)
 source("input/parameters/parameters.R", local = TRUE)
+source("code/global/import_data.R", local = TRUE)
 #
 #-----------------------------------------------------------------
 # Block temporarily pasted into global.R - for ease of debugging
@@ -29,6 +29,7 @@ source("code/functions/jrr_reservoir_ops_today_func2.R", local = TRUE)
 source("code/functions/forecasts_demands_func.R", local = TRUE)
 source("code/functions/forecasts_flows_func.R", local = TRUE)
 source("code/functions/estimate_need_func.R", local = TRUE)
+source("code/functions/restriction_flow_benefits_func.R", local = TRUE)
 source("code/functions/sim_main_func.R", local = TRUE)
 source("code/functions/simulation_func.R", local = TRUE)
 source("code/functions/sim_add_days_func.R", local = TRUE)
@@ -60,9 +61,13 @@ source("code/server/potomac_flows_init.R", local = TRUE)
 # date_today0 <- as.Date("1930-05-01")
 # date_today0 <- as.Date("2039-05-01")
 lfalls_flowby <- 100 # change to read from parameter file!!!
-mos_0day <- 0 # margin of safety for Patuxent load shift
-mos_1day <- 120 # margin of safety for Seneca release
+mos_0day <- 40 # margin of safety for Patuxent load shift
+# mos_1day <- 120 # margin of safety for Seneca release
 mos_9day <- 0 # margin of safety for N Br release
+#
+# Don't want to calculate this every time step
+#  - but probably should create script to do this sort of thing
+upstr_stor_cap <- jrr_cap_cp*jrr_ws_frac + sen@capacity
 #-----------------------------------------------------------------
 #
 #------------------------------------------------------------------------------

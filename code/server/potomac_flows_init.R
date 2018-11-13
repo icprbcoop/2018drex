@@ -46,6 +46,8 @@ potomac.ts.df0 <- potomac.data.df[1,] %>%
   mutate(lfalls_adj = lfalls_nat,
          qad = date_start,  # a slot for debugging dates
          qav = 9999.9,  # a slot for debugging values
+         dQ_va = 0.0, # water use restriction benefits, mgd
+         dQ_md = 0.0, # ''
          lfalls_obs_fc9 = 1000,
          lfalls_obs_fc1 = 1000,
          demand = 300, # delete this later
@@ -64,7 +66,8 @@ potomac.ts.df0 <- potomac.data.df[1,] %>%
          need_1day = 0.0,
          withdr_pot_wa = 100,
          lfalls_obs = lfalls_nat - 300) %>%
-  select(date_time, qad, qav, lfalls_nat, por_nat, below_por, demand, 
+  select(date_time, qad, qav, dQ_va, dQ_md,
+         lfalls_nat, por_nat, below_por, demand, 
          lfalls_adj, lfalls_obs, 
          lfalls_obs_fc9, lfalls_obs_fc1,
          sen_outflow, sen_outflow_lagged, sen_watershed, 

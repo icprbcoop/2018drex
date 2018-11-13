@@ -11,7 +11,7 @@
 # date_today0 <- as.Date("1930-05-01")
 date_start <- as.Date("2038-01-01")
 date_end <- as.Date("2039-09-30")
-date_today0 <- as.Date("2038-08-01")
+date_today0 <- as.Date("2039-06-01")
 #
 #--------------------------------------------------------------------------------
 # Universal conversion factors
@@ -24,14 +24,26 @@ mgd_to_cfs <- 1.547
 #
 month_sim <- c(1:12)
 #
-sen_other_watershed_flows <- 30 # wwtp and other land area watershed flows, MGD
+# WMA demand factor (for reduction or increase) - mainly for QAing purposes
+d_wma_factor <- 1.07
+d_to_w <- 1.03 # conversion from Potomac demand to withdrawal
+jrr_sen_balance <- 62.5 # temporary measure to balance jrr and sen
+#
+dr_va0 <- 0.0
+dr_md0 <- 0.0
+mos_1day0 <- 120.0
+dr_wma_override0 <- 0.0
+#
+sen_other_watershed_flows <- 0 # wwtp and other land area watershed flows, MGD
 #
 # Upstream total consumptive use, MGD, 2039 scenario year
 cu_2039 <- c(25.4, 25.8, 25.4, 28.3, 36.9, 48.0,
              50.7, 51.1, 43.1, 33.0, 27.8, 26.1)
+cu_leesburg <- 4.5
 cu.df <- data.frame(month_sim, cu_2039) %>%
-  mutate(cu = cu_2039) %>%
+  mutate(cu = cu_2039 + cu_leesburg) %>%
   select(month_sim, cu)
+d_rockv <- 6.0 # this is provisional Rockville demands
 #
 # Upstream WWTP discharges, ie Seneca, Damascus, & Broad Run
 wwtp_2039 <- c(32.6, 33.5, 34.3, 32.4, 33.5, 31.9,

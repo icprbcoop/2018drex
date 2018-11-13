@@ -24,6 +24,10 @@
 simulation_func <- function(date_sim0,
                             mos_0day,
                             mos_9day,
+                            dr_va,
+                            dr_md,
+                            mos_1day,
+                            dr_wma_override,
                             demands.daily.df,
                             potomac.daily.df,
                             sen,
@@ -37,9 +41,38 @@ simulation_func <- function(date_sim0,
   #-----------------------------------------------------------------------------
   #  - right now just use values from input demand time series
   #  - eventually, would use CO-OP demand models
-  #  - also will depend on restriction status, ie res levels
   #
-  demands.fc.df <- forecasts_demands_func(date_sim0, demands.daily.df)
+  # Find out demand restriction status
+  # First compute upstr storage as fraction of capacity
+  month_today <- month(date_sim0)
+  jrr.ds <- ts$jrr
+  sen.ds <- ts$sen
+  jrr_stor_yesterday <- last(jrr.ds$storage_ws)
+  sen_stor_yesterday <- last(sen.ds$storage)
+  upstr_stor_frac <- (jrr_stor_yesterday + 
+                        sen_stor_yesterday)/
+    upstr_stor_cap
+  dr_override <- 0.0
+  # print(paste(date_sim0," upstr stor is ", upstr_stor_frac))
+  summer <- if_else(month_today < 10 & month_today > 5, 1, 0)
+  d_reduction_wma0 <- case_when(upstr_stor_frac < 0.6 &
+                                 summer == 1 ~ 0.05,
+                               upstr_stor_frac < 0.6 & 
+                                 summer == 0 ~ 0.03,
+                               TRUE ~ 0.0)
+  d_reduction_wma <- if_else(dr_wma_override == 0.0,
+                             d_reduction_wma0,
+                             dr_wma_override/100)
+
+  #
+  # Now apply demand reduction if restrictions in place
+  # print(paste(date_sim0," d_reduction's are ",
+  #             d_reduction_wma0, d_reduction_wma))
+  #
+  # Next get the demand forecasts
+  demands.fc.df <- forecasts_demands_func(date_sim0,
+                                          d_reduction_wma,
+                                          demands.daily.df)
   # This time series df has a length = 15, from today to 14 days hence
   # It is a placeholder for all the supplier total demand fcs
   # The demands.daily.df columns are: date_time, d_fw_e, d_fw_w, d_fw_c,
@@ -48,27 +81,26 @@ simulation_func <- function(date_sim0,
   # Grab demand fcs for today (and tomorrow, and 9 days hence)
   # print(paste("in simulation_func, date_sim is ", date_sim0))
   d_today <- first(demands.fc.df)
-  # print(paste("0. today date and d_wssc ", d_today$date_time, d_today$d_wssc))
-  # d_1day <- demands.fc.df[2,]
-  # d_9day <- demands.fc.df[10,]
-  month_today <- month(date_sim0)  
-  # month_1day <- month(date_sim0 + 1)
-  # month_9day <- month(date_sim0 + 9)
+  #
+  #-----------------------------------------------------------------------------
+  # Compute flow benefits (= demand reductions) due to
+  #   water use restrictions in upstream  VA & MD counties
+  dQ <- restriction_flow_benefits_func(dr_va, # % demand reduction in va
+                                       dr_md)
+  dQ_va <- dQ[[1]]
+  dQ_md <- dQ[[2]]
+  # dQ_va <- 9
+  # dQ_md <- 11
   #
   #-----------------------------------------------------------------------------
   # Estimate Potomac & reservoir withdrawals assuming no ws releases/loadshifts
   #
   # First find wssc's pat withdr according to Patuxent rule curves (RCs)
   #   - based on today's demand fc
-  # (Need to add checks!)
-  # print(demands.fc.df)
   pat.df <- ts$pat
-  # print(pat.df)
   d_today_wssc <- d_today$d_wssc
   patstuff <- last(pat.df)
   pat_stor <- last(pat.df$storage)
-  # print(paste("month_today and pat_stor are ", month_today, pat_stor))
-  # print(pat)
   pat_withdr_req0 <- rule_curve_func(month_today, pat_stor, pat)
   pat_pot_withdr0 <- d_today_wssc - pat_withdr_req0 # for QAing
   #
@@ -134,18 +166,22 @@ simulation_func <- function(date_sim0,
   # qad and qav are 2 debugging slots
   qad1 <- as.Date(last(pat.ts.df1$date_time))
   qav1 <- 222.2
-  demands.fc.df <- forecasts_demands_func(date_sim0, demands.daily.df)
+  demands.fc.df <- forecasts_demands_func(date_sim0, 
+                                          d_reduction_wma,
+                                          demands.daily.df)
   ts$flows <- forecasts_flows_func(date_sim0,
-                                        qad1,
-                                        qav1,
-                                        demands.fc.df,
-                                        last(sen.ts.df1$outflow),
-                                        last(jrr.ts.df1$outflow),
-                                        last(pat.ts.df1$withdr),
-                                        last(occ.ts.df1$withdr),
-                                        0,
-                                        0,
-                                        ts$flows)
+                                   qad1,
+                                   qav1,
+                                   dQ_va,
+                                   dQ_md,
+                                   demands.fc.df,
+                                   last(sen.ts.df1$outflow),
+                                   last(jrr.ts.df1$outflow),
+                                   last(pat.ts.df1$withdr),
+                                   last(occ.ts.df1$withdr),
+                                   0,
+                                   0,
+                                   ts$flows)
   # Grab some results for use as input in next step
   potomac.ts.df2 <- ts$flows
   write.csv(potomac.ts.df2, paste(ts_output, "potomac.ts.df2.csv"))
@@ -166,9 +202,10 @@ simulation_func <- function(date_sim0,
                                      mos_1day)
   #
   # Compute ws need in 9 days - for N Br release
-  #  - the 50 is for quick and dirty balancing
+  #  - add a bit extra for quick and dirty balancing
+  # jrr_sen_balance set in parameters.R
   ws_need_9day <- estimate_need_func(lfalls_obs_fc9_no_ws,
-                                     mos_9day + 50)
+                                     mos_9day + jrr_sen_balance)
   #
   # What about the "Occoquan load-shift"? to save L Seneca storage
   #   Load-shifting, ie additional Occ withdrawal, is only allowed
@@ -241,8 +278,10 @@ simulation_func <- function(date_sim0,
   qav2 <- lfalls_obs_fc1_no_ws
   qav3 <- jrr_rel_rc
   ts$flows <- forecasts_flows_func(date_sim0,
-                                        qad1,
-                                        qav3,
+                                   qad1,
+                                   qav3,
+                                   dQ_va,
+                                   dQ_md,
                                         demands.fc.df,
                                         sen_out,
                                         jrr_out,

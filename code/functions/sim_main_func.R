@@ -16,7 +16,12 @@
 #--------------------------------------------------------------------------------
 # Define the main sim function - simulates from date_start to date_today
 
-sim_main_func <- function(date_today, ts){
+sim_main_func <- function(date_today,
+                          dr_va,
+                          dr_md,
+                          mos_1day,
+                          dr_wma_override,
+                          ts){
   sim_n <- as.numeric(as.POSIXct(date_today) - as.POSIXct(date_start),
                       units = "days")
   # ts <- ts00 # why??? this holds the time series for the first day, date_start
@@ -31,6 +36,10 @@ sim_main_func <- function(date_today, ts){
     ts <- simulation_func(date_sim,
                           mos_0day,
                           mos_9day,
+                          dr_va,
+                          dr_md,
+                          mos_1day,
+                          dr_wma_override,
                           demands.daily.df,
                           potomac.daily.df,
                           sen, jrr, pat, occ, # these are the reservoir "objects"

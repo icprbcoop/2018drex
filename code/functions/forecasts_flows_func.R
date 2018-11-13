@@ -33,6 +33,8 @@
 # flows.ts.df <- potomac.ts.df
 #
 forecasts_flows_func <- function(date_sim00, qavald, qavaln,
+                                 dQ_va,
+                                 dQ_md,
                                  demands.fc.df, # created by forecast_demands_func                                  
                                  sen_outflow_today,
                                  jrr_outflow_today,
@@ -78,22 +80,33 @@ forecasts_flows_func <- function(date_sim00, qavald, qavaln,
 #    dplyr::filter(date_time == date_sim) %>%  
   newrow.df <- subset(potomac.data.df, 
                       date_time == yesterday_date + 1) %>%
+    #
+    # add any VA or MD flow benefits due to water use restrictions
+    dplyr::mutate(por_nat = por_nat + dQ_va + dQ_md,
+                  lfalls_nat = lfalls_nat + dQ_va + dQ_md,
+                  dQ_va = dQ_va,
+                  dQ_md = dQ_md) %>%
+    # 
     dplyr::mutate(qad = qavald, # a slot for debugging dates
                   qav = qavaln, # a slot for debugging values
-                  withdr_pot_wa = demands.fc.df$d_fw_c[1] +
-                                  demands.fc.df$d_wa[1],
+                  withdr_pot_wa = (demands.fc.df$d_fw_c[1] +
+                                  demands.fc.df$d_wa[1])*d_to_w,
+                  withdr_pot_rockv = d_rockv,
 #                  withdr_pot_wssc = demands.fc.df$withdr_pot_wssc[1],
-                  withdr_pot_wssc = demands.fc.df$d_wssc[1] -
+                  withdr_pot_wssc = demands.fc.df$d_wssc[1]*d_to_w -
                                      pat_withdr_today,
                   need_0day = need_0day,
                   need_1day = need_1day,
-                  withdr_pot_fw = demands.fc.df$d_fw_e[1] +
+                  withdr_pot_fw = (demands.fc.df$d_fw_e[1] +
                                   demands.fc.df$d_fw_w[1] +
-                                  demands.fc.df$d_lw[1] - 
+                                  demands.fc.df$d_lw[1])*d_to_w - 
                                   occ_withdr_today,
                   withdr_pot_fw_lagged = withdr_pot_fw_yesterday,
 # need to rename this withdr_pot
-                  demand = withdr_pot_wa + withdr_pot_wssc + withdr_pot_fw,
+                  demand = withdr_pot_wa + 
+                           withdr_pot_wssc + 
+                           withdr_pot_fw +
+                           withdr_pot_rockv,
                   sen_outflow = sen_outflow_today, # a func input
                   sen_outflow_lagged = sen_outflow_yesterday,
                   sen_watershed = sen_other_watershed_flows, # from parameters.R
@@ -138,8 +151,8 @@ forecasts_flows_func <- function(date_sim00, qavald, qavaln,
                     TRUE ~ lfalls_obs)
     ) %>% # end of mutate
     #------------------------------------------------------------------------------
-    dplyr::select(date_time, qad, qav, lfalls_nat, 
-                  por_nat, below_por, demand, 
+    dplyr::select(date_time, qad, qav, dQ_va, dQ_md,
+                  lfalls_nat, por_nat, below_por, demand, 
                   lfalls_adj, lfalls_obs, 
                   lfalls_obs_fc9, lfalls_obs_fc1,
                   sen_outflow, sen_outflow_lagged, sen_watershed, 

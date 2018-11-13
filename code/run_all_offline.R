@@ -16,7 +16,12 @@ source("global.R", local = TRUE)
               pat = pat.ts.df0,
               occ = occ.ts.df0,
               flows = potomac.ts.df0)
-  ts_new <- sim_main_func(date_today0, ts0)
+  ts_new <- sim_main_func(date_today0,
+                          dr_va0,
+                          dr_md0,
+                          mos_1day0,
+                          dr_wma_override0,
+                          ts0)
   #
   flows.ts.df <- ts_new$flows
   date_last <- last(flows.ts.df$date_time)

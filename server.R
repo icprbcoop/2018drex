@@ -15,7 +15,12 @@ shinyServer(function(input, output, session) {
               pat = pat.ts.df0,
               occ = occ.ts.df0,
               flows = potomac.ts.df0)
-  ts <- sim_main_func(date_today0, ts0) # date_today0 is set in parameters.R
+  ts <- sim_main_func(date_today0,
+                      dr_va0,
+                      dr_md0,
+                      mos_1day0,
+                      dr_wma_override0,
+                      ts0) # "0" values are set in parameters.R
   #
   # Now make ts reactive, initializing to results from above
   ts <- reactiveValues(flows = ts$flows, 
@@ -27,14 +32,24 @@ shinyServer(function(input, output, session) {
   # Allow the user to re-run the simulation 
   #   - say, if end date (aka DREXtoday) changes
   observeEvent(input$run_main, {
-    test_date$test_date_value <- input$DREXtoday
-    ts <- sim_main_func(input$DREXtoday, ts)
+#    test_date$test_date_value <- input$DREXtoday
+    ts <- sim_main_func(input$DREXtoday,
+                        input$dr_va,
+                        input$dr_md,
+                        input$mos_1day,
+                        input$dr_wma_override,
+                        ts)
   })
   #
   # Allow the user to add chunks of days to the simulation
   observeEvent(input$run_add, {
-    test_date$test_date_value <- as.Date(input$DREXtoday) +input$chunkofdays
-    ts <- sim_add_days_func(input$chunkofdays, ts)
+#    test_date$test_date_value <- as.Date(input$DREXtoday) +input$chunkofdays
+    ts <- sim_add_days_func(input$chunkofdays,
+                            input$dr_va,
+                            input$dr_md,
+                            input$mos_1day,
+                            input$dr_wma_override,
+                            ts)
   })
   
   #cretes a reactiveValue to hold the current date
@@ -337,7 +352,7 @@ shinyServer(function(input, output, session) {
                       " mgd",
                       "________ Min sen, jrr, pat, occ stor = ",
                       round(min(sen.df$storage, na.rm = TRUE)), " mg, ",
-                    round(min(jrr.df$storage, na.rm = TRUE)), " mg,  ",
+                    round(min(jrr.df$storage_ws, na.rm = TRUE)), " mg,  ",
                     round(min(pat.df$storage, na.rm = TRUE)), " mg,  ",
                     round(min(occ.df$storage, na.rm = TRUE)),
                     " mg")
