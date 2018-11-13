@@ -292,6 +292,21 @@ simulation_func <- function(date_sim0,
                                         ts$flows)
   potomac.ts.df5 <- ts$flows
   write.csv(potomac.ts.df5, paste(ts_output, "potomac.ts.df5.csv"))
-  
+  #-----------------------------------------------------------------------------
+  # 6. Add today's values of va and md drought status indicators
+  #
+  # The indicator values are:
+  #   0 = NORMAL
+  #   1 = WATCH
+  #   2 = WARNING
+  #   3 = EMERGENCY
+  #
+  # The indicator names are
+  #    gw_va_shen, p_va_shen, sw_va_shen, r_va_shen,
+  #    gw_va_nova, p_va_nova, sw_va_nova, r_va_nova,
+  #    region_md_cent, region_md_west
+  #-----------------------------------------------------------------------------
+  ts$states <- state_indices_update_func(date_sim0, ts$states)
+  #
   return(ts)  
 }

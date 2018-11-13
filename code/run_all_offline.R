@@ -15,7 +15,8 @@ source("global.R", local = TRUE)
               jrr = jrr.ts.df0, 
               pat = pat.ts.df0,
               occ = occ.ts.df0,
-              flows = potomac.ts.df0)
+              flows = potomac.ts.df0,
+              states = state.ts.df0)
   ts_new <- sim_main_func(date_today0,
                           dr_va0,
                           dr_md0,

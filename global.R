@@ -28,6 +28,7 @@ source("code/functions/jrr_reservoir_ops_today_func.R", local = TRUE)
 source("code/functions/jrr_reservoir_ops_today_func2.R", local = TRUE)
 source("code/functions/forecasts_demands_func.R", local = TRUE)
 source("code/functions/forecasts_flows_func.R", local = TRUE)
+source("code/functions/state_indices_update_func.R", local = TRUE)
 source("code/functions/estimate_need_func.R", local = TRUE)
 source("code/functions/restriction_flow_benefits_func.R", local = TRUE)
 source("code/functions/sim_main_func.R", local = TRUE)
@@ -55,11 +56,19 @@ source("code/server/potomac_flows_init.R", local = TRUE)
 # potomac.ts.df - initialized with first day of flows
 #    - contains lfalls_obs, sen_outflow, jrr_outflow
 #--------------------------------------------------------------------------------
+# Make and initialize state drought status time series dataframes
+#--------------------------------------------------------------------------------
+source("code/server/state_status_ts_init.R", local = TRUE)
+# What this does is create:
+# state.ts.df - filled with status indices:
+#    - 0 = Normal
+#    - 1 = Watch
+#    - 0 = Warning
+#    - 0 = Emergency
+#--------------------------------------------------------------------------------
 # A few needed inputs which will probably be moved at some point
 #--------------------------------------------------------------------------------
-# date_today is later input$DREXtoday, but need non-reactive starting point
-# date_today0 <- as.Date("1930-05-01")
-# date_today0 <- as.Date("2039-05-01")
+# 
 lfalls_flowby <- 100 # change to read from parameter file!!!
 mos_0day <- 40 # margin of safety for Patuxent load shift
 # mos_1day <- 120 # margin of safety for Seneca release

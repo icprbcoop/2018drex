@@ -25,13 +25,6 @@ flows.daily.mgd.df <- flows.daily.mgd.df0 %>%
   left_join(dflow.upstr.df, by = "month_sim", copy = FALSE) %>%
   mutate(lfalls_nat = lfalls_nat + dflow,
          por_nat = por_nat + dflow) %>%
-
-  #
-  #------------------------------------------------------------------------------
-  # Temporarily increase jrr inflow by 20% to approximately simulate Savage
-  #------------------------------------------------------------------------------
-  # dplyr::mutate(jrr = jrr*1.2) %>%
-  #----------------------------------------------------------------------------
   dplyr::select(sim_day, date_time, month_sim,
                 jrr_in = jrr,
                 lsen_in = lsen,
@@ -55,6 +48,22 @@ demands.daily.df <- data.table::fread(paste(ts_path, "demands_daily.csv", sep = 
   dplyr::mutate(date_time = as.Date(date)) %>%
   dplyr::select(date_time, d_fw_e, d_fw_w, d_fw_c, d_lw,
                 d_wa, d_wssc, d_total)
-# Import the rule curve tables
+#
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# Import time series representing state drought status.
+#------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+# 
+state.drought.df <- data.table::fread(paste(ts_path, "state_drought_status.csv", sep = ""),
+                                      data.table = FALSE) %>%
+  dplyr::mutate(date_time = as.Date(date_time)) %>%
+  dplyr::select(date_time, 
+                gw_va_shen, p_va_shen, sw_va_shen, r_va_shen,
+                gw_va_nova, p_va_nova, sw_va_nova, r_va_nova,
+                gw_md_cent, p_md_cent, sw_md_cent, r_md_cent,
+                gw_md_west, p_md_west, sw_md_west, r_md_west,
+                region_md_cent, region_md_west
+                )
 
                                         

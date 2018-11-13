@@ -14,7 +14,8 @@ shinyServer(function(input, output, session) {
               jrr = jrr.ts.df0, 
               pat = pat.ts.df0,
               occ = occ.ts.df0,
-              flows = potomac.ts.df0)
+              flows = potomac.ts.df0,
+              states = state.ts.df0)
   ts <- sim_main_func(date_today0,
                       dr_va0,
                       dr_md0,
@@ -27,7 +28,8 @@ shinyServer(function(input, output, session) {
                        sen = ts$sen, 
                        jrr = ts$jrr,
                        pat = ts$pat,
-                       occ = ts$occ)
+                       occ = ts$occ,
+                       states = ts$states)
   #
   # Allow the user to re-run the simulation 
   #   - say, if end date (aka DREXtoday) changes
@@ -63,13 +65,13 @@ shinyServer(function(input, output, session) {
     write.csv(ts$jrr, paste(ts_output, "output_jrr.csv"))
     write.csv(ts$occ, paste(ts_output, "output_occ.csv"))
     write.csv(ts$pat, paste(ts_output, "output_pat.csv"))
+    write.csv(ts$states, paste(ts_output, "output_states.csv"))
   })
   #------------------------------------------------------------------
   #------------------------------------------------------------------
-  # Second, creates graphs and values for boxes for display
+  # Second, creates graphs
   #------------------------------------------------------------------
   #------------------------------------------------------------------
-  # All of these below probably should be done in sub-scripts:
   #
   #------------------------------------------------------------------
   # Create graph of Potomac River flows
@@ -97,19 +99,61 @@ shinyServer(function(input, output, session) {
       scale_size_manual(values = c(2, 1)) +
       theme(axis.title.x = element_blank())
     }) # end output$potomacFlows
-  # #------------------------------------------------------------------
-  # # Create today's date
-  # #------------------------------------------------------------------
-  #   output$sim_today <- renderValueBox({
-  #   potomac.ts.df <- ts$flows
-  #   sim_today0 <- last(potomac.ts.df$date_time)
-  #   sim_today <- paste("Today's date is ", sim_today0)
-  #   valueBox(
-  #     value = tags$p(sim_today, style = "font-size: 60%;"),
-  #     subtitle = NULL,
-  #     color = "black"
-  #   )
-  # }) 
+  #------------------------------------------------------------------
+  # Create graph of storage and releases for each reservoir
+  #------------------------------------------------------------------
+  output$jrrStorageReleases <- renderPlot({
+    jrr.graph <- ts$jrr %>%
+      filter(date_time >= input$plot_range[1],
+             date_time <= input$plot_range[2])
+    ggplot(data = jrr.graph, aes(x = date_time)) +
+      geom_line(aes(y = storage_ws, color = "WS Storage")) +
+      geom_line(aes(y = storage_wq, color = "WQ Storage")) +
+      geom_line(aes(y = outflow_ws, color = "WS Outflow")) +
+      geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
+      scale_color_manual(values = c("grey", "blue", "yellow", "black"))
+  }) # end jrr renderPlot testing
+  #
+  #------------------------------------------------------------------
+  output$senStorageReleases <- renderPlot({
+    sen.graph <- ts$sen %>%
+      filter(date_time >= input$plot_range[1],
+             date_time <= input$plot_range[2])
+    ggplot(data = sen.graph, aes(x = date_time)) +
+      geom_line(aes(y = storage, color = "Storage")) +
+      geom_line(aes(y = outflow, color = "Outflow")) +
+      scale_color_manual(values = c("grey", "black"))
+  }) # end sen renderPlot
+  #
+  #------------------------------------------------------------------
+  output$patStorageReleases <- renderPlot({
+    pat.graph <- ts$pat %>%
+      filter(date_time >= input$plot_range[1],
+             date_time <= input$plot_range[2])
+    ggplot(data = pat.graph, aes(x = date_time)) +
+      geom_line(aes(y = storage, color = "Storage")) +
+      geom_line(aes(y = outflow, color = "Outflow")) +
+      scale_color_manual(values = c("grey", "black"))
+  }) # end pat renderPlot
+  #
+  #------------------------------------------------------------------
+  output$occStorageReleases <- renderPlot({
+    occ.graph <- ts$occ %>%
+      filter(date_time >= input$plot_range[1],
+             date_time <= input$plot_range[2])
+    ggplot(data = occ.graph, aes(x = date_time)) +
+      geom_line(aes(y = storage, color = "Storage")) +
+      geom_line(aes(y = outflow, color = "Outflow")) +
+      scale_color_manual(values = c("grey", "black"))
+  }) # end occ renderPlot
+  #
+  #------------------------------------------------------------------
+  #------------------------------------------------------------------
+  #------------------------------------------------------------------
+  # Finally, create boxes with values and triggers
+  #------------------------------------------------------------------
+  #------------------------------------------------------------------
+  #
   #------------------------------------------------------------------
   # Create value for yesterday's Potomac River flow at Point of Rocks
   #------------------------------------------------------------------
@@ -289,56 +333,6 @@ shinyServer(function(input, output, session) {
     ) # end div(class="longbox",
   }) # end renderUI
   #------------------------------------------------------------------
-  # Create graph of storage and releases for each reservoir
-  #------------------------------------------------------------------
-  output$jrrStorageReleases <- renderPlot({
-    jrr.graph <- ts$jrr %>%
-      filter(date_time >= input$plot_range[1],
-             date_time <= input$plot_range[2])
-    ggplot(data = jrr.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage_ws, color = "WS Storage")) +
-      geom_line(aes(y = storage_wq, color = "WQ Storage")) +
-      geom_line(aes(y = outflow_ws, color = "WS Outflow")) +
-      geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
-      scale_color_manual(values = c("grey", "blue", "yellow", "black"))
-  }) # end jrr renderPlot testing
-  
-  #
-  #------------------------------------------------------------------
-    output$senStorageReleases <- renderPlot({
-    sen.graph <- ts$sen %>%
-      filter(date_time >= input$plot_range[1],
-             date_time <= input$plot_range[2])
-    ggplot(data = sen.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage, color = "Storage")) +
-      geom_line(aes(y = outflow, color = "Outflow")) +
-      scale_color_manual(values = c("grey", "black"))
-  }) # end sen renderPlot
-  #
-  #------------------------------------------------------------------
-  output$patStorageReleases <- renderPlot({
-    pat.graph <- ts$pat %>%
-      filter(date_time >= input$plot_range[1],
-             date_time <= input$plot_range[2])
-    ggplot(data = pat.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage, color = "Storage")) +
-      geom_line(aes(y = outflow, color = "Outflow")) +
-      scale_color_manual(values = c("grey", "black"))
-  }) # end pat renderPlot
-  #
-  #------------------------------------------------------------------
-  output$occStorageReleases <- renderPlot({
-    occ.graph <- ts$occ %>%
-      filter(date_time >= input$plot_range[1],
-             date_time <= input$plot_range[2])
-    ggplot(data = occ.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage, color = "Storage")) +
-      geom_line(aes(y = outflow, color = "Outflow")) +
-      scale_color_manual(values = c("grey", "black"))
-  }) # end occ renderPlot
-  #
-  #------------------------------------------------------------------
-  #------------------------------------------------------------------
   # Temporary output for QAing purposes
   #------------------------------------------------------------------
   output$QA_out <- renderValueBox({
@@ -375,7 +369,30 @@ shinyServer(function(input, output, session) {
 #    paste("Today's date is", as.character(test_date$test_date_value))
     paste0("Today's date is ", as.character(test_date),"  ")
   })
-  
+  #
+  #------------------------------------------------------------------
+  # Create state drought status boxes
+  #------------------------------------------------------------------
+  #
+  # # Luke - here's how you can access the values 
+  # #        from within a render function:
+  # state.indices <- last(ts$states)
+  # # The indicator values are:
+  # #   0 = NORMAL
+  # #   1 = WATCH
+  # #   2 = WARNING
+  # #   3 = EMERGENCY
+  # #
+  # # The indicator names are
+  # #    gw_va_shen, p_va_shen, sw_va_shen, r_va_shen,
+  # #    gw_va_nova, p_va_nova, sw_va_nova, r_va_nova,
+  # #    region_md_cent, region_md_west
+  # #
+  # # So for example if you want the VA Shenandoah GW value it's
+  # i_gw_va_shen <- state.indices$gw_va_shen[1]
+  # # and the MD Central region value is
+  # i_region_md_cent <- state.indices$region_md_cent[1]
+  # #
   #------------------------------------------------------------------
   #Shenandoah warning status squares
   output$boxes  <- renderUI({
