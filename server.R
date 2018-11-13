@@ -222,18 +222,19 @@ shinyServer(function(input, output, session) {
       text_stage2 <- "Hourly monitoring & reporting"
       color_stage <- orange}
     div(class="longbox",
+        div(class="ibox", style = "background-color:silver",
+            div(class="my_content",
+                div(class="table",
+                    div(class="table-cell2",
+                        p(class = "p1",paste0("CO-OP operations status "))#,text_stage2))
+                    )))),
         div(class="squarei", style = color_stage,
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell2",
                         p(class="p2",text_stage)
-                          )))),
-        div(class="ibox", style = "background-color:white",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell2",
-                        p(class = "p1",paste0("CO-OP operations status "))#,text_stage2))
-                    ))))
+                          ))))
+        
     ) # end div(class="longbox" 
   }) # end renderUI
   #------------------------------------------------------------------
@@ -266,18 +267,19 @@ shinyServer(function(input, output, session) {
       color_stage <- red}
   
     div(class="longbox",
+        div(class="ibox", style = "background-color:silver",
+            div(class="my_content",
+                div(class="table",
+                    div(class="table-cell2",
+                        p(class = "p1",paste0("LFAA stage"))#"Little Falls adj. flow, MGD "))#,text_stage2))
+                    )))),
         div(class="squarei", style = color_stage,
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell2",
                         p(class="p2",text_stage)
-                        )))),
-        div(class="ibox", style = "background-color:white",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell2",
-                        p(class = "p1",paste0("LFAA stage"))#"Little Falls adj. flow, MGD "))#,text_stage2))
-                    ))))
+                        ))))
+        
     ) # end div(class="longbox"
   }) # end renderUI
   #
@@ -317,18 +319,19 @@ shinyServer(function(input, output, session) {
       color_stage <- red}
     
     div(class="longbox",
+        div(class="ibox", style = "background-color:silver",
+            div(class="my_content",
+                div(class="table",
+                    div(class="table-cell2",
+                        p(class = "p1",paste0("MWCOG drought stage "))#,text_stage2))
+                    )))),
         div(class="squarei", style = color_stage,
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell2",
                         p(class="p2",text_stage)
-                        )))),
-        div(class="ibox", style = "background-color:white",
-            div(class="my_content",
-                div(class="table",
-                    div(class="table-cell2",
-                        p(class = "p1",paste0("MWCOG drought stage "))#,text_stage2))
-                    ))))
+                        ))))
+ 
 
     ) # end div(class="longbox",
   }) # end renderUI
@@ -367,7 +370,7 @@ shinyServer(function(input, output, session) {
     potomac.ts.df <- ts$flows
     test_date <- last(potomac.ts.df$date_time)
 #    paste("Today's date is", as.character(test_date$test_date_value))
-    paste0("Today's date is ", as.character(test_date),"  ")
+    paste("Today's date is ", as.character(test_date),"  ")
   })
   #
   #------------------------------------------------------------------
