@@ -454,7 +454,7 @@ shinyServer(function(input, output, session) {
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p(class = "p3",paste0("Shenandoah "))#,text_stage2))
+                          p(class = "p5",paste0("Shenandoah "))#,text_stage2))
                       ))))
       ), #end of topbox1
       div(class="topbox2", 
@@ -486,7 +486,7 @@ shinyServer(function(input, output, session) {
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
-                          p(class = "p3",paste0("NoVa "))#,text_stage2))
+                          p(class = "p5",paste0("NoVa "))#,text_stage2))
                       ))))
           
       ), #end of topbox2
