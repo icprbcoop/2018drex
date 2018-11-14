@@ -52,9 +52,6 @@ shinyServer(function(input, output, session) {
                             ts)
   })
   
-  # creates a reactiveValue to hold the current date
-  # test_date <- reactiveValues(test_date_value = "1930-05-01")
-  #
   #
   # Allow the user to write simulation output time series to files
   observeEvent(input$write_ts, {
@@ -102,15 +99,35 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   output$jrrStorageReleases <- renderPlot({
     jrr.graph <- ts$jrr %>%
-      filter(date_time >= input$plot_range[1],
-             date_time <= input$plot_range[2])
-    ggplot(data = jrr.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage_ws, color = "WS Storage")) +
-      geom_line(aes(y = storage_wq, color = "WQ Storage")) +
-      geom_line(aes(y = outflow_ws, color = "WS Outflow")) +
-      geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
-      scale_color_manual(values = c("grey", "blue", "yellow", "black"))
+      select(Date = date_time,
+             "WS storage" = storage_ws, 
+             "WQ storage" = storage_wq,
+             "WS release" = outflow_ws, 
+             "WQ release" = outflow_wq) %>%
+      gather(key = "Legend", 
+             value = "MGD", -Date) %>%
+      filter(Date >= input$plot_range[1],
+             Date <= input$plot_range[2])
+    ggplot(data = jrr.graph,
+           aes(x = Date, y = MGD, group = Legend)) +
+      geom_line(aes(color = Legend, size = Legend)) +
+      scale_color_manual(values = c("lightgreen", "lightblue",
+                                    "green", "blue")) +
+      scale_size_manual(values = c(1, 1, 1.5, 1.5)) +
+      theme(axis.title.x = element_blank())
   }) # end jrr renderPlot testing
+  #
+  # output$jrrStorageReleases <- renderPlot({
+  #   jrr.graph <- ts$jrr %>%
+  #     filter(date_time >= input$plot_range[1],
+  #            date_time <= input$plot_range[2])
+  #   ggplot(data = jrr.graph, aes(x = date_time)) +
+  #     geom_line(aes(y = storage_ws, color = "WS Storage")) +
+  #     geom_line(aes(y = storage_wq, color = "WQ Storage")) +
+  #     geom_line(aes(y = outflow_ws, color = "WS Outflow")) +
+  #     geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
+  #     scale_color_manual(values = c("grey", "blue", "yellow", "black"))
+  # }) # end jrr renderPlot testing
   #
   #------------------------------------------------------------------
   output$senStorageReleases <- renderPlot({
