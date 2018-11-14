@@ -17,11 +17,11 @@ shinyServer(function(input, output, session) {
               flows = potomac.ts.df0,
               states = state.ts.df0)
   ts <- sim_main_func(date_today0,
-                      dr_va0,
-                      dr_md0,
-                      mos_1day0,
-                      dr_wma_override0,
-                      ts0) # "0" values are set in parameters.R
+                      dr_va0, # VA upstream demand reduction
+                      dr_md0, # MD upstream demand reduction
+                      mos_1day0, # COOP 1-day margin of safety
+                      dr_wma_override0, # WMA demand reduction override
+                      ts0) 
   #
   # Now make ts reactive, initializing to results from above
   ts <- reactiveValues(flows = ts$flows, 
@@ -34,7 +34,6 @@ shinyServer(function(input, output, session) {
   # Allow the user to re-run the simulation 
   #   - say, if end date (aka DREXtoday) changes
   observeEvent(input$run_main, {
-#    test_date$test_date_value <- input$DREXtoday
     ts <- sim_main_func(input$DREXtoday,
                         input$dr_va,
                         input$dr_md,
@@ -45,7 +44,6 @@ shinyServer(function(input, output, session) {
   #
   # Allow the user to add chunks of days to the simulation
   observeEvent(input$run_add, {
-#    test_date$test_date_value <- as.Date(input$DREXtoday) +input$chunkofdays
     ts <- sim_add_days_func(input$chunkofdays,
                             input$dr_va,
                             input$dr_md,
@@ -54,8 +52,8 @@ shinyServer(function(input, output, session) {
                             ts)
   })
   
-  #cretes a reactiveValue to hold the current date
-  test_date <- reactiveValues(test_date_value = "1930-05-01")
+  # creates a reactiveValue to hold the current date
+  # test_date <- reactiveValues(test_date_value = "1930-05-01")
   #
   #
   # Allow the user to write simulation output time series to files
