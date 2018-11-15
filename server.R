@@ -439,6 +439,11 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   #NoVa warning status squares
   output$boxes2  <- renderUI({
+    state.indices <- last(ts$states)
+    i_p_va <- state.indices$p_va_nova[1]
+    i_gw_va <- state.indices$gw_va_nova[1]
+    i_sw_va <- state.indices$sw_va_nova[1]
+    i_r_va <- state.indices$r_va_nova[1]
     div(class="topbox_main", p(class= "title", "VIRGINIA DROUGHT STATUS"),
       div(class="topbox1", 
           div(class="square", style=precip_value(),#"background-color:yellow"
