@@ -380,7 +380,7 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
 
   #------------------------------------------------------------------
-  #date to login bar
+  #this outputs the last date to the login bar at the top right of the screen.
   output$date_text  <- renderText({
     potomac.ts.df <- ts$flows
     test_date <- last(potomac.ts.df$date_time)
@@ -416,8 +416,10 @@ shinyServer(function(input, output, session) {
   output$boxes  <- renderUI({
     
     div(class="topbox_main", p(class= "title","MARYLAND DROUGHT STATUS"),
+    #the image link below is a placeholder for an interactive leaflet map forthcoming
       img( src="https://md.water.usgs.gov/drought/MDE-Drought2017-02-28.png", height="160px", width="360px"),
-      
+    #this is html in a format taht shiny will accept.  This along with main.css structures the 
+    #properties of the Maryland Drought Status section
     div(class="sidebox",
         div(class="squareside1", style = "background-color:white",
             div(class="my_content",
@@ -439,7 +441,10 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   #NoVa warning status squares
   output$boxes2  <- renderUI({
-    
+    #this code finds the last value in ts and outputs a number value between 0-3 that 
+    #when run through function warning_color_func outputs a color variable that is linked 
+    #to a css style color output value in global.R
+    #for NoVa
     state.indices <- last(ts$states)
     i_p_va_nova <- state.indices$p_va_nova[1]
     color_p_va_nova <- warning_color_func(i_p_va_nova)
@@ -450,6 +455,7 @@ shinyServer(function(input, output, session) {
     i_r_va_nova <- state.indices$r_va_nova[1]
     color_r_va_nova <- warning_color_func(i_r_va_nova)
     
+    #for Shenandoah
     i_p_va_shen <- state.indices$p_va_shen[1]
     color_p_va_shen <- warning_color_func(i_p_va_shen)
     i_gw_va_shen <- state.indices$gw_va_shen[1]
@@ -459,6 +465,8 @@ shinyServer(function(input, output, session) {
     i_r_va_shen<- state.indices$r_va_shen[1]
     color_r_va_shen <- warning_color_func(i_r_va_shen)
     
+    #this is html in a format taht shiny will accept.  This along with main.css structures the 
+    #properties of the Virginia Drought Status section
     div(class="topbox_main", p(class= "title", "VIRGINIA DROUGHT STATUS"),
       div(class="topbox1", 
           div(class="square", style=color_p_va_nova,#"background-color:yellow"

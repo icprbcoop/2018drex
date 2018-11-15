@@ -7,6 +7,9 @@
 dashboardPage(skin = "blue",
   dashboardHeader(title = "WMA 2018 DREX",
                   .list = NULL, 
+                  #this space is for outputting the date to the login bar
+                  #it needs to be an html list item(li) with class dropdown
+                  #to output properly
                   tags$li(textOutput("date_text"),
                           class = "dropdown")
                   ),
@@ -92,6 +95,8 @@ actionButton("write_ts",
 #--------------------------------------------------------------------------------
   dashboardBody(
     tags$head(
+      #this links the shiny app to main.css which can be used to easily define and 
+      #alter styles(color,font size, alignments) across allui/server elements
       tags$link(rel = "stylesheet", type = "text/css", href = "CSS/main.css")),
       # seem to need to start with fluidrow, so define main row & col
         fluidRow( # major row that contains whole body
@@ -153,6 +158,9 @@ actionButton("write_ts",
               # infoBoxOutput("coop_ops", width = NULL),
               # infoBoxOutput("lfaa_alert", width = NULL),
               # infoBoxOutput("mwcog_stage", width = NULL),
+              
+              ##these three boxes were custom built replace the three infoboxes 
+              # that are commented out above
               box(
                 title=NULL,
                 width=NULL,
@@ -172,7 +180,8 @@ actionButton("write_ts",
                 htmlOutput(outputId = "mwcog_stage")
               ),
               
-             
+             #these two boxes are for outputting the Maryland drought map 
+             #and Virginia drought squares
               box(
                 title = NULL,#"MARYLAND DROUGHT STATUS",
                 width = NULL,#6,
