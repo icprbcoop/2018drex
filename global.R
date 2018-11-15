@@ -39,6 +39,7 @@ source("code/functions/nbr_rule_curve_func.R", local = TRUE)
 #--------------------------------------------------------------------------------
 #functions added by Luke
 source("code/functions/date_func.R", local = TRUE)
+source("code/functions/warning_color_func.R", local = TRUE)
 #--------------------------------------------------------------------------------
 # Make the reservoir objects and reservoir time series df's
 #--------------------------------------------------------------------------------
