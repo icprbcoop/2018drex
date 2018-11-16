@@ -100,10 +100,12 @@ shinyServer(function(input, output, session) {
   output$jrrStorageReleases <- renderPlot({
     jrr.graph <- ts$jrr %>%
       select(Date = date_time,
-             "WS storage" = storage_ws, 
-             "WQ storage" = storage_wq,
-             "WS release" = outflow_ws, 
-             "WQ release" = outflow_wq) %>%
+             "Water supply" = storage_ws, 
+             "Water quality" = storage_wq
+             # ,
+             # "WS release" = outflow_ws, 
+             # "WQ release" = outflow_wq
+             ) %>%
       gather(key = "Legend", 
              value = "MGD", -Date) %>%
       filter(Date >= input$plot_range[1],
@@ -114,38 +116,46 @@ shinyServer(function(input, output, session) {
       scale_color_manual(values = c("lightgreen", "lightblue",
                                     "green", "blue")) +
       scale_size_manual(values = c(1, 1, 1.5, 1.5)) +
-      theme(axis.title.x = element_blank())
+      theme(axis.title.x = element_blank()) +
+      theme(legend.position = "bottom", 
+            legend.title = element_blank())
   }) # end jrr renderPlot testing
-  #
-  # output$jrrStorageReleases <- renderPlot({
-  #   jrr.graph <- ts$jrr %>%
-  #     filter(date_time >= input$plot_range[1],
-  #            date_time <= input$plot_range[2])
-  #   ggplot(data = jrr.graph, aes(x = date_time)) +
-  #     geom_line(aes(y = storage_ws, color = "WS Storage")) +
-  #     geom_line(aes(y = storage_wq, color = "WQ Storage")) +
-  #     geom_line(aes(y = outflow_ws, color = "WS Outflow")) +
-  #     geom_line(aes(y = outflow_wq, color = "WQ Outflow")) +
-  #     scale_color_manual(values = c("grey", "blue", "yellow", "black"))
-  # }) # end jrr renderPlot testing
   #
   #------------------------------------------------------------------
   output$senStorageReleases <- renderPlot({
-    sen.graph <- ts$sen %>%
+    sen.graph <- ts$sen
+    graph_title <- "Seneca"
+    res.graph <- sen.graph %>%
+      select(date_time, storage, outflow) %>%
+      gather(key = "Legend", 
+             value = "MG", -date_time) %>%
       filter(date_time >= input$plot_range[1],
              date_time <= input$plot_range[2])
-    ggplot(data = sen.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage, color = "Storage")) +
-      geom_line(aes(y = outflow, color = "Outflow")) +
-      scale_color_manual(values = c("grey", "black"))
-  }) # end sen renderPlot
+    res_plot <- ggplot(data = res.graph,
+                       aes(x = date_time, y = MG, group = Legend)) +
+      geom_line(aes(color = Legend, size = Legend)) +
+      scale_color_manual(values = c("lightblue",
+                                    "blue")) +
+      scale_size_manual(values = c(0.5, 1)) +
+#      ggtitle(graph_title) +
+      theme(plot.title = element_text(size = 18,
+                                      face = "bold")) +
+      theme(axis.title.x = element_blank()) +
+      theme(legend.position = "none")
+      # plot_sen <- display_graph_res_func(graph_title,
+    #                                    sen.graph)
+   }) # end sen renderPlot
   #
+
+  
   #------------------------------------------------------------------
   output$patStorageReleases <- renderPlot({
+    graph_title <- "Patuxent"
     pat.graph <- ts$pat %>%
       filter(date_time >= input$plot_range[1],
              date_time <= input$plot_range[2])
     ggplot(data = pat.graph, aes(x = date_time)) +
+      ggtitle(graph_title) +
       geom_line(aes(y = storage, color = "Storage")) +
       geom_line(aes(y = outflow, color = "Outflow")) +
       scale_color_manual(values = c("grey", "black"))
@@ -405,12 +415,11 @@ shinyServer(function(input, output, session) {
   # #    gw_va_shen, p_va_shen, sw_va_shen, r_va_shen,
   # #    gw_va_nova, p_va_nova, sw_va_nova, r_va_nova,
   # #    region_md_cent, region_md_west
-  # #
-  # # So for example if you want the VA Shenandoah GW value it's
-  # i_gw_va_shen <- state.indices$gw_va_shen[1]
-  # # and the MD Central region value is
-  # i_region_md_cent <- state.indices$region_md_cent[1]
-  # #
+  # # -----------------------------------
+  # # The VA and MD flow changes:
+  # flows.today <- last(ts$flows)
+  # dQ_va <- flows.today$dQ_va[1]
+  # dQ_md <- flows.today$dQ_md[1]
   #------------------------------------------------------------------
   #Shenandoah warning status squares
   output$boxes  <- renderUI({

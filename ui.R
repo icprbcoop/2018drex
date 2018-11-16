@@ -117,7 +117,7 @@ actionButton("write_ts",
                 column(
                   width = 6,
                   box(
-                    title = "Jennings Randolph",
+                    title = "Jennings Randolph storage",
                     width = NULL,
                     plotOutput("jrrStorageReleases", height = "150px")
                     )
@@ -125,7 +125,7 @@ actionButton("write_ts",
                 column(
                   width = 6,
                   box(
-                    title = "Occoquan",
+                    title = "Occoquan storage",
                     width = NULL,
                     plotOutput("occStorageReleases", height = "150px")
                     )
@@ -135,17 +135,18 @@ actionButton("write_ts",
                 column(
                   width = 6,
                   box(
-                    title = "Little Seneca",
+#                    title = "Little Seneca storage",
+                    title = NULL,
                     width = NULL,
-                    plotOutput("senStorageReleases", height = "150px")
+                    plotOutput("senStorageReleases", height = "190px")
                     )
                   ),
                 column(
                   width = 6,
                   box(
-                    title = "Patuxent",
+                    title = NULL,
                     width = NULL,
-                    plotOutput("patStorageReleases", height = "150px")
+                    plotOutput("patStorageReleases", height = "190px")
                     )
                   )
                   ) # end row with sen and pat graphs 

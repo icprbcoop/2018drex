@@ -36,6 +36,7 @@ source("code/functions/simulation_func.R", local = TRUE)
 source("code/functions/sim_add_days_func.R", local = TRUE)
 source("code/functions/rule_curve_func.R", local = TRUE)
 source("code/functions/nbr_rule_curve_func.R", local = TRUE)
+source("code/functions/display_graph_res_func.R", local = TRUE)
 #--------------------------------------------------------------------------------
 #functions added by Luke
 source("code/functions/date_func.R", local = TRUE)
