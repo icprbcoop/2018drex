@@ -423,10 +423,16 @@ shinyServer(function(input, output, session) {
   #------------------------------------------------------------------
   #Shenandoah warning status squares
   output$boxes  <- renderUI({
+    #MD flow benefit
+    flows.today <- last(ts$flows)
+    dQ_md <- flows.today$dQ_md[1]
     
     div(class="topbox_main", p(class= "title","MARYLAND DROUGHT STATUS"),
     #the image link below is a placeholder for an interactive leaflet map forthcoming
-      img( src="https://md.water.usgs.gov/drought/MDE-Drought2017-02-28.png", height="160px", width="360px"),
+    
+      #img( src="https://md.water.usgs.gov/drought/MDE-Drought2017-02-28.png", height="160px", width="360px"),
+
+    
     #this is html in a format taht shiny will accept.  This along with main.css structures the 
     #properties of the Maryland Drought Status section
     div(class="sidebox",
@@ -440,11 +446,26 @@ shinyServer(function(input, output, session) {
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell3", #style="text-align:right;",
-                        p(style="font-size:15px;","12")
+                        p(style="font-size:15px;", dQ_md)
                     ))))
     ) #end of sidebox
     ) #end of topbox_main
 
+  })
+  
+  output$mymap <- renderLeaflet({
+    #for MD drough map
+    state.indices <- last(ts$states)
+    i_region_md_cent <- state.indices$region_md_cent[1]
+    color_region_md_cent <- warning_color_func(i_region_md_cent)
+    i_region_md_west <- state.indices$region_md_west[1]
+    color_i_region_md_west <- warning_color_func(i_region_md_west)
+    
+    leaflet() %>%
+      addPolygons(data = clipcentral_t, color="black", fillColor = "red", opacity = 1, weight = 1,
+                  fillOpacity = 1) %>%
+      addPolygons(data = western_region_t, color="black", fillColor = "yellow", opacity = 1, weight= 1,
+                  fillOpacity = 1)# %>%
   })
   
   #------------------------------------------------------------------
@@ -473,6 +494,10 @@ shinyServer(function(input, output, session) {
     color_sw_va_shen <- warning_color_func(i_sw_va_shen)
     i_r_va_shen<- state.indices$r_va_shen[1]
     color_r_va_shen <- warning_color_func(i_r_va_shen)
+    
+    #Virginia flow benefit
+    flows.today <- last(ts$flows)
+    dQ_va <- flows.today$dQ_va[1]
     
     #this is html in a format taht shiny will accept.  This along with main.css structures the 
     #properties of the Virginia Drought Status section
@@ -553,7 +578,7 @@ shinyServer(function(input, output, session) {
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell3", #style= "text-align:right",
-                          p(style="font-size:15px;","12")
+                          p(style="font-size:15px;",dQ_va)
                       ))))
       ) #end of sidebox
     )#end of topbox_main

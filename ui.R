@@ -187,7 +187,8 @@ actionButton("write_ts",
                 title = NULL,#"MARYLAND DROUGHT STATUS",
                 width = NULL,#6,
                 height = 220,
-                htmlOutput(outputId = "boxes")
+                htmlOutput(outputId = "boxes"),
+                leafletOutput("mymap", height =200)
                 ),
                 #tags$p("Western region: Drought Watch; Central region: Drought Warning")),
               box(
