@@ -41,6 +41,7 @@ source("code/functions/display_graph_res_func.R", local = TRUE)
 #functions added by Luke
 source("code/functions/date_func.R", local = TRUE)
 source("code/functions/warning_color_func.R", local = TRUE)
+source("code/functions/warning_color_map_func.R", local = TRUE)#this is a lazy Friday fix that should be changed later
 #--------------------------------------------------------------------------------
 # Make the reservoir objects and reservoir time series df's
 #--------------------------------------------------------------------------------
