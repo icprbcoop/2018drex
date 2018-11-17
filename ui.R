@@ -114,20 +114,21 @@ actionButton("write_ts",
                   )
                 ),
               fluidRow( # row with 2 reservoir graphs
+                h3("Reservoir storage"),
                 column(
                   width = 6,
                   box(
-                    title = "Jennings Randolph storage",
+                    title = NULL,
                     width = NULL,
-                    plotOutput("jrrStorageReleases", height = "150px")
+                    plotOutput("jrrStorageReleases", height = "190px")
                     )
                 ),
                 column(
                   width = 6,
                   box(
-                    title = "Occoquan storage",
+                    title = NULL,
                     width = NULL,
-                    plotOutput("occStorageReleases", height = "150px")
+                    plotOutput("occStorageReleases", height = "190px")
                     )
                 )
               ), # end row with jrr and occ graphs

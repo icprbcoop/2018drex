@@ -122,55 +122,100 @@ shinyServer(function(input, output, session) {
   }) # end jrr renderPlot testing
   #
   #------------------------------------------------------------------
+  # output$senStorageReleases <- renderPlot({
+  #   sen.graph <- ts$sen
+  #   graph_title <- "Seneca"
+  #   display_graph_res_func(graph_title, sen.graph)
+  # })
   output$senStorageReleases <- renderPlot({
     sen.graph <- ts$sen
-    graph_title <- "Seneca"
+    graph_title <- "Little Seneca"
     res.graph <- sen.graph %>%
       select(date_time, storage, outflow) %>%
-      gather(key = "Legend", 
+      gather(key = "Legend",
              value = "MG", -date_time) %>%
       filter(date_time >= input$plot_range[1],
              date_time <= input$plot_range[2])
-    res_plot <- ggplot(data = res.graph,
+    ggplot(data = res.graph,
                        aes(x = date_time, y = MG, group = Legend)) +
       geom_line(aes(color = Legend, size = Legend)) +
       scale_color_manual(values = c("lightblue",
                                     "blue")) +
       scale_size_manual(values = c(0.5, 1)) +
-#      ggtitle(graph_title) +
-      theme(plot.title = element_text(size = 18,
+      ggtitle(graph_title) +
+      theme(plot.title = element_text(size = 16,
                                       face = "bold")) +
       theme(axis.title.x = element_blank()) +
       theme(legend.position = "none")
-      # plot_sen <- display_graph_res_func(graph_title,
-    #                                    sen.graph)
    }) # end sen renderPlot
   #
-
-  
   #------------------------------------------------------------------
   output$patStorageReleases <- renderPlot({
+    pat.graph <- ts$pat
     graph_title <- "Patuxent"
-    pat.graph <- ts$pat %>%
+    res.graph <- pat.graph %>%
+      select(date_time, storage, outflow) %>%
+      gather(key = "Legend",
+             value = "MG", -date_time) %>%
       filter(date_time >= input$plot_range[1],
              date_time <= input$plot_range[2])
-    ggplot(data = pat.graph, aes(x = date_time)) +
+    ggplot(data = res.graph,
+           aes(x = date_time, y = MG, group = Legend)) +
+      geom_line(aes(color = Legend, size = Legend)) +
+      scale_color_manual(values = c("lightblue",
+                                    "blue")) +
+      scale_size_manual(values = c(0.5, 1)) +
       ggtitle(graph_title) +
-      geom_line(aes(y = storage, color = "Storage")) +
-      geom_line(aes(y = outflow, color = "Outflow")) +
-      scale_color_manual(values = c("grey", "black"))
+      theme(plot.title = element_text(size = 16,
+                                      face = "bold")) +
+      theme(axis.title.x = element_blank()) +
+      theme(legend.position = "none")
   }) # end pat renderPlot
+  #
+  #     output$patStorageReleases <- renderPlot({
+  #   graph_title <- "Patuxent"
+  #   pat.graph <- ts$pat %>%
+  #     filter(date_time >= input$plot_range[1],
+  #            date_time <= input$plot_range[2])
+  #   ggplot(data = pat.graph, aes(x = date_time)) +
+  #     ggtitle(graph_title) +
+  #     geom_line(aes(y = storage, color = "Storage")) +
+  #     geom_line(aes(y = outflow, color = "Outflow")) +
+  #     scale_color_manual(values = c("grey", "black"))
+  # }) # end pat renderPlot
   #
   #------------------------------------------------------------------
   output$occStorageReleases <- renderPlot({
-    occ.graph <- ts$occ %>%
+    occ.graph <- ts$occ
+    graph_title <- "Occoquan"
+    res.graph <- occ.graph %>%
+      select(date_time, storage, outflow) %>%
+      gather(key = "Legend",
+             value = "MG", -date_time) %>%
       filter(date_time >= input$plot_range[1],
              date_time <= input$plot_range[2])
-    ggplot(data = occ.graph, aes(x = date_time)) +
-      geom_line(aes(y = storage, color = "Storage")) +
-      geom_line(aes(y = outflow, color = "Outflow")) +
-      scale_color_manual(values = c("grey", "black"))
+    ggplot(data = res.graph,
+           aes(x = date_time, y = MG, group = Legend)) +
+      geom_line(aes(color = Legend, size = Legend)) +
+      scale_color_manual(values = c("lightblue",
+                                    "blue")) +
+      scale_size_manual(values = c(0.5, 1)) +
+      ggtitle(graph_title) +
+      theme(plot.title = element_text(size = 16,
+                                      face = "bold")) +
+      theme(axis.title.x = element_blank()) +
+      theme(legend.position = "none")
   }) # end occ renderPlot
+  #
+  #   output$occStorageReleases <- renderPlot({
+  #   occ.graph <- ts$occ %>%
+  #     filter(date_time >= input$plot_range[1],
+  #            date_time <= input$plot_range[2])
+  #   ggplot(data = occ.graph, aes(x = date_time)) +
+  #     geom_line(aes(y = storage, color = "Storage")) +
+  #     geom_line(aes(y = outflow, color = "Outflow")) +
+  #     scale_color_manual(values = c("grey", "black"))
+  # }) # end occ renderPlot
   #
   #------------------------------------------------------------------
   #------------------------------------------------------------------
