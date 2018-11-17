@@ -457,14 +457,14 @@ shinyServer(function(input, output, session) {
     #for MD drough map
     state.indices <- last(ts$states)
     i_region_md_cent <- state.indices$region_md_cent[1]
-    color_region_md_cent <- warning_color_func(i_region_md_cent)
+    color_i_region_md_cent <- warning_color_map_func(i_region_md_cent)
     i_region_md_west <- state.indices$region_md_west[1]
-    color_i_region_md_west <- warning_color_func(i_region_md_west)
+    color_i_region_md_west <- warning_color_map_func(i_region_md_west)
     
     leaflet() %>%
-      addPolygons(data = clipcentral_t, color="black", fillColor = "red", opacity = 1, weight = 1,
+      addPolygons(data = clipcentral_t, color="black", fillColor = color_i_region_md_cent, opacity = 1, weight = 1,
                   fillOpacity = 1) %>%
-      addPolygons(data = western_region_t, color="black", fillColor = "yellow", opacity = 1, weight= 1,
+      addPolygons(data = western_region_t, color="black", fillColor = color_i_region_md_west, opacity = 1, weight= 1,
                   fillOpacity = 1)# %>%
   })
   

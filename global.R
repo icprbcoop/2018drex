@@ -102,6 +102,7 @@ map_green <- "#5CC33D"
 map_yellow <- "yellow"
 map_orange <- "orange"
 map_red <- "red"
+map_black <- "black"
 
 #read map shapefiles in
 clipcentral = readOGR(dsn=map_path, layer = "clipcentral")

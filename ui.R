@@ -188,7 +188,7 @@ actionButton("write_ts",
                 width = NULL,#6,
                 height = 220,
                 htmlOutput(outputId = "boxes"),
-                leafletOutput("mymap", height =200)
+                leafletOutput("mymap", height =150, width =300)
                 ),
                 #tags$p("Western region: Drought Watch; Central region: Drought Warning")),
               box(
