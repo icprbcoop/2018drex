@@ -78,9 +78,11 @@ shinyServer(function(input, output, session) {
   potomac.graph.df0 <- left_join(potomac.ts.df, 
                                  potomac.data.df, 
                                  by = "date_time") %>%
-    dplyr::select(Date = date_time, LFalls = lfalls_obs, 
+    dplyr::select(Date = date_time, 
+                  "Little Falls flow" = lfalls_obs, 
  #                 por_nat = por_nat.x, 
-                  Withdrawals = demand)
+                  "WMA withdrawals" = demand)
+  graph_title <- "Potomac River observed"
   potomac.graph.df <- potomac.graph.df0 %>%
     gather(key = "Flow", 
            value = "MGD", -Date) 
@@ -92,36 +94,45 @@ shinyServer(function(input, output, session) {
       geom_line(aes(color = Flow, size = Flow)) +
       scale_color_manual(values = c("deepskyblue1", "red")) +
       scale_size_manual(values = c(2, 1)) +
+      ggtitle(graph_title) +
+      theme(plot.title = element_text(size = 20)) +
+      
       theme(axis.title.x = element_blank())
     }) # end output$potomacFlows
   #------------------------------------------------------------------
   # Create graph of storage and releases for each reservoir
   #------------------------------------------------------------------
   output$jrrStorageReleases <- renderPlot({
+    graph_title <- "Jennings Randolph"
     jrr.graph <- ts$jrr %>%
       select(Date = date_time,
-             "Water supply" = storage_ws, 
-             "Water quality" = storage_wq
-             # ,
-             # "WS release" = outflow_ws, 
-             # "WQ release" = outflow_wq
+             "WS stor" = storage_ws, 
+             "WQ stor" = storage_wq
+              ,
+              "WS rel" = outflow_ws, 
+              "WQ rel" = outflow_wq
              ) %>%
       gather(key = "Legend", 
-             value = "MGD", -Date) %>%
+             value = "MG", -Date) %>%
       filter(Date >= input$plot_range[1],
              Date <= input$plot_range[2])
     ggplot(data = jrr.graph,
-           aes(x = Date, y = MGD, group = Legend)) +
+           aes(x = Date, y = MG, group = Legend)) +
       geom_line(aes(color = Legend, size = Legend)) +
-      scale_color_manual(values = c("lightgreen", "lightblue",
-                                    "green", "blue")) +
-      scale_size_manual(values = c(1, 1, 1.5, 1.5)) +
-      theme(axis.title.x = element_blank()) +
-      theme(legend.position = "bottom", 
+      scale_color_manual(values = c("lightgreen", "green",
+                                    "lightblue", "blue")) +
+      scale_size_manual(values = c(0.5, 1, 0.5, 1)) +
+      ggtitle(graph_title) +
+      theme(plot.title = element_text(size = 18)) +
+                                      # face = "bold")) +
+      theme(axis.title.x = element_blank(),
+            axis.title.y = element_blank()) +
+      theme(legend.position = "right", 
             legend.title = element_blank())
   }) # end jrr renderPlot testing
   #
   #------------------------------------------------------------------
+  # I can't get the following graphing function to work:
   # output$senStorageReleases <- renderPlot({
   #   sen.graph <- ts$sen
   #   graph_title <- "Seneca"
@@ -143,9 +154,9 @@ shinyServer(function(input, output, session) {
                                     "blue")) +
       scale_size_manual(values = c(0.5, 1)) +
       ggtitle(graph_title) +
-      theme(plot.title = element_text(size = 16,
-                                      face = "bold")) +
-      theme(axis.title.x = element_blank()) +
+      theme(plot.title = element_text(size = 18)) +
+      theme(axis.title.x = element_blank(),
+            axis.title.y = element_blank()) +
       theme(legend.position = "none")
    }) # end sen renderPlot
   #
@@ -166,23 +177,11 @@ shinyServer(function(input, output, session) {
                                     "blue")) +
       scale_size_manual(values = c(0.5, 1)) +
       ggtitle(graph_title) +
-      theme(plot.title = element_text(size = 16,
-                                      face = "bold")) +
-      theme(axis.title.x = element_blank()) +
+      theme(plot.title = element_text(size = 18)) +
+      theme(axis.title.x = element_blank(),
+            axis.title.y = element_blank()) +
       theme(legend.position = "none")
   }) # end pat renderPlot
-  #
-  #     output$patStorageReleases <- renderPlot({
-  #   graph_title <- "Patuxent"
-  #   pat.graph <- ts$pat %>%
-  #     filter(date_time >= input$plot_range[1],
-  #            date_time <= input$plot_range[2])
-  #   ggplot(data = pat.graph, aes(x = date_time)) +
-  #     ggtitle(graph_title) +
-  #     geom_line(aes(y = storage, color = "Storage")) +
-  #     geom_line(aes(y = outflow, color = "Outflow")) +
-  #     scale_color_manual(values = c("grey", "black"))
-  # }) # end pat renderPlot
   #
   #------------------------------------------------------------------
   output$occStorageReleases <- renderPlot({
@@ -201,23 +200,12 @@ shinyServer(function(input, output, session) {
                                     "blue")) +
       scale_size_manual(values = c(0.5, 1)) +
       ggtitle(graph_title) +
-      theme(plot.title = element_text(size = 16,
-                                      face = "bold")) +
-      theme(axis.title.x = element_blank()) +
+      theme(plot.title = element_text(size = 18)) +
+      theme(axis.title.x = element_blank(),
+            axis.title.y = element_blank()) +
       theme(legend.position = "none")
   }) # end occ renderPlot
   #
-  #   output$occStorageReleases <- renderPlot({
-  #   occ.graph <- ts$occ %>%
-  #     filter(date_time >= input$plot_range[1],
-  #            date_time <= input$plot_range[2])
-  #   ggplot(data = occ.graph, aes(x = date_time)) +
-  #     geom_line(aes(y = storage, color = "Storage")) +
-  #     geom_line(aes(y = outflow, color = "Outflow")) +
-  #     scale_color_manual(values = c("grey", "black"))
-  # }) # end occ renderPlot
-  #
-  #------------------------------------------------------------------
   #------------------------------------------------------------------
   #------------------------------------------------------------------
   # Finally, create boxes with values and triggers
@@ -230,41 +218,30 @@ shinyServer(function(input, output, session) {
   output$por_flow <- renderValueBox({
     por_threshold <- 2000 # (cfs) CO-OP's trigger for daily monitoring/reporting
     potomac.ts.df <- ts$flows
+    por_mgd <- last(potomac.ts.df$por_nat)
     por_flow <- paste("Flow at Point of Rocks = ",
-                      round(last(potomac.ts.df$por_nat)*mgd_to_cfs),
-                            " cfs")
+                      round(por_mgd*mgd_to_cfs), " cfs",
+                      " (", round(por_mgd), " MGD)", sep = "")
     valueBox(
-      value = tags$p(por_flow, style = "font-size: 50%;"),
+      value = tags$p(por_flow, style = "font-size: 60%;"),
       subtitle = NULL,
 #      color = if (por_flow >= por_threshold) "green" else "yellow"
       color = "blue"
     )
   })
-  #------------------------------------------------------------------
-  # Create value for yesterday's total WMA demand
-  #------------------------------------------------------------------
-  output$demand <- renderValueBox({
-    potomac.ts.df <- ts$flows
-    demand <- paste("Total WMA Demand = ", 
-                    round(last(potomac.ts.df$demand)), 
-                    " MGD")
-    valueBox(
-      value = tags$p(demand, style = "font-size: 50%;"),
-      subtitle = NULL,
-      color = "blue"
-    )
-  })  
-  
+
   #------------------------------------------------------------------
   # Create value for yesterday's Potomac River flow at Little Falls
   #------------------------------------------------------------------
     output$lfalls_obs <- renderValueBox({
     potomac.ts.df <- ts$flows
-    lfalls_obs <- paste("Flow at Little Falls (observed) = ",
-                        round(last(potomac.ts.df$lfalls_obs)),
-                        " MGD")
+    lfalls_mgd <- last(potomac.ts.df$lfalls_obs) 
+    lfalls_obs <- paste("Flow at Little Falls = ",
+                        round(lfalls_mgd*mgd_to_cfs),
+                        " cfs (", round(lfalls_mgd),
+                        " MGD)", sep = "")
     valueBox(
-      value = tags$p(lfalls_obs, style = "font-size: 50%;"),
+      value = tags$p(lfalls_obs, style = "font-size: 60%;"),
       subtitle = NULL,
       color = "blue"
     )

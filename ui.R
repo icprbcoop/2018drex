@@ -108,13 +108,13 @@ actionButton("write_ts",
               width = 6,
               fluidRow( # row with Potomac flow graph
                 box(
-                  title = "Potomac River",
+                  title = NULL,
                   width = NULL,
                   plotOutput("potomacFlows", height = "220px")
                   )
                 ),
               fluidRow( # row with 2 reservoir graphs
-                h3("Reservoir storage"),
+                h3("Reservoir storage (million gallons)"),
                 column(
                   width = 6,
                   box(
