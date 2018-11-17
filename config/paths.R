@@ -13,3 +13,5 @@ ts_path <- "input/ts/2038_1998_p532_i_a1b/"
 # ts_path <- "input/ts/2038_1998_p532_i_b1/" 
 #
 ts_output <- "output/" # path of output directory
+
+map_path <- "data/Drought_Regions" #MD shapefiles

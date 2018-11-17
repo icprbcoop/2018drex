@@ -41,6 +41,7 @@ source("code/functions/display_graph_res_func.R", local = TRUE)
 #functions added by Luke
 source("code/functions/date_func.R", local = TRUE)
 source("code/functions/warning_color_func.R", local = TRUE)
+source("code/functions/warning_color_map_func.R", local = TRUE)#this is a lazy Friday fix that should be changed later
 #--------------------------------------------------------------------------------
 # Make the reservoir objects and reservoir time series df's
 #--------------------------------------------------------------------------------
@@ -96,15 +97,29 @@ red <- "background-color:red"
 navy <- "background-color:navy"
 black <- "background-color: black"
 
+#colors for MD drought map
+map_green <- "#5CC33D"
+map_yellow <- "yellow"
+map_orange <- "orange"
+map_red <- "red"
+map_black <- "black"
+
+#read map shapefiles in
+clipcentral = readOGR(dsn=map_path, layer = "clipcentral")
+western_dslv = readOGR(dsn=map_path, layer = "western_dslv")
+#transform map shapefiles
+clipcentral_t <- spTransform(clipcentral, CRS("+init=epsg:4326"))
+western_region_t <- spTransform(western_dslv, CRS("+init=epsg:4326"))
+
 #-------------------------------------------------------------------
 #paths to data for warning squares pulled from template verion
 #these variables need to be changed to value outputs of 
 #actual sim when it's up and running
 
-my_data_p <-fread(paste(ts_path, "va_shenandoah_p.csv", sep = ""))
-my_data_q = fread(paste(ts_path,"va_shenandoah_q.csv", sep = ""))
-my_data_s = fread(paste(ts_path,"va_shenandoah_stor.csv", sep = ""))
-my_data_g = fread(paste(ts_path,"va_shenandoah_gw.csv", sep = ""))
+# my_data_p <-fread(paste(ts_path, "va_shenandoah_p.csv", sep = ""))
+# my_data_q = fread(paste(ts_path,"va_shenandoah_q.csv", sep = ""))
+# my_data_s = fread(paste(ts_path,"va_shenandoah_stor.csv", sep = ""))
+# my_data_g = fread(paste(ts_path,"va_shenandoah_gw.csv", sep = ""))
 
 
 
