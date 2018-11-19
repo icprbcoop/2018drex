@@ -108,26 +108,27 @@ actionButton("write_ts",
               width = 6,
               fluidRow( # row with Potomac flow graph
                 box(
-                  title = "Potomac River",
+                  title = NULL,
                   width = NULL,
                   plotOutput("potomacFlows", height = "220px")
                   )
                 ),
               fluidRow( # row with 2 reservoir graphs
+                h3("Reservoir storage (million gallons)"),
                 column(
                   width = 6,
                   box(
-                    title = "Jennings Randolph storage",
+                    title = NULL,
                     width = NULL,
-                    plotOutput("jrrStorageReleases", height = "150px")
+                    plotOutput("jrrStorageReleases", height = "190px")
                     )
                 ),
                 column(
                   width = 6,
                   box(
-                    title = "Occoquan storage",
+                    title = NULL,
                     width = NULL,
-                    plotOutput("occStorageReleases", height = "150px")
+                    plotOutput("occStorageReleases", height = "190px")
                     )
                 )
               ), # end row with jrr and occ graphs
@@ -188,7 +189,7 @@ actionButton("write_ts",
                 width = NULL,#6,
                 height = 220,
                 htmlOutput(outputId = "boxes"),
-                leafletOutput("mymap", height =200)
+                leafletOutput("mymap", height =150, width =300)
                 ),
                 #tags$p("Western region: Drought Watch; Central region: Drought Warning")),
               box(
