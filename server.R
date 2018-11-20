@@ -483,7 +483,7 @@ shinyServer(function(input, output, session) {
     i_region_md_west <- state.indices$region_md_west[1]
     color_i_region_md_west <- warning_color_map_func(i_region_md_west)
     
-    leaflet() %>%
+    leaflet(options= leafletOptions(minZoom = 6.7, maxZoom=6.7, zoomControl=FALSE)) %>%
       addPolygons(data = clipcentral_t, color="black", fillColor = color_i_region_md_cent, opacity = 1, weight = 1,
                   fillOpacity = 1) %>%
       addPolygons(data = western_region_t, color="black", fillColor = color_i_region_md_west, opacity = 1, weight= 1,

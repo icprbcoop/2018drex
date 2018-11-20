@@ -5,5 +5,6 @@ warning_color_map_func <- function(number){
     number == 2 ~ map_orange,
     number == 3 ~ map_red,
     TRUE ~ map_black
+
     
   )}

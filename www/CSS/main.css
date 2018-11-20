@@ -30,8 +30,11 @@ li {
 }
 
 .topbox_main{
-  
-  
+}
+
+.leaflet-container {
+  background: white;
+  border: 2px solid black;
 }
 
 .topbox1 {
