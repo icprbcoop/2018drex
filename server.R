@@ -525,25 +525,25 @@ shinyServer(function(input, output, session) {
     #properties of the Virginia Drought Status section
     div(class="topbox_main", p(class= "title", "VIRGINIA DROUGHT STATUS"),
       div(class="topbox1", 
-          div(class="square", style=color_p_va_nova,#"background-color:yellow"
+          div(class="square", style=color_p_va_shen,#"background-color:yellow"
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
                           p(class="p4","P")
                       )))), 
-          div(class="square", style=color_gw_va_nova,#"background-color:red",
+          div(class="square", style=color_gw_va_shen,#"background-color:red",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
                           p(class="p4","GW")
                       )))),
-          div(class="square", style=color_sw_va_nova,#"background-color:orange",
+          div(class="square", style=color_sw_va_shen,#"background-color:orange",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
                           p(class="p4","SW")
                       )))),
-          div(class="square", style=color_r_va_nova,#"background-color:green",
+          div(class="square", style="background-color:grey",#color_r_va_shen,#"background-color:green",
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
@@ -557,25 +557,25 @@ shinyServer(function(input, output, session) {
                       ))))
       ), #end of topbox1
       div(class="topbox2", 
-          div(class="square", style=color_p_va_shen,
+          div(class="square", style=color_p_va_nova,
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
                           p(class="p4","P")
                       )))),
-          div(class="square", style=color_gw_va_shen,
+          div(class="square", style=color_gw_va_nova,
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
                           p(class="p4","GW")
                       )))),
-          div(class="square", style=color_sw_va_shen,
+          div(class="square", style=color_sw_va_nova,
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
                           p(class="p4","SW")
                       )))),
-          div(class="square", style=color_r_va_shen,
+          div(class="square", style=color_r_va_nova,
               div(class="my_content",
                   div(class="table",
                       div(class="table-cell",
