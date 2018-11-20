@@ -524,78 +524,93 @@ shinyServer(function(input, output, session) {
     #this is html in a format taht shiny will accept.  This along with main.css structures the 
     #properties of the Virginia Drought Status section
     div(class="topbox_main", p(class= "title", "VIRGINIA DROUGHT STATUS"),
-      div(class="topbox1", 
-          div(class="square", style=color_p_va_shen,#"background-color:yellow"
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","P")
-                      )))), 
-          div(class="square", style=color_gw_va_shen,#"background-color:red",
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","GW")
-                      )))),
-          div(class="square", style=color_sw_va_shen,#"background-color:orange",
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","SW")
-                      )))),
-          div(class="square", style="background-color:grey",#color_r_va_shen,#"background-color:green",
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","R")
-                      )))),
-          div(class="ibox", style = "background-color:white",
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class = "p5",paste0("Shenandoah "))#,text_stage2))
-                      ))))
-      ), #end of topbox1
-      div(class="topbox2", 
-          div(class="square", style=color_p_va_nova,
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","P")
-                      )))),
-          div(class="square", style=color_gw_va_nova,
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","GW")
-                      )))),
-          div(class="square", style=color_sw_va_nova,
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","SW")
-                      )))),
-          div(class="square", style=color_r_va_nova,
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p4","R")
-                      )))),
-          div(class="ibox", style = "background-color:white",
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class = "p5",paste0("NoVa "))#,text_stage2))
-                      ))))
-          
+        div(class="topbox1", 
+            div(class="square", style=color_p_va_shen,#"background-color:yellow"
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","P")
+                        )))), 
+            div(class="square", style=color_gw_va_shen,#"background-color:red",
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","GW")
+                        )))),
+            div(class="square", style=color_sw_va_shen,#"background-color:orange",
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","SW")
+                        )))),
+            div(class="square", style="background-color:grey",#color_r_va_shen,#"background-color:green",
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","R")
+                        )))),
+            div(class="ibox", style = "background-color:white",
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class = "p5",paste0("Shenandoah "))#,text_stage2))
+                        ))))
+        ), #end of topbox1
+        
+    div(class="topboxmiddle",
+        div(class="tallsquare", style="background-color:white",
+            div(class="my_content",
+                div(class="table",
+                    div(class="table-cell"
+                    ))))
+    ),
+        div(class="topbox2", 
+            div(class="square", style=color_p_va_nova,
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","P")
+                        )))),
+            div(class="square", style=color_gw_va_nova,
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","GW")
+                        )))),
+            div(class="square", style=color_sw_va_nova,
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","SW")
+                        )))),
+            div(class="square", style=color_r_va_nova,
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p4","R")
+                        )))),
+        
+            div(class="ibox", style = "background-color:white",
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class = "p5",paste0("NoVa "))#,text_stage2))
+                        ))))
       ), #end of topbox2
-      div(class="sidebox",
-          div(class="squareside1", style = "background-color:white",
-              div(class="my_content",
-                  div(class="table",
-                      div(class="table-cell",
-                          p(class="p3","Flow benefit, MGD")
-                      )))),
+    div(class="topboxmiddle",
+        div(class="tallsquare", style="background-color:white",
+            div(class="my_content",
+                div(class="table",
+                    div(class="table-cell"
+                    ))))
+    ),
+        div(class="sidebox",
+            div(class="squareside1", style = "background-color:white",
+                div(class="my_content",
+                    div(class="table",
+                        div(class="table-cell",
+                            p(class="p3","Flow benefit, MGD")
+                        )))),
           div(class="squareside2", style="background-color:silver",
               div(class="my_content",
                   div(class="table",

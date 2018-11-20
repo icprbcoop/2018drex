@@ -52,6 +52,13 @@ li {
  
 }
 
+.topboxmiddle {
+  display:inline-block;
+  width:25px;
+  padding-bottom : 40%;
+
+}
+
 .sidebox {
   display:inline-block;
   position:absolute; /*relative;*/
@@ -101,6 +108,13 @@ li {
   width:60%;
   height:25px;
   
+}
+
+.tallsquare{
+    display:inline-block;
+    position: relative;
+    margin:0;
+    padding:0;
 }
 
 .squareside1 {
