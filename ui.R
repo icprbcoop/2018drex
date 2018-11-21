@@ -190,7 +190,7 @@ actionButton("write_ts",
                 height = 220,
                 htmlOutput(outputId="MD_title"),
                 box(
-                  leafletOutput("mymap", height =150, width =300)
+                  leafletOutput("mymap", height =140, width =300)
                 ),
                 box(
                   htmlOutput(outputId = "boxes")

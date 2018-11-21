@@ -302,23 +302,31 @@ shinyServer(function(input, output, session) {
     #
     if(q_adj > W/0.5) {
       text_stage <- "NORMAL"
-      color_stage <- green}
+      color_stage <- green
+      text_stage2 <- ""}
+      
     if(q_adj <= W/0.5 & q_adj > (W + 100)/0.8){
       text_stage <- "ALERT"
-      color_stage <- yellow}
+      color_stage <- yellow
+      text_stage2 <- " (optional)"}
+      
     if(q_adj <= (W + 100)/0.8) {
       text_stage <- "RESTRICTION"
-      color_stage <- orange}
+      color_stage <- orange
+      text_stage2 <- " (optional)"}
+      
     if(shared_ws_frac <= 0.05){
       text_stage <- "EMERGENCY"
-      color_stage <- red}
+      color_stage <- red
+      text_stage2 <- " (optional)"}
+      
   
     div(class="longbox",
         div(class="ibox", style = "background-color:silver",
             div(class="my_content",
                 div(class="table",
                     div(class="table-cell2",
-                        p(class = "p1",paste0("LFAA stage"))#"Little Falls adj. flow, MGD "))#,text_stage2))
+                        p(class = "p1",paste0("LFAA stage",text_stage2))#"Little Falls adj. flow, MGD "))#,text_stage2))
                     )))),
         div(class="squarei", style = color_stage,
             div(class="my_content",
