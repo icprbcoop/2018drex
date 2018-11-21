@@ -500,7 +500,30 @@ shinyServer(function(input, output, session) {
       addPolygons(data = clipcentral_t, color="black", fillColor = color_i_region_md_cent, opacity = 1, weight = 1,
                   fillOpacity = 1) %>%
       addPolygons(data = western_region_t, color="black", fillColor = color_i_region_md_west, opacity = 1, weight= 1,
-                  fillOpacity = 1)# %>%
+                  fillOpacity = 1) %>%
+      addLabelOnlyMarkers(lng = -78.5, lat = 39.2, label = "Western",
+                          labelOptions = labelOptions(noHide = T, direction = "bottom",
+                                                      style = list(
+                                                        "color" = "black",
+                                                        "font-family" = "helvetica",
+                                                        #"font-style" = "italic",
+                                                        #"box-shadow" = "3px 3px rgba(0,0,0,0.25)",
+                                                        "font-size" = "15px",
+                                                        "border-color" = "rgba(0,0,0,0.5)",
+                                                        "font-weight" = "bold"
+                                                      ))) %>%
+      addLabelOnlyMarkers(lng = -76.5, lat = 39.2,
+                          label = "Central",
+                          labelOptions = labelOptions(noHide = T, direction = "bottom",
+                                                      style = list(
+                                                        "color" = "black",
+                                                        "font-family" = "helvetica",
+                                                        #"font-style" = "italic",
+                                                        #"box-shadow" = "3px 3px rgba(0,0,0,0.25)",
+                                                        "font-size" = "15px",
+                                                        "border-color" = "rgba(0,0,0,0.5)",
+                                                        "font-weight" = "bold"
+                                                      )))
   })
   
   #------------------------------------------------------------------
