@@ -443,13 +443,18 @@ shinyServer(function(input, output, session) {
   # dQ_va <- flows.today$dQ_va[1]
   # dQ_md <- flows.today$dQ_md[1]
   #------------------------------------------------------------------
-  #Shenandoah warning status squares
+  ###Maryland drought warning map
+  
+  #title output
+  output$MD_title <- renderUI({
+    div(p(class= "title","MARYLAND DROUGHT STATUS"))
+  })
   output$boxes  <- renderUI({
     #MD flow benefit
     flows.today <- last(ts$flows)
     dQ_md <- flows.today$dQ_md[1]
     
-    div(class="topbox_main", p(class= "title","MARYLAND DROUGHT STATUS"),
+    #div(class="topbox_main", p(class= "title","MARYLAND DROUGHT STATUS"),
     #the image link below is a placeholder for an interactive leaflet map forthcoming
     
       #img( src="https://md.water.usgs.gov/drought/MDE-Drought2017-02-28.png", height="160px", width="360px"),
@@ -471,7 +476,7 @@ shinyServer(function(input, output, session) {
                         p(style="font-size:15px;", dQ_md)
                     ))))
     ) #end of sidebox
-    ) #end of topbox_main
+    #) #end of topbox_main
 
   })
   
