@@ -470,6 +470,7 @@ shinyServer(function(input, output, session) {
     
     #this is html in a format taht shiny will accept.  This along with main.css structures the 
     #properties of the Maryland Drought Status section
+    div(class="topbox_main",
     div(class="sidebox",
         div(class="squareside1", style = "background-color:white",
             div(class="my_content",
@@ -483,8 +484,24 @@ shinyServer(function(input, output, session) {
                     div(class="table-cell3", #style="text-align:right;",
                         p(style="font-size:15px;", dQ_md)
                     ))))
-    ) #end of sidebox
-    #) #end of topbox_main
+    ), #end of sidebox
+    div(class="MD_right_box", style="float:right",
+        div(class="keytopbox",
+            div(class="keysquare",style="background:green",
+                div(class="p6","NORMAL")
+            ),
+            div(class="keysquare",style="background:yellow",
+                div(class="p6","WATCH")
+            ),
+            div(class="keysquare",style="background:orange",
+                div(class="p6","WARNING")
+            ),
+            div(class="keysquare",style="background:red",
+                div(class="p6","EMERGENCY")
+            )
+        )
+    )
+    ) #end of topbox_main
 
   })
   
@@ -509,7 +526,7 @@ shinyServer(function(input, output, session) {
                                                         #"font-style" = "italic",
                                                         #"box-shadow" = "3px 3px rgba(0,0,0,0.25)",
                                                         "font-size" = "15px",
-                                                        "border-color" = "rgba(0,0,0,0.5)",
+                                                        "border-color" = "white",#"rgba(0,0,0,0.5)",
                                                         "font-weight" = "bold"
                                                       ))) %>%
       addLabelOnlyMarkers(lng = -76.5, lat = 39.2,
@@ -521,7 +538,7 @@ shinyServer(function(input, output, session) {
                                                         #"font-style" = "italic",
                                                         #"box-shadow" = "3px 3px rgba(0,0,0,0.25)",
                                                         "font-size" = "15px",
-                                                        "border-color" = "rgba(0,0,0,0.5)",
+                                                        "border-color" = "white",#rgba(0,0,0,0.5)",
                                                         "font-weight" = "bold"
                                                       )))
   })
@@ -653,7 +670,23 @@ shinyServer(function(input, output, session) {
                       div(class="table-cell3", #style= "text-align:right",
                           p(style="font-size:15px;",dQ_va)
                       ))))
-      ) #end of sidebox
+      ), #end of sidebox
+    div(class="VA_right_box",style="float:right",
+        div(class="keytopbox2",
+            div(class="keysquare2",style="background:white",
+                div(class="p6","P = precip")
+            ),
+            div(class="keysquare2",style="background:white",
+                div(class="p6","GW = ground water")
+            ),
+            div(class="keysquare2",style="background:white",
+                div(class="p6","SW = surface water")
+            ),
+            div(class="keysquare2",style="background:white",
+                div(class="p6","R = reservoir")
+            )
+        )
+    )
     )#end of topbox_main
   })
   

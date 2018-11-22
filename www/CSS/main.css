@@ -220,3 +220,71 @@ li {
     width:100px;
     text-align:center;
 }
+
+
+/* css elements for warning status keys */
+.MD_right_box {
+  height:150px;
+  width:200px;
+
+}
+
+.VA_right_box {
+  height:150px;
+  width:250px;
+
+}
+
+.keytopbox {
+  height:50px;
+  width:55px;
+  position: relative;
+  float:right;
+}
+
+.keytopbox2 {
+  height:50px;
+  width:85px;
+  position: relative;
+  float:right;
+}
+
+.keysquare {
+    float:left;
+    position: relative;
+    border: 1px solid black;
+    text-align:center;
+    height:11px;
+    width: 50px;/*40%;*/
+    /*padding-bottom : 40%;*/ /* = width for a 1:1 aspect ratio */
+    margin:1.66%;
+    overflow:hidden;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /*background:green;*/
+}
+
+.keysquare2 {
+    float:left;
+    position: relative;
+    border: 1px solid black;
+    text-align:center;
+    height:11px;
+    width: 80px;/*40%;*/
+    /*padding-bottom : 40%;*/ /* = width for a 1:1 aspect ratio */
+    margin:1.66%;
+    overflow:hidden;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /*background:green;*/
+}
+
+.key_table-cell{
+    /*display:table-cell;*/
+    /*vertical-align:middle;*/
+
+}
+
+.p6 {
+  color:black;
+  font-size:7px;
+  font-weight:bold;
+}
