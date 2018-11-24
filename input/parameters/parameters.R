@@ -24,13 +24,20 @@ mgd_to_cfs <- 1.547
 #
 month_sim <- c(1:12)
 #
-# WMA demand factor (for reduction or increase) - mainly for QAing purposes
+# WMA demand factor (for reduction or increase) 
+#   - mainly for QAing purposes
+#   - but need it in 2018 DREX to cause more dire scenario
 d_wma_factor <- 1.07
+#
+# Factor to simulate water treatment losses
 d_to_w <- 1.03 # conversion from Potomac demand to withdrawal
+#
+# Balancing of jrr water supply and sen 
 jrr_sen_balance <- 62.5 # temporary measure to balance jrr and sen
 #
 dr_va0 <- 0.0
-dr_md0 <- 0.0
+dr_md_cent0 <- 0.0
+dr_md_west0 <- 0.0
 mos_1day0 <- 120.0
 dr_wma_override0 <- 0.0
 #

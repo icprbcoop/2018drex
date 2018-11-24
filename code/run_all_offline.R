@@ -19,7 +19,8 @@ source("global.R", local = TRUE)
               states = state.ts.df0)
   ts_new <- sim_main_func(date_today0,
                           dr_va0,
-                          dr_md0,
+                          dr_md_cent0,
+                          dr_md_west0,
                           mos_1day0,
                           dr_wma_override0,
                           ts0)
@@ -28,11 +29,11 @@ source("global.R", local = TRUE)
   date_last <- last(flows.ts.df$date_time)
   # print(paste("After initial main run, the last date is ", date_last))
   # Now write some output
-  # write.csv(ts_new$flows, paste(ts_output, "offline_flows.csv"))
-  # write.csv(ts_new$sen, paste(ts_output, "offline_sen.csv"))
-  # write.csv(ts_new$jrr, paste(ts_output, "offline_jrr.csv"))
-  # write.csv(ts_new$occ, paste(ts_output, "offline_occ.csv"))
-  # write.csv(ts_new$pat, paste(ts_output, "offline_pat.csv"))
+  write.csv(ts_new$flows, paste(ts_output, "offline_flows.csv"))
+  write.csv(ts_new$sen, paste(ts_output, "offline_sen.csv"))
+  write.csv(ts_new$jrr, paste(ts_output, "offline_jrr.csv"))
+  write.csv(ts_new$occ, paste(ts_output, "offline_occ.csv"))
+  write.csv(ts_new$pat, paste(ts_output, "offline_pat.csv"))
   #
   # # Now rerun, just as in the Shiny model
   # ts_new2 <- sim_main_func(date_today, ts_new)

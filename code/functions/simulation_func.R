@@ -25,7 +25,8 @@ simulation_func <- function(date_sim0,
                             mos_0day,
                             mos_9day,
                             dr_va,
-                            dr_md,
+                            dr_md_cent,
+                            dr_md_west,
                             mos_1day,
                             dr_wma_override,
                             demands.daily.df,
@@ -86,7 +87,8 @@ simulation_func <- function(date_sim0,
   # Compute flow benefits (= demand reductions) due to
   #   water use restrictions in upstream  VA & MD counties
   dQ <- restriction_flow_benefits_func(dr_va, # % demand reduction in va
-                                       dr_md)
+                                       dr_md_cent,
+                                       dr_md_west)
   dQ_va <- dQ[[1]]
   dQ_md <- dQ[[2]]
   # dQ_va <- 9
@@ -282,14 +284,14 @@ simulation_func <- function(date_sim0,
                                    qav3,
                                    dQ_va,
                                    dQ_md,
-                                        demands.fc.df,
-                                        sen_out,
-                                        jrr_out,
-                                        pat_withdr,
-                                        occ_withdr,
-                                        ws_need_0day,
-                                        ws_need_1day,
-                                        ts$flows)
+                                   demands.fc.df,
+                                   sen_out,
+                                   jrr_out,
+                                   pat_withdr,
+                                   occ_withdr,
+                                   ws_need_0day,
+                                   ws_need_1day,
+                                   ts$flows)
   potomac.ts.df5 <- ts$flows
   write.csv(potomac.ts.df5, paste(ts_output, "potomac.ts.df5.csv"))
   #-----------------------------------------------------------------------------

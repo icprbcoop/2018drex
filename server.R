@@ -18,7 +18,8 @@ shinyServer(function(input, output, session) {
               states = state.ts.df0)
   ts <- sim_main_func(date_today0,
                       dr_va0, # VA upstream demand reduction
-                      dr_md0, # MD upstream demand reduction
+                      dr_md_cent0, # MD-Central upstream demand reduction
+                      dr_md_west0, # MD-Western upstream demand reduction
                       mos_1day0, # COOP 1-day margin of safety
                       dr_wma_override0, # WMA demand reduction override
                       ts0) 
@@ -36,7 +37,8 @@ shinyServer(function(input, output, session) {
   observeEvent(input$run_main, {
     ts <- sim_main_func(input$DREXtoday,
                         input$dr_va,
-                        input$dr_md,
+                        input$dr_md_cent,
+                        input$dr_md_west, 
                         input$mos_1day,
                         input$dr_wma_override,
                         ts)
@@ -46,7 +48,8 @@ shinyServer(function(input, output, session) {
   observeEvent(input$run_add, {
     ts <- sim_add_days_func(input$chunkofdays,
                             input$dr_va,
-                            input$dr_md,
+                            input$dr_md_cent,
+                            input$dr_md_west, 
                             input$mos_1day,
                             input$dr_wma_override,
                             ts)
@@ -82,7 +85,7 @@ shinyServer(function(input, output, session) {
                   "Little Falls flow" = lfalls_obs, 
  #                 por_nat = por_nat.x, 
                   "WMA withdrawals" = demand)
-  graph_title <- "Potomac River observed"
+  graph_title <- "Potomac River"
   potomac.graph.df <- potomac.graph.df0 %>%
     gather(key = "Flow", 
            value = "MGD", -Date) 
