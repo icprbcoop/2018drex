@@ -27,7 +27,7 @@ month_sim <- c(1:12)
 # WMA demand factor (for reduction or increase) 
 #   - mainly for QAing purposes
 #   - but need it in 2018 DREX to cause more dire scenario
-d_wma_factor <- 1.07
+d_wma_factor <- 1.075
 #
 # Factor to simulate water treatment losses
 d_to_w <- 1.03 # conversion from Potomac demand to withdrawal
@@ -111,8 +111,8 @@ stor2 <- c(19795, 19795, 22327, 28223, 28223, 28223,
            28223, 28223, 28223, 25047, 22327, 19795)
 stor3 <- c(26466, 26466, 26466, 28823, 28823, 28823,
            28823, 28823, 28823, 27926, 27045, 26466)
-withdr2 <- c(300, 300, 300, 400, 300, 300,
-             250, 200, 150, 200, 300, 300)
+withdr2 <- c(200, 200, 200, 200, 200, 160,
+             160, 130, 100, 100, 100, 100)
 jrr.rc.df <- data.frame(month_sim, stor1, stor2, stor3, withdr2) %>%
   dplyr::mutate(withdr1 = 77.6, withdr3 = 970)
 #--------------------------------------------------------------------------------
