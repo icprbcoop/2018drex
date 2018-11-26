@@ -7,6 +7,7 @@ li {
   color: white;
   font-size: 25px;
   font:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:bold;
 }
 /*h1{
   color: green;
@@ -231,31 +232,31 @@ li {
 
 .VA_right_box {
   height:150px;
-  width:250px;
+  width:200px;
 
 }
 
 .keytopbox {
-  height:50px;
-  width:55px;
+  height:100px;
+  width:110px;
   position: relative;
   float:right;
 }
 
 .keytopbox2 {
-  height:50px;
-  width:85px;
+  height:100px;
+  width:160px;
   position: relative;
   float:right;
 }
 
 .keysquare {
-    float:left;
+    float:right;
     position: relative;
     border: 1px solid black;
     text-align:center;
-    height:11px;
-    width: 50px;/*40%;*/
+    height:18%;/*11px;*/
+    width: 80px;/*40%;*/
     /*padding-bottom : 40%;*/ /* = width for a 1:1 aspect ratio */
     margin:1.66%;
     overflow:hidden;
@@ -264,11 +265,11 @@ li {
 }
 
 .keysquare2 {
-    float:left;
+    float:right;
     position: relative;
     border: 1px solid black;
     text-align:center;
-    height:11px;
+    height:18%;/*11px;*/
     width: 80px;/*40%;*/
     /*padding-bottom : 40%;*/ /* = width for a 1:1 aspect ratio */
     margin:1.66%;
@@ -285,6 +286,6 @@ li {
 
 .p6 {
   color:black;
-  font-size:7px;
+  font-size:10px;
   font-weight:bold;
 }
