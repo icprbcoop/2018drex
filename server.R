@@ -311,17 +311,17 @@ shinyServer(function(input, output, session) {
     if(q_adj <= W/0.5 & q_adj > (W + 100)/0.8){
       text_stage <- "ALERT"
       color_stage <- yellow
-      text_stage2 <- " (optional)"}
+      text_stage2 <- " (eligible)"}
       
     if(q_adj <= (W + 100)/0.8) {
       text_stage <- "RESTRICTION"
       color_stage <- orange
-      text_stage2 <- " (optional)"}
+      text_stage2 <- " (eligible)"}
       
     if(shared_ws_frac <= 0.05){
       text_stage <- "EMERGENCY"
       color_stage <- red
-      text_stage2 <- " (optional)"}
+      text_stage2 <- " (eligible)"}
       
   
     div(class="longbox",
@@ -356,7 +356,7 @@ shinyServer(function(input, output, session) {
     shared_ws_frac <- (sen_stor + jrr_ws_stor)/(sen_cap + jrr_ws_cap_cp)
     #
     # would 1500 cfs work as a surrogate for NOAA D1?
-    noaa_d1_surrogate <- 1500
+    noaa_d1_surrogate <- 1900
     if(por_flow > noaa_d1_surrogate) {
       text_stage <- "NORMAL" 
       text_stage2 <- "- Wise Water Use"

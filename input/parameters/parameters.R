@@ -33,7 +33,7 @@ d_wma_factor <- 1.075
 d_to_w <- 1.03 # conversion from Potomac demand to withdrawal
 #
 # Balancing of jrr water supply and sen 
-jrr_sen_balance <- 62.5 # temporary measure to balance jrr and sen
+jrr_sen_balance <- 65 # temporary measure to balance jrr and sen
 #
 dr_va0 <- 0.0
 dr_md_cent0 <- 0.0

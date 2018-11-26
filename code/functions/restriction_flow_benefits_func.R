@@ -20,9 +20,9 @@
 restriction_flow_benefits_func <- function(dr_va, 
                                            dr_md_cent, 
                                            dr_md_west){
-  d_va <- 40.0 # ave annual Shenandoah demand subject to restrictions
-  d_md_cent <- 30.0 # ave annual MD-Central demand subject to restrictions
-  d_md_west <- 30.0 # ave annual MD-Western demand subject to restrictions
+  d_va <- 50.0 # ave annual Shenandoah demand subject to restrictions
+  d_md_cent <- 28.0 # ave annual MD-Central demand subject to restrictions
+  d_md_west <- 47.0 # ave annual MD-Western demand subject to restrictions
   dQ_va <- d_va*dr_va/100.0
   dQ_md <- d_md_cent*dr_md_cent/100.0 + d_md_west*dr_md_west/100.0
   dQ <- list(dQ_va, dQ_md)
