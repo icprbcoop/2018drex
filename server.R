@@ -490,16 +490,16 @@ shinyServer(function(input, output, session) {
     ), #end of sidebox
     div(class="MD_right_box", style="float:right",
         div(class="keytopbox",
-            div(class="keysquare",style="background:green",
+            div(class="keysquare",style=green,
                 div(class="p6","NORMAL")
             ),
-            div(class="keysquare",style="background:yellow",
+            div(class="keysquare",style=yellow,
                 div(class="p6","WATCH")
             ),
-            div(class="keysquare",style="background:orange",
+            div(class="keysquare",style=orange,
                 div(class="p6","WARNING")
             ),
-            div(class="keysquare",style="background:red",
+            div(class="keysquare",style=red,
                 div(class="p6","EMERGENCY")
             )
         )
@@ -677,16 +677,16 @@ shinyServer(function(input, output, session) {
     div(class="VA_right_box",style="float:right",
         div(class="keytopbox2",
             div(class="keysquare2",style="background:white",
-                div(class="p6","P = precip")
+                div(class="p7","P = precipitation")
             ),
             div(class="keysquare2",style="background:white",
-                div(class="p6","GW = ground water")
+                div(class="p7","GW = ground water")
             ),
             div(class="keysquare2",style="background:white",
-                div(class="p6","SW = surface water")
+                div(class="p7","SW = surface water")
             ),
             div(class="keysquare2",style="background:white",
-                div(class="p6","R = reservoir")
+                div(class="p7","R = reservoir")
             )
         )
     )

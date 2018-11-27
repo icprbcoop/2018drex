@@ -244,8 +244,8 @@ li {
 }
 
 .keytopbox2 {
-  height:100px;
-  width:160px;
+  height:150px;
+  width:170px;
   position: relative;
   float:right;
 }
@@ -285,6 +285,12 @@ li {
 }
 
 .p6 {
+  color:black;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.p7 {
   color:black;
   font-size:10px;
   font-weight:bold;
